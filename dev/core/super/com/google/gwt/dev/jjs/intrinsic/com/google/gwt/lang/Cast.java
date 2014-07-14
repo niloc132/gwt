@@ -304,7 +304,7 @@ final class Cast {
    */
   // Visible for getIndexedMethod()
   static boolean hasJavaObjectVirtualDispatch(Object src) {
-    return !instanceofArray(src) && Util.hasTypeMarker(src);
+    return !instanceofArray(src) && !instanceofTypedArray(src) && Util.hasTypeMarker(src);
   }
 
   /**
@@ -318,7 +318,7 @@ final class Cast {
    * Returns true if {@code src} is a Java array.
    */
   static boolean isJavaArray(Object src) {
-    return instanceofArray(src) && Util.hasTypeMarker(src);
+    return (instanceofArray(src) || instanceofTypedArray(src)) && Util.hasTypeMarker(src);
   }
 
   /**
@@ -326,6 +326,22 @@ final class Cast {
    */
   static native boolean instanceofArray(Object src) /*-{
     return Array.isArray(src);
+  }-*/;
+
+  static native boolean instanceofTypedArray(Object src) /*-{
+    var typedArrayTypes = {
+        "[object Int8Array]": 1,
+        "[object Uint8Array]": 1,
+        "[object Uint8ClampedArray]": 1,
+        "[object Int16Array]": 1,
+        "[object Uint16Array]": 1,
+        "[object Int32Array]": 1,
+        "[object Uint32Array]": 1,
+        "[object Float32Array]": 1,
+        "[object Float64Array]": 1
+    };
+    var type = Object.prototype.toString.call(src);
+    return type in typedArrayTypes;
   }-*/;
 }
 

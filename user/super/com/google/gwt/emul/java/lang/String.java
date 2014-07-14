@@ -284,7 +284,7 @@ public final class String implements Comparable<String>, CharSequence,
     var s = "";
     for (var batchStart = start; batchStart < end;) { // increment in block
       var batchEnd = Math.min(batchStart + 10000, end);
-      s += String.fromCharCode.apply(null, x.slice(batchStart, batchEnd));
+      s += String.fromCharCode.apply(null, Array.prototype.slice.call(x, batchStart, batchEnd));
       batchStart = batchEnd;
     }
     return s;

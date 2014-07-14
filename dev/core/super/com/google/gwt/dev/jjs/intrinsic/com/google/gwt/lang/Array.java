@@ -67,7 +67,7 @@ public final class Array {
   public static <T> T[] createFrom(T[] array, int length) {
     // TODO(rluble): The behaviour here seems erroneous as the array elements will not be
     // initialized but left undefined. However the usages seem to be safe and changing here
-    // might have performace penalty. Maybe rename to createUninitializedFrom(), to make
+    // might have performance penalty. Maybe rename to createUninitializedFrom(), to make
     // the meaning clearer.
     Object result = initializeArrayElementsWithDefaults(TYPE_JAVA_OBJECT, length);
     initValues(array.getClass(), Util.getCastableTypeMap(array), Array.getElementTypeId(array),
@@ -193,14 +193,14 @@ public final class Array {
     // Performance: http://jsperf.com/java-system-arraycopy/2
     if (src === dest) {
       // copying to the same array, make a copy first
-      src = src.slice(srcOfs, srcOfs + len);
+      src = Array.prototype.slice.call(src, srcOfs, srcOfs + len);
       srcOfs = 0;
     }
     for (var batchStart = srcOfs, end = srcOfs + len; batchStart < end;) { // increment in block
       var batchEnd = Math.min(batchStart + 10000, end);
       len = batchEnd - batchStart;
       Array.prototype.splice.apply(dest, [destOfs, overwrite ? len : 0]
-          .concat(src.slice(batchStart, batchEnd)));
+          .concat(Array.prototype.slice.call(src, batchStart, batchEnd)));
       batchStart = batchEnd;
       destOfs += len;
     }

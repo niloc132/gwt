@@ -1435,7 +1435,7 @@ public class Arrays {
    * Sort an entire array of number primitives.
    */
   private static native void nativeNumberSort(Object array) /*-{
-    array.sort(function(a, b) {
+    Array.prototype.sort.call(array, function(a, b) {
       return a - b;
     });
   }-*/;
@@ -1445,8 +1445,8 @@ public class Arrays {
    */
   private static native void nativeNumberSort(Object array, int fromIndex,
       int toIndex) /*-{
-    var temp = array.slice(fromIndex, toIndex);
-    temp.sort(function(a, b) {
+    var temp = Array.prototype.slice.call(array, fromIndex, toIndex);
+    Array.prototype.sort.call(temp, function(a, b) {
       return a - b;
     });
     var n = toIndex - fromIndex;
