@@ -117,11 +117,31 @@ public interface IntStream extends BaseStream<Integer,IntStream> {
   }
 
   static IntStream range(int startInclusive, int endExclusive) {
-    return null;//TODO
+    int count = endExclusive - startInclusive;
+
+    return StreamSupport.intStream(new Spliterators.AbstractIntSpliterator(count, Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.ORDERED | Spliterator.SORTED | Spliterator.DISTINCT) {
+      private int next = startInclusive;
+
+      @Override
+      public boolean tryAdvance(IntConsumer action) {
+        action.accept(next++);
+        return next < endExclusive;
+      }
+    }, false);
   }
 
   static IntStream rangeClosed(int startInclusive, int endInclusive) {
-    return null;//TODO
+    int count = endInclusive - startInclusive + 1;
+
+    return StreamSupport.intStream(new Spliterators.AbstractIntSpliterator(count, Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.ORDERED | Spliterator.SORTED | Spliterator.DISTINCT) {
+      private int next = startInclusive;
+
+      @Override
+      public boolean tryAdvance(IntConsumer action) {
+        action.accept(next++);
+        return next <= endExclusive;
+      }
+    }, false);
   }
 
   public interface Builder extends IntConsumer {
