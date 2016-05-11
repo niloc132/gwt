@@ -661,11 +661,10 @@ public interface DoubleStream extends BaseStream<Double,DoubleStream> {
 
     @Override
     public DoubleSummaryStatistics summaryStatistics() {
-      terminate();
       return collect(
           DoubleSummaryStatistics::new,
-          DoubleSummaryStatistics::accept,
-          DoubleSummaryStatistics::combine
+          (s,d) -> s.accept(d),
+          (s1,s2) -> s1.combine(s2)
       );
     }
 

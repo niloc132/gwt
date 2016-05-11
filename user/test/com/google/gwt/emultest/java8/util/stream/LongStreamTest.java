@@ -378,8 +378,8 @@ public class LongStreamTest extends StreamTestBase {
 
   public void testCollect() {
     String val = LongStream.of(1l, 2l, 3l, 4l, 5l).collect(StringBuilder::new, 
-        StringBuilder::append, 
-        StringBuilder::append).toString();
+        (s1, s2) -> s1.append(s2), 
+        (s1, s2) -> s1.append(s2)).toString();
 
     assertEquals("12345", val);
   }

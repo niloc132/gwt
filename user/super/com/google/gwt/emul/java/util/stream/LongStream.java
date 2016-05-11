@@ -686,11 +686,10 @@ public interface LongStream extends BaseStream<Long,LongStream> {
 
     @Override
     public LongSummaryStatistics summaryStatistics() {
-      terminate();
       return collect(
           LongSummaryStatistics::new,
-          LongSummaryStatistics::accept,
-          LongSummaryStatistics::combine
+          (s,l) -> s.accept(l),
+          (s1,s2) -> s1.combine(s2)
       );
     }
 

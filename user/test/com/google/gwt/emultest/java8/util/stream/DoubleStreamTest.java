@@ -248,7 +248,7 @@ public class DoubleStreamTest extends StreamTestBase {
     Supplier<DoubleStream> s = () -> DoubleStream.of(1d, 2d, 10d);
 
     assertEquals(
-        new String[]{"1.0", "2.0", "10.0"},
+        new String[]{"1", "2", "10"},
         s.get().mapToObj(String::valueOf).toArray(String[]::new)
     );
 
@@ -356,10 +356,10 @@ public class DoubleStreamTest extends StreamTestBase {
 
   public void testCollect() {
     String val = DoubleStream.of(1d, 2d, 3d, 4d, 5d).collect(StringBuilder::new, 
-        StringBuilder::append, 
-        StringBuilder::append).toString();
+        (s1, s2) -> s1.append(s2), 
+        (s1, s2) -> s1.append(s2)).toString();
 
-    assertEquals("1.02.03.04.05.0", val);
+    assertEquals("12345", val);
   }
 
   public void testForEach() {

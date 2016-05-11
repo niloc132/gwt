@@ -384,8 +384,8 @@ public class IntStreamTest extends StreamTestBase {
 
   public void testCollect() {
     String val = IntStream.of(1, 2, 3, 4, 5).collect(StringBuilder::new, 
-        StringBuilder::append, 
-    		StringBuilder::append).toString();
+        (s1, s2) -> s1.append(s2), 
+        (s1, s2) -> s1.append(s2)).toString();
     
     assertEquals("12345", val);
   }

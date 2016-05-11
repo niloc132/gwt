@@ -645,8 +645,8 @@ public interface IntStream extends BaseStream<Integer,IntStream> {
     public IntSummaryStatistics summaryStatistics() {
       return collect(
           IntSummaryStatistics::new,
-          IntSummaryStatistics::accept,
-          IntSummaryStatistics::combine
+          (s,i) -> s.accept(i),
+          (s1,s2) -> s1.combine(s2)
       );
     }
 
