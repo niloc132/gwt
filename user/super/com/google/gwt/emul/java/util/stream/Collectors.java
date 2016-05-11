@@ -146,7 +146,7 @@ public final class Collectors {
         },
         downstream.combiner(),
         downstream.finisher(),
-        Collections.unmodifiableSet(downstream.characteristics())
+        downstream.characteristics()
     );
   }
 

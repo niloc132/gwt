@@ -16,6 +16,27 @@
 
 package com.google.gwt.emultest.java8.util.stream;
 
+import static java.util.stream.Collectors.averagingDouble;
+import static java.util.stream.Collectors.averagingInt;
+import static java.util.stream.Collectors.averagingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.minBy;
+import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.summarizingDouble;
+import static java.util.stream.Collectors.summarizingInt;
+import static java.util.stream.Collectors.summarizingLong;
+import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.summingInt;
+import static java.util.stream.Collectors.summingLong;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+
 import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.ArrayList;
@@ -38,27 +59,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-
-import static java.util.stream.Collectors.averagingDouble;
-import static java.util.stream.Collectors.averagingInt;
-import static java.util.stream.Collectors.averagingLong;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.maxBy;
-import static java.util.stream.Collectors.minBy;
-import static java.util.stream.Collectors.partitioningBy;
-import static java.util.stream.Collectors.summarizingDouble;
-import static java.util.stream.Collectors.summarizingInt;
-import static java.util.stream.Collectors.summarizingLong;
-import static java.util.stream.Collectors.summingDouble;
-import static java.util.stream.Collectors.summingInt;
-import static java.util.stream.Collectors.summingLong;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Tests {@link java.util.stream.Collectors}.
