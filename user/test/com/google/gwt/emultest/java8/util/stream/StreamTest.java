@@ -16,17 +16,14 @@
 
 package com.google.gwt.emultest.java8.util.stream;
 
-import java.lang.IllegalStateException;
-import java.lang.Integer;
-import java.lang.Object;
-import java.lang.Override;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -123,15 +120,35 @@ public class StreamTest extends StreamTestBase {
   }
 
   public void testSpliterator() {
-    assert false : "TODO";
+    final String[] values = new String[] {"a", "b", "c"};
+
+    Spliterator<String> spliterator = Stream.of(values).spliterator();
+    assertEquals(3, spliterator.estimateSize());
+    assertEquals(3, spliterator.getExactSizeIfKnown());
+
+    List<String> actualValues = new ArrayList<String>();
+    while (spliterator.tryAdvance(i -> actualValues.add(i)));
+
+    assertEquals(values, actualValues.toArray(new String[actualValues.size()]));
   }
 
   public void testIterator() {
-    assert false : "TODO";
+    final String[] values = new String[] {"a", "b", "c"};
+
+    List<String> actualValues = new ArrayList<String>();
+    Iterator<String> iterator = Stream.of(values).iterator();
+    while (iterator.hasNext()) {
+      actualValues.add(iterator.next());
+    }
+    assertEquals(values, actualValues.toArray(new String[actualValues.size()]));
   }
 
   public void testForEach() {
-    assert false : "TODO";
+    final String[] values = new String[] {"a", "b", "c"};
+
+    List<String> actualValues = new ArrayList<String>();
+    Stream.of(values).forEach(i -> actualValues.add(i));
+    assertEquals(values, actualValues.toArray(new String[actualValues.size()]));
   }
 
   // toArray
@@ -165,7 +182,15 @@ public class StreamTest extends StreamTestBase {
   }
 
   public void testCollect() {
-    assert false : "TODO";
+    final String[] values = new String[] {"a", "b", "c"};
+
+    String collectedString = Stream.of(values).collect(StringBuilder::new, 
+        StringBuilder::append,
+        StringBuilder::append).toString();
+    assertEquals("abc", collectedString);
+
+    List<String> collectedList = Stream.of(values).collect(Collectors.toList());
+    assertEquals(values, collectedList.toArray(new String[collectedList.size()]));
   }
 
   public void testFilter() {

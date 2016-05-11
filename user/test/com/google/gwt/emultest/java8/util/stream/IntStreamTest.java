@@ -17,11 +17,17 @@
 package com.google.gwt.emultest.java8.util.stream;
 
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
+import java.util.Iterator;
 import java.util.List;
 import java.util.OptionalInt;
+import java.util.Spliterator;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 /**
  * Tests {@link IntStream}.
@@ -93,7 +99,7 @@ public class IntStreamTest extends StreamTestBase {
     // infinite, but if you limit it is already too short to skip much
     assertEquals(new int[0], IntStream.generate(makeGenerator()).limit(4).skip(5).toArray());
 
-    assertEquals(new int[]{10, 11, 12, 13, 14}, IntStream.generate(makeGenerator()).skip(10).limit(5).toArray());
+    assertEquals(new int[] {10, 11, 12, 13, 14}, IntStream.generate(makeGenerator()).skip(10).limit(5).toArray());
   }
 
   private IntSupplier makeGenerator() {
@@ -108,13 +114,23 @@ public class IntStreamTest extends StreamTestBase {
   }
 
   public void testRange() {
-    assert false : "TODO";
+    assertEquals(new int[] {1, 2, 3, 4}, IntStream.range(1, 5).toArray());
+    assertEquals(new int[] {-1, 0, 1, 2, 3, 4}, IntStream.range(-1, 5).toArray());
+    assertEquals(new int[] {}, IntStream.range(1, -5).toArray());
+    assertEquals(new int[] {}, IntStream.range(-1, -5).toArray());
+  }
+  
+  public void testRangeClosed() {
+    assertEquals(new int[] {1, 2, 3, 4, 5}, IntStream.rangeClosed(1, 5).toArray());
+    assertEquals(new int[] {-1, 0, 1, 2, 3, 4, 5}, IntStream.rangeClosed(-1, 5).toArray());
+    assertEquals(new int[] {}, IntStream.rangeClosed(1, -5).toArray());
+    assertEquals(new int[] {}, IntStream.rangeClosed(-1, -5).toArray());
   }
 
   public void testToArray() {
     assertEquals(new int[0], IntStream.of().toArray());
-    assertEquals(new int[]{1}, IntStream.of(1).toArray());
-    assertEquals(new int[]{3,2,0}, IntStream.of(3,2,0).toArray());
+    assertEquals(new int[] {1}, IntStream.of(1).toArray());
+    assertEquals(new int[] {3,2,0}, IntStream.of(3,2,0).toArray());
   }
 
   public void testReduce() {
@@ -139,7 +155,7 @@ public class IntStreamTest extends StreamTestBase {
 
     // one result
     assertEquals(
-        new int[]{1},
+        new int[] {1},
         IntStream.of(1, 2, 3, 4, 3).filter(a -> a == 1).toArray()
     );
     // zero results
@@ -248,17 +264,17 @@ public class IntStreamTest extends StreamTestBase {
     Supplier<IntStream> s = () -> IntStream.of(1, 2, 10);
 
     assertEquals(
-        new String[]{"1", "2", "10"},
+        new String[] {"1", "2", "10"},
         s.get().mapToObj(String::valueOf).toArray(String[]::new)
     );
 
     assertEquals(
-        new long[]{1, 2, 10},
+        new long[] {1, 2, 10},
         s.get().mapToLong(i -> (long) i).toArray()
     );
 
     assertEquals(
-        new double[]{1, 2, 10},
+        new double[] {1, 2, 10},
         s.get().mapToDouble(i -> (double) i).toArray()
     );
   }
@@ -271,7 +287,6 @@ public class IntStreamTest extends StreamTestBase {
 
   public void testSorted() {
     int[] sorted = IntStream.of(3, 1, 2).sorted().toArray();
-
     assertEquals(new int[] {1, 2, 3}, sorted);
   }
 
@@ -300,52 +315,107 @@ public class IntStreamTest extends StreamTestBase {
 
     assertEquals(1, stream.get().skip(3).count());
 
-    assertEquals(new int[]{3, 4}, stream.get().skip(2).limit(3).toArray());
-    assertEquals(new int[]{3}, stream.get().skip(2).limit(1).toArray());
+    assertEquals(new int[] {3, 4}, stream.get().skip(2).limit(3).toArray());
+    assertEquals(new int[] {3}, stream.get().skip(2).limit(1).toArray());
 
-    assertEquals(new int[]{4}, stream.get().skip(3).toArray());
-    assertEquals(new int[]{}, stream.get().skip(5).toArray());
+    assertEquals(new int[] {4}, stream.get().skip(3).toArray());
+    assertEquals(new int[] {}, stream.get().skip(5).toArray());
 
-    assertEquals(new int[]{1, 2}, stream.get().limit(2).toArray());
+    assertEquals(new int[] {1, 2}, stream.get().limit(2).toArray());
 
-    assertEquals(new int[]{2}, stream.get().limit(2).skip(1).toArray());
+    assertEquals(new int[] {2}, stream.get().limit(2).skip(1).toArray());
   }
 
-  // TODO
-  // TODO
   public void testBoxed() {
-    assert false : "TODO";
+    Supplier<IntStream> stream = () -> IntStream.of(1, 2);
+    Stream<Integer> expected = stream.get().mapToObj(Integer::valueOf);
+    assertEquals(expected.toArray(), stream.get().boxed().toArray());
   }
 
   public void testAsOtherPrimitive() {
-    assert false : "TODO";
+    Supplier<IntStream> stream = () -> IntStream.of(1, 2);
+    
+    DoubleStream expectedDoubleStream = stream.get().boxed().mapToDouble(i -> i.doubleValue());
+    DoubleStream actualDoubleStream = stream.get().asDoubleStream();
+    assertEquals(expectedDoubleStream.toArray(), actualDoubleStream.toArray());
+    
+    LongStream expectedLongStream = stream.get().boxed().mapToLong(i -> i.longValue());
+    LongStream actualLongStream = stream.get().asLongStream();
+    assertEquals(expectedLongStream.toArray(), actualLongStream.toArray());
   }
 
-  public void testStats() {
-    assert false : "TODO";
+  public void testSummaryStats() {
+    Supplier<IntStream> stream = () -> IntStream.of(1, 2, 3);
+    IntSummaryStatistics summaryStats = stream.get().summaryStatistics();
+    assertEquals(3, summaryStats.getCount());  
+    assertEquals(1, summaryStats.getMin());
+    assertEquals(2, summaryStats.getAverage(), 0d);
+    assertEquals(3, summaryStats.getMax());
+    assertEquals(6, summaryStats.getSum());
+    
+    summaryStats.accept(6);
+    assertEquals(4, summaryStats.getCount());
+    assertEquals(1, summaryStats.getMin());
+    assertEquals(3, summaryStats.getAverage(), 0d);
+    assertEquals(6, summaryStats.getMax());
+    assertEquals(12, summaryStats.getSum());
+    
+    IntSummaryStatistics combinedSumStats = stream.get().summaryStatistics();
+    combinedSumStats.combine(IntStream.of(4, 5, 6, 0).summaryStatistics());
+    assertEquals(7, combinedSumStats.getCount());
+    assertEquals(0, combinedSumStats.getMin());
+    assertEquals(3, combinedSumStats.getAverage(), 0d);
+    assertEquals(6, combinedSumStats.getMax());
+    assertEquals(21, combinedSumStats.getSum());
   }
 
   public void testAverage() {
-    assert false : "TODO";
+    assertFalse(IntStream.empty().average().isPresent());
+    assertEquals(2.0d, IntStream.of(1, 2, 3).average().getAsDouble(), 0d);
+    assertEquals(0d, IntStream.of(1, 2, -3).average().getAsDouble(), 0d);
+    assertEquals(-2.0d, IntStream.of(-1, -2, -3).average().getAsDouble(), 0d);
   }
 
   public void testSum() {
-    assert false : "TODO";
+    assertEquals(6, IntStream.of(1, 2, 3).sum());
+    assertEquals(0, IntStream.of(1, 2, -3).sum());
+    assertEquals(-6, IntStream.of(-1, -2, -3).sum());
   }
 
   public void testCollect() {
-    assert false : "TODO";
+    String val = IntStream.of(1, 2, 3, 4, 5).collect(StringBuilder::new, 
+        StringBuilder::append, 
+    		StringBuilder::append).toString();
+    
+    assertEquals("12345", val);
   }
 
   public void testForEach() {
-    assert false : "TODO";
+    List<Integer> vals = new ArrayList<Integer>();
+    IntStream.of(1, 2, 3, 4, 5).forEach(i -> vals.add(i));
+    assertEquals(5, vals.size());
+    assertEquals(new Integer[] {1, 2, 3, 4, 5}, vals.toArray(new Integer[vals.size()]));
   }
 
   public void testIterator() {
-    assert false : "TODO";
+    List<Integer> vals = new ArrayList<Integer>();
+    Iterator<Integer> iterator = IntStream.of(1, 2, 3, 4, 5).iterator();
+    while (iterator.hasNext()) {
+      vals.add(iterator.next());
+    }
+    assertEquals(5, vals.size());
+    assertEquals(new Integer[] {1, 2, 3, 4, 5}, vals.toArray(new Integer[vals.size()]));
   }
 
   public void testSpliterator() {
-    assert false : "TODO";
+    Spliterator<Integer> spliterator = IntStream.of(1, 2, 3, 4, 5).spliterator();
+    assertEquals(5, spliterator.estimateSize());
+    assertEquals(5, spliterator.getExactSizeIfKnown());
+    
+    List<Integer> vals = new ArrayList<Integer>();
+    while(spliterator.tryAdvance(i -> vals.add(i)));
+    
+    assertEquals(5, vals.size());
+    assertEquals(new Integer[] {1, 2, 3, 4, 5}, vals.toArray(new Integer[vals.size()]));
   }
 }

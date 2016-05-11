@@ -17,12 +17,15 @@
 package com.google.gwt.emultest.java8.util.stream;
 
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
+import java.util.Iterator;
 import java.util.List;
-import java.util.OptionalInt;
-import java.util.function.IntSupplier;
+import java.util.OptionalDouble;
+import java.util.Spliterator;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Tests {@link DoubleStream}.
@@ -30,7 +33,7 @@ import java.util.stream.IntStream;
 public class DoubleStreamTest extends StreamTestBase {
 
   public void testEmptyStream() {
-    IntStream empty = IntStream.empty();
+    DoubleStream empty = DoubleStream.empty();
     assertEquals(0, empty.count());
     try {
       empty.count();
@@ -39,42 +42,42 @@ public class DoubleStreamTest extends StreamTestBase {
       // expected
     }
 
-    assertEquals(0, IntStream.empty().limit(2).toArray().length);
-    assertEquals(0L, IntStream.empty().count());
-    assertEquals(0L, IntStream.empty().limit(2).count());
+    assertEquals(0, DoubleStream.empty().limit(2).toArray().length);
+    assertEquals(0L, DoubleStream.empty().count());
+    assertEquals(0L, DoubleStream.empty().limit(2).count());
 
-    assertFalse(IntStream.empty().findFirst().isPresent());
-    assertFalse(IntStream.empty().findAny().isPresent());
-    assertFalse(IntStream.empty().max().isPresent());
-    assertFalse(IntStream.empty().min().isPresent());
-    assertTrue(IntStream.empty().noneMatch(item -> true));
-    assertTrue(IntStream.empty().allMatch(item -> true));
-    assertFalse(IntStream.empty().anyMatch(item -> true));
-    assertEquals(new int[0], IntStream.empty().toArray());
+    assertFalse(DoubleStream.empty().findFirst().isPresent());
+    assertFalse(DoubleStream.empty().findAny().isPresent());
+    assertFalse(DoubleStream.empty().max().isPresent());
+    assertFalse(DoubleStream.empty().min().isPresent());
+    assertTrue(DoubleStream.empty().noneMatch(item -> true));
+    assertTrue(DoubleStream.empty().allMatch(item -> true));
+    assertFalse(DoubleStream.empty().anyMatch(item -> true));
+    assertEquals(new double[0], DoubleStream.empty().toArray());
   }
 
   public void testStreamOfOne() {
-    Supplier<IntStream> one = () -> IntStream.of(1);
-    assertEquals(new int[]{1}, one.get().toArray());
-    assertEquals(1L, one.get().count());
-    assertEquals(1, one.get().findFirst().getAsInt());
-    assertEquals(1, one.get().findAny().getAsInt());
+    Supplier<DoubleStream> one = () -> DoubleStream.of(1);
+    assertEquals(new double[]{1d}, one.get().toArray());
+    assertEquals(1l, one.get().count());
+    assertEquals(1d, one.get().findFirst().getAsDouble(), 0d);
+    assertEquals(1d, one.get().findAny().getAsDouble(), 0d);
   }
 
   public void testBuilder() {
-    IntStream s = IntStream.builder()
-        .add(1)
-        .add(3)
-        .add(2)
+    DoubleStream s = DoubleStream.builder()
+        .add(1d)
+        .add(3d)
+        .add(2d)
         .build();
 
     assertEquals(
-        new int[] {1, 3, 2},
+        new double[] {1d, 3d, 2d},
         s.toArray()
     );
 
-    IntStream.Builder builder = IntStream.builder();
-    IntStream built = builder.build();
+    DoubleStream.Builder builder = DoubleStream.builder();
+    DoubleStream built = builder.build();
     assertEquals(0, built.count());
     try {
       builder.build();
@@ -83,7 +86,7 @@ public class DoubleStreamTest extends StreamTestBase {
       // expected
     }
     try {
-      builder.add(10);
+      builder.add(10d);
       fail("add() after build() should fail");
     } catch (IllegalStateException expected) {
       // expected
@@ -92,256 +95,299 @@ public class DoubleStreamTest extends StreamTestBase {
 
   public void testGenerate() {
     // infinite, but if you limit it is already too short to skip much
-    assertEquals(new int[0], IntStream.generate(makeGenerator()).limit(4).skip(5).toArray());
+    assertEquals(new double[0], DoubleStream.generate(makeGenerator()).limit(4).skip(5).toArray());
 
-    assertEquals(new int[]{10, 11, 12, 13, 14}, IntStream.generate(makeGenerator()).skip(10).limit(5).toArray());
+    assertEquals(new double[]{10d, 11d, 12d, 13d, 14d}, DoubleStream.generate(makeGenerator()).skip(10).limit(5).toArray());
   }
 
-  private IntSupplier makeGenerator() {
-    return new IntSupplier() {
-      int next = 0;
+  private DoubleSupplier makeGenerator() {
+    return new DoubleSupplier() {
+      double next = 0d;
 
       @Override
-      public int getAsInt() {
+      public double getAsDouble() {
         return next++;
       }
     };
   }
 
   public void testToArray() {
-    assertEquals(new int[0], IntStream.of().toArray());
-    assertEquals(new int[]{1}, IntStream.of(1).toArray());
-    assertEquals(new int[]{3,2,0}, IntStream.of(3,2,0).toArray());
+    assertEquals(new double[0], DoubleStream.of().toArray());
+    assertEquals(new double[] {1d}, DoubleStream.of(1d).toArray());
+    assertEquals(new double[] {3d, 2d, 0d}, DoubleStream.of(3d, 2d, 0d).toArray());
   }
 
   public void testReduce() {
-    int reduced = IntStream.of(1, 2, 4).reduce(0, Integer::sum);
-    assertEquals(7, reduced);
+    double reduced = DoubleStream.of(1d, 2d, 4d).reduce(0, Double::sum);
+    assertEquals(7d, reduced, 0d);
 
-    reduced = IntStream.of().reduce(0, Integer::sum);
-    assertEquals(0, reduced);
+    reduced = DoubleStream.of().reduce(0, Double::sum);
+    assertEquals(0d, reduced, 0d);
 
-    OptionalInt maybe = IntStream.of(1, 4, 8).reduce(Integer::sum);
+    OptionalDouble maybe = DoubleStream.of(1d, 4d, 8d).reduce(Double::sum);
     assertTrue(maybe.isPresent());
-    assertEquals(13, maybe.getAsInt());
-    maybe = IntStream.of().reduce(Integer::sum);
+    assertEquals(13, maybe.getAsDouble(), 0d);
+    maybe = DoubleStream.of().reduce(Double::sum);
     assertFalse(maybe.isPresent());
   }
 
   public void testFilter() {
     // unconsumed stream never runs filter
     boolean[] data = {false};
-    IntStream.of(1, 2, 3).filter(i -> data[0] |= true);
+    DoubleStream.of(1d, 2d, 3d).filter(i -> data[0] |= true);
     assertFalse(data[0]);
 
     // one result
     assertEquals(
-        new int[]{1},
-        IntStream.of(1, 2, 3, 4, 3).filter(a -> a == 1).toArray()
+        new double[]{1d},
+        DoubleStream.of(1d, 2d, 3d, 4d, 3d).filter(a -> a == 1).toArray()
     );
     // zero results
     assertEquals(
-        new int[0],
-        IntStream.of(1, 2, 3, 4, 3).filter(a -> false).toArray()
+        new double[0],
+        DoubleStream.of(1d, 2d, 3d, 4d, 3d).filter(a -> false).toArray()
     );
     // two results
     assertEquals(
-        new int[] {2, 4},
-        IntStream.of(1, 2, 3, 4, 3).filter(a -> a % 2 == 0).toArray()
+        new double[] {2d, 4d},
+        DoubleStream.of(1d, 2d, 3d, 4d, 3d).filter(a -> a % 2 == 0).toArray()
     );
     // all
     assertEquals(
-        new int[] {1, 2, 3, 4, 3},
-        IntStream.of(1, 2, 3, 4, 3).filter(a -> true).toArray()
+        new double[] {1d, 2d, 3d, 4d, 3d},
+        DoubleStream.of(1d, 2d, 3d, 4d, 3d).filter(a -> true).toArray()
     );
   }
 
   public void testMap() {
     // unconsumed stream never runs map
     int[] data = {0};
-    IntStream.of(1, 2, 3).map(i -> data[0]++);
+    DoubleStream.of(1d, 2d, 3d).map(i -> data[0]++);
     assertEquals(0, data[0]);
 
     assertEquals(
-        new int[] {2, 4, 6},
-        IntStream.of(1, 2, 3).map(i -> i * 2).toArray()
+        new double[] {2d, 4d, 6d},
+        DoubleStream.of(1d, 2d, 3d).map(i -> i * 2).toArray()
     );
   }
 
   public void testPeek() {
     // unconsumed stream never peeks
     boolean[] data = {false};
-    IntStream.of(1, 2, 3).peek(i -> data[0] |= true);
+    DoubleStream.of(1d, 2d, 3d).peek(i -> data[0] |= true);
     assertFalse(data[0]);
 
     // make sure we saw it all in order
-    int[] items = new int[] {1, 2, 3};
-    List<Integer> peeked = new ArrayList<>();
-    IntStream.of(items).peek(item -> peeked.add(item)).forEach(item -> {
+    double[] items = new double[] {1d, 2d, 3d};
+    List<Double> peeked = new ArrayList<>();
+    DoubleStream.of(items).peek(item -> peeked.add(item)).forEach(item -> {
       // do nothing, just run
     });
     assertEquals(items.length, peeked.size());
     for (int i = 0; i < items.length; i++) {
-      assertEquals(items[i], (int) peeked.get(i));
+      assertEquals(items[i], (double) peeked.get(i), 0d);
     }
   }
 
   // same impl, no parallel in browser
   public void testFindFirstOrAny() {
-    OptionalInt any = IntStream.of(1, 2).findAny();
+    OptionalDouble any = DoubleStream.of(1d, 2d).findAny();
     assertTrue(any.isPresent());
-    assertEquals(1, any.getAsInt());
+    assertEquals(1d, any.getAsDouble(), 0d);
   }
 
   public void testAnyMatch() {
     // all
-    assertTrue(IntStream.of(1, 2).anyMatch(s -> true));
+    assertTrue(DoubleStream.of(1d, 2d).anyMatch(s -> true));
 
     // some
-    assertTrue(IntStream.of(1, 2).anyMatch(s -> s == 1));
+    assertTrue(DoubleStream.of(1d, 2d).anyMatch(s -> s == 1d));
 
     // none
-    assertFalse(IntStream.of(1, 2).anyMatch(s -> false));
+    assertFalse(DoubleStream.of(1d, 2d).anyMatch(s -> false));
   }
 
   public void testAllMatch() {
     // all
-    assertTrue(IntStream.of(1, 2).allMatch(s -> true));
+    assertTrue(DoubleStream.of(1d, 2d).allMatch(s -> true));
 
     // some
-    assertFalse(IntStream.of(1, 2).allMatch(s -> s == 1));
+    assertFalse(DoubleStream.of(1d, 2d).allMatch(s -> s == 1d));
 
     // none
-    assertFalse(IntStream.of(1, 2).allMatch(s -> false));
+    assertFalse(DoubleStream.of(1d, 2d).allMatch(s -> false));
   }
 
   public void testNoneMatch() {
     // all
-    assertFalse(IntStream.of(1, 2).noneMatch(s -> true));
+    assertFalse(DoubleStream.of(1d, 2d).noneMatch(s -> true));
 
     // some
-    assertFalse(IntStream.of(1, 2).noneMatch(s -> s == 1));
+    assertFalse(DoubleStream.of(1d, 2d).noneMatch(s -> s == 1d));
 
     // none
-    assertTrue(IntStream.of(1, 2).noneMatch(s -> false));
+    assertTrue(DoubleStream.of(1d, 2d).noneMatch(s -> false));
   }
 
   public void testFlatMap() {
-    assertEquals(0, IntStream.empty().flatMap(value -> IntStream.of(1)).count());
-    assertEquals(0, IntStream.of(1).flatMap(value -> IntStream.empty()).count());
-    assertEquals(0, IntStream.of(1).flatMap(value -> IntStream.of()).count());
-    assertEquals(0, IntStream.of().flatMap(value -> IntStream.of(1)).count());
-    assertEquals(1, IntStream.of(1).flatMap(value -> IntStream.of(1)).count());
+    assertEquals(0l, DoubleStream.empty().flatMap(value -> DoubleStream.of(1d)).count());
+    assertEquals(0l, DoubleStream.of(1d).flatMap(value -> DoubleStream.empty()).count());
+    assertEquals(0l, DoubleStream.of(1d).flatMap(value -> DoubleStream.of()).count());
+    assertEquals(0l, DoubleStream.of().flatMap(value -> DoubleStream.of(1d)).count());
+    assertEquals(1l, DoubleStream.of(1d).flatMap(value -> DoubleStream.of(1d)).count());
 
-    IntStream values = IntStream.of(1, 2, 3);
+    DoubleStream values = DoubleStream.of(1d, 2d, 3d);
 
     assertEquals(
-        new int[] {1, 2, 2, 4, 3, 6},
-        values.flatMap(i -> IntStream.of(i, i * 2)).toArray()
+        new double[] {1d, 2d, 2d, 4d, 3d, 6d},
+        values.flatMap(i -> DoubleStream.of(i, i * 2d)).toArray()
     );
   }
 
   public void testMapToOthers() {
-    Supplier<IntStream> s = () -> IntStream.of(1, 2, 10);
+    Supplier<DoubleStream> s = () -> DoubleStream.of(1d, 2d, 10d);
 
     assertEquals(
-        new String[]{"1", "2", "10"},
+        new String[]{"1.0", "2.0", "10.0"},
         s.get().mapToObj(String::valueOf).toArray(String[]::new)
     );
 
     assertEquals(
-        new long[]{1, 2, 10},
+        new long[]{1l, 2l, 10l},
         s.get().mapToLong(i -> (long) i).toArray()
     );
 
     assertEquals(
-        new double[]{1, 2, 10},
-        s.get().mapToDouble(i -> (double) i).toArray()
+        new int[] {1, 2, 10},
+        s.get().mapToInt(i -> (int) i).toArray()
     );
   }
 
   public void testDistinct() {
-    int[] distinct = IntStream.of(1, 2, 3, 2).distinct().toArray();
+    double[] distinct = DoubleStream.of(1d, 2d, 3d, 2d).distinct().toArray();
     assertEquals(3, distinct.length);
-    assertEquals(1 + 2 + 3, distinct[0] + distinct[1] + distinct[2]);
+    assertEquals(1d + 2d + 3d, distinct[0] + distinct[1] + distinct[2], 0d);
   }
 
   public void testSorted() {
-    int[] sorted = IntStream.of(3, 1, 2).sorted().toArray();
-
-    assertEquals(new int[] {1, 2, 3}, sorted);
+    double[] sorted = DoubleStream.of(3d, 1d, 2d).sorted().toArray();
+    assertEquals(new double[] {1d, 2d, 3d}, sorted);
   }
 
   public void testMinMax() {
-    Supplier<IntStream> stream = () -> IntStream.of(2, 3, 4, 1);
+    Supplier<DoubleStream> stream = () -> DoubleStream.of(2d, 3d, 4d, 1d);
 
-    assertEquals(1, stream.get().min().orElse(0));
-    assertEquals(4, stream.get().max().orElse(0));
+    assertEquals(1d, stream.get().min().orElse(0), 0d);
+    assertEquals(4d, stream.get().max().orElse(0), 0d);
 
     assertFalse(stream.get().filter(a -> false).max().isPresent());
     assertFalse(stream.get().filter(a -> false).min().isPresent());
   }
 
   public void testCountLimitSkip() {
-    Supplier<IntStream> stream = () -> IntStream.of(1, 2, 3, 4);
+    Supplier<DoubleStream> stream = () -> DoubleStream.of(1d, 2d, 3d, 4d);
 
-    assertEquals(4, stream.get().count());
+    assertEquals(4l, stream.get().count());
 
-    assertEquals(4, stream.get().limit(4).count());
-    assertEquals(4, stream.get().limit(5).count());
-    assertEquals(3, stream.get().limit(3).count());
+    assertEquals(4l, stream.get().limit(4).count());
+    assertEquals(4l, stream.get().limit(5).count());
+    assertEquals(3l, stream.get().limit(3).count());
 
-    assertEquals(3, stream.get().skip(1).limit(3).count());
+    assertEquals(3l, stream.get().skip(1).limit(3).count());
 
-    assertEquals(2, stream.get().limit(3).skip(1).count());
+    assertEquals(2l, stream.get().limit(3).skip(1).count());
 
-    assertEquals(1, stream.get().skip(3).count());
+    assertEquals(1l, stream.get().skip(3).count());
 
-    assertEquals(new int[]{3, 4}, stream.get().skip(2).limit(3).toArray());
-    assertEquals(new int[]{3}, stream.get().skip(2).limit(1).toArray());
+    assertEquals(new double[] {3d, 4d}, stream.get().skip(2).limit(3).toArray());
+    assertEquals(new double[] {3d}, stream.get().skip(2).limit(1).toArray());
 
-    assertEquals(new int[]{4}, stream.get().skip(3).toArray());
-    assertEquals(new int[]{}, stream.get().skip(5).toArray());
+    assertEquals(new double[] {4d}, stream.get().skip(3).toArray());
+    assertEquals(new double[] {}, stream.get().skip(5).toArray());
 
-    assertEquals(new int[]{1, 2}, stream.get().limit(2).toArray());
+    assertEquals(new double[] {1d, 2d}, stream.get().limit(2).toArray());
 
-    assertEquals(new int[]{2}, stream.get().limit(2).skip(1).toArray());
+    assertEquals(new double[] {2d}, stream.get().limit(2).skip(1).toArray());
   }
 
-  // TODO
   public void testBoxed() {
-    assert false : "TODO";
+    Supplier<DoubleStream> stream = () -> DoubleStream.of(1d, 2d);
+    Stream<Double> expected = stream.get().mapToObj(Double::valueOf);
+    assertEquals(expected.toArray(), stream.get().boxed().toArray());
   }
 
-  public void testAsOtherPrimitive() {
-    assert false : "TODO";
-  }
+  public void testSummaryStats() {
+    Supplier<DoubleStream> stream = () -> DoubleStream.of(1d, 2d, 3d);
+    DoubleSummaryStatistics summaryStats = stream.get().summaryStatistics();
+    assertEquals(3l, summaryStats.getCount());
+    assertEquals(1d, summaryStats.getMin(), 0d);
+    assertEquals(2d, summaryStats.getAverage(), 0d);
+    assertEquals(3d, summaryStats.getMax(), 0d);
+    assertEquals(6d, summaryStats.getSum(), 0d);
 
-  public void testStats() {
-    assert false : "TODO";
+    summaryStats.accept(6l);
+    assertEquals(4l, summaryStats.getCount());
+    assertEquals(1d, summaryStats.getMin(), 0d);
+    assertEquals(3d, summaryStats.getAverage(), 0d);
+    assertEquals(6d, summaryStats.getMax(), 0d);
+    assertEquals(12d, summaryStats.getSum(), 0d);
+
+    DoubleSummaryStatistics combinedSumStats = stream.get().summaryStatistics();
+    combinedSumStats.combine(DoubleStream.of(4d, 5d, 6d, 0d).summaryStatistics());
+    assertEquals(7l, combinedSumStats.getCount());
+    assertEquals(0d, combinedSumStats.getMin(), 0d);
+    assertEquals(3d, combinedSumStats.getAverage(), 0d);
+    assertEquals(6d, combinedSumStats.getMax(), 0d);
+    assertEquals(21d, combinedSumStats.getSum(), 0d);
   }
 
   public void testAverage() {
-    assert false : "TODO";
+    assertFalse(DoubleStream.empty().average().isPresent());
+    assertEquals(2.0d, DoubleStream.of(1d, 2d, 3d).average().getAsDouble(), 0d);
+    assertEquals(0d, DoubleStream.of(1d, 2d, -3d).average().getAsDouble(), 0d);
+    assertEquals(-2.0d, DoubleStream.of(-1d, -2d, -3d).average().getAsDouble(), 0d);
   }
 
   public void testSum() {
-    assert false : "TODO";
+    assertEquals(6d, DoubleStream.of(1d, 2d, 3d).sum(), 0d);
+    assertEquals(0d, DoubleStream.of(1d, 2d, -3d).sum(), 0d);
+    assertEquals(-6d, DoubleStream.of(-1d, -2d, -3d).sum(), 0d);
   }
 
   public void testCollect() {
-    assert false : "TODO";
+    String val = DoubleStream.of(1d, 2d, 3d, 4d, 5d).collect(StringBuilder::new, 
+        StringBuilder::append, 
+        StringBuilder::append).toString();
+
+    assertEquals("1.02.03.04.05.0", val);
   }
 
   public void testForEach() {
-    assert false : "TODO";
+    List<Double> vals = new ArrayList<Double>();
+    DoubleStream.of(1d, 2d, 3d, 4d, 5d).forEach(i -> vals.add(i));
+    assertEquals(5, vals.size());
+    assertEquals(new Double[] {1d, 2d, 3d, 4d, 5d}, vals.toArray(new Double[vals.size()]));
   }
 
   public void testIterator() {
-    assert false : "TODO";
+    List<Double> vals = new ArrayList<Double>();
+    Iterator<Double> iterator = DoubleStream.of(1d, 2d, 3d, 4d, 5d).iterator();
+    while (iterator.hasNext()) {
+      vals.add(iterator.next());
+    }
+    assertEquals(5, vals.size());
+    assertEquals(new Double[] {1d, 2d, 3d, 4d, 5d}, vals.toArray(new Double[vals.size()]));
   }
 
   public void testSpliterator() {
-    assert false : "TODO";
+    Spliterator<Double> spliterator = DoubleStream.of(1d, 2d, 3d, 4d, 5d).spliterator();
+    assertEquals(5, spliterator.estimateSize());
+    assertEquals(5, spliterator.getExactSizeIfKnown());
+    
+    List<Double> vals = new ArrayList<Double>();
+    while(spliterator.tryAdvance(i -> vals.add(i)));
+    
+    assertEquals(5, vals.size());
+    assertEquals(new Double[] {1d, 2d, 3d, 4d, 5d}, vals.toArray(new Double[vals.size()]));
   }
 }
