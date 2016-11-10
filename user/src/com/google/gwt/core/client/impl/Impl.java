@@ -28,11 +28,14 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public final class Impl {
 
-  static {
-    if (GWT.isScript() && StackTraceCreator.collector != null) {
-      // Just enforces loading of StackTraceCreator early on, nothing else to do here...
-    }
-  }
+  //TODO removed to hack through a dependency cycle, should be properly fixed
+  //     by implementing eager clinits
+//  static {
+//    if (GWT.isScript() && StackTraceCreator.collector != null) {
+//      // Just enforces loading of StackTraceCreator early on, nothing else to do here...
+//    }
+//  }
+
 
   private static final int WATCHDOG_ENTRY_DEPTH_CHECK_INTERVAL_MS = 2000;
 
