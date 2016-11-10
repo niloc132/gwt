@@ -1277,7 +1277,6 @@ public final class JavaToJavaScriptCompiler {
     Iterables.addAll(allRootTypes, compilationState.getQualifiedJsInteropRootTypesNames());
     Collections.addAll(allRootTypes, entryPointTypeNames);
     Collections.addAll(allRootTypes, additionalRootTypes);
-    allRootTypes.addAll(JProgram.CODEGEN_TYPES_SET);
     allRootTypes.addAll(jprogram.getTypeNamesToIndex());
     /*
      * Add all SingleJsoImpl types that we know about. It's likely that the concrete types are
