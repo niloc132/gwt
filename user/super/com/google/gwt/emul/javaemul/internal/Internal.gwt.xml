@@ -12,7 +12,7 @@
 <!-- implied. License for the specific language governing permissions and   -->
 <!-- limitations under the License.                                         -->
 
-<!-- Internal JRE emultation helpers.                                       -->
+<!-- Internal JRE emulation helpers.                                        -->
 <!-- Do not inherit this module directly; inherit com.google.gwt.core.Core. -->
 <!--                                                                        -->
 <!-- Types from this module should never be used in any user code           -->
