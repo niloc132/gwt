@@ -141,4 +141,8 @@
   <define-configuration-property name="js.embedded.properties" is-multi-valued="true"/>
   <extend-configuration-property name="js.embedded.properties" value="locale"/>
   <extend-configuration-property name="js.embedded.properties" value="user.agent"/>
+
+  <define-configuration-property name="compiler.clinit.preload" is-multi-valued="true" />
+  <extend-configuration-property name="compiler.clinit.preload"
+                                 value="com.google.gwt.core.client.impl.StackTraceCreator" />
 </module>
