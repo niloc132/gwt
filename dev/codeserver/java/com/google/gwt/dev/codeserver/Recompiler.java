@@ -16,10 +16,12 @@
 package com.google.gwt.dev.codeserver;
 
 import com.google.gwt.core.ext.Linker;
+import com.google.gwt.core.ext.LinkerContext;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.TreeLogger.Type;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.linker.impl.PropertiesUtil;
+import com.google.gwt.core.ext.linker.impl.StandardLinkerContext;
 import com.google.gwt.core.linker.CrossSiteIframeLinker;
 import com.google.gwt.core.linker.IFrameLinker;
 import com.google.gwt.dev.Compiler;
@@ -40,6 +42,7 @@ import com.google.gwt.dev.cfg.ResourceLoaders;
 import com.google.gwt.dev.codeserver.Job.Result;
 import com.google.gwt.dev.codeserver.JobEvent.CompileStrategy;
 import com.google.gwt.dev.javac.UnitCache;
+import com.google.gwt.dev.jjs.JsOutputOption;
 import com.google.gwt.dev.resource.impl.ResourceOracleImpl;
 import com.google.gwt.dev.resource.impl.ZipFileClassPathEntry;
 import com.google.gwt.dev.util.log.CompositeTreeLogger;
@@ -275,7 +278,7 @@ public class Recompiler {
     try {
       String templateJs = Resources.toString(
           Resources.getResource(Recompiler.class, "recompile_template.js"), Charsets.UTF_8);
-      String propertyProviders = PropertiesUtil.generatePropertiesSnippet(module, compileLogger);
+      String propertyProviders = generatePropertiesSnippet(module, compileLogger);
       String libJs = Resources.toString(
           Resources.getResource(Recompiler.class, "recompile_lib.js"), Charsets.UTF_8);
       String recompileJs = Resources.toString(
@@ -291,6 +294,36 @@ public class Recompiler {
       compileLogger.log(Type.ERROR, "Can not generate + " + outputModuleName + " recompile js", e);
       throw new UnableToCompleteException();
     }
+  }
+
+  /**
+   * Returns JavaScript that declares and initializes the "providers" and "values" variables.
+   *
+   * <p>Requires $doc and $wnd variables to be defined. (And possibly others; this is unclear.)
+   *
+   * <p>Provides "providers" and "values" variables.</p>.
+   *
+   * <ul>
+   *   <li>"providers" is a mapping from each binding property (string) to a no-argument function
+   *   that determines its value.</li>
+   *   <li>"values" is a mapping from each binding property (string) to the set of allowed values
+   *   (represented as a mapping with the value as key).
+   *   </li>
+   * </ul>
+   */
+  public static String generatePropertiesSnippet(ModuleDef module, TreeLogger compileLogger)
+      throws UnableToCompleteException {
+
+    // TODO: PropertyProviderGenerator should specify the JavaScript environment that a
+    // property provider can assume so the caller of this function knows what it should provide.
+
+    LinkerContext linkerContext = new StandardLinkerContext(compileLogger, module,
+        module.getPublicResourceOracle(), JsOutputOption.PRETTY);
+
+    String initProvidersJs =
+        PropertiesUtil.generatePropertyProviders(compileLogger, linkerContext);
+
+    return "var providers = {};\nvar values = {};\n" + initProvidersJs + "\n";
   }
 
   synchronized String getRecompileJs(TreeLogger logger) throws UnableToCompleteException {
