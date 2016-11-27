@@ -261,8 +261,8 @@ public class SymbolMapsLinker extends AbstractLinker {
       artifacts = new ArtifactSet(artifacts);
       Map<Integer, String> permMap = new HashMap<Integer, String>();
 
-      Event writeSymbolMapsEvent =
-          SpeedTracerLogger.start(CompilerEventType.WRITE_SYMBOL_MAPS);
+//      Event writeSymbolMapsEvent =
+//          SpeedTracerLogger.start(CompilerEventType.WRITE_SYMBOL_MAPS);
       ByteArrayOutputStream out = new ByteArrayOutputStream();
       for (CompilationResult result : artifacts.find(CompilationResult.class)) {
 
@@ -287,10 +287,10 @@ public class SymbolMapsLinker extends AbstractLinker {
           out.reset();
         }
       }
-      writeSymbolMapsEvent.end();
+//      writeSymbolMapsEvent.end();
 
-      Event writeSourceMapsEvent =
-          SpeedTracerLogger.start(CompilerEventType.WRITE_SOURCE_MAPS);
+//      Event writeSourceMapsEvent =
+//          SpeedTracerLogger.start(CompilerEventType.WRITE_SOURCE_MAPS);
       StandardLinkerContext stdContext = (StandardLinkerContext) context;
       for (SourceMapArtifact se : artifacts.find(SourceMapArtifact.class)) {
         // filename is permutation_id/sourceMap<fragmentNumber>.json
@@ -353,7 +353,7 @@ public class SymbolMapsLinker extends AbstractLinker {
         artifacts.add(emArt);
         artifacts.remove(se);
       }
-      writeSourceMapsEvent.end();
+//      writeSourceMapsEvent.end();
     }
     return artifacts;
   }
