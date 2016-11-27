@@ -13,6 +13,9 @@
  */
 package com.google.gwt.dev.jjs;
 
+import com.google.gwt.core.ext.BadPropertyValueException;
+import com.google.gwt.core.ext.ConfigurationProperty;
+import com.google.gwt.core.ext.PropertyOracle;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.linker.Artifact;
@@ -1141,6 +1144,9 @@ public final class JavaToJavaScriptCompiler {
       ConfigurationProperties configurationProperties = new ConfigurationProperties(module);
       EnumNameObfuscator.exec(jprogram, logger, configurationProperties, options);
 
+      //TODO remove marked clinits here?
+
+
       // (3) Normalize the unresolved Java AST
       // Replace default methods by static implementations.
       DevirtualizeDefaultMethodForwarding.exec(jprogram);
@@ -1394,8 +1400,7 @@ public final class JavaToJavaScriptCompiler {
       // Only synthesize the init method in the EntryMethodHolder class, if there is an
       // EntryMethodHolder class.
       synthesizeEntryMethodHolderInit(unifyAst, entryPointTypeNames, entryMethodHolderTypeName);
-    }
-    if (entryMethodHolderTypeName != null) {
+
       // Only register the init method in the EntryMethodHolder class as an entry method, if there
       // is an EntryMethodHolder class.
       jprogram.addEntryMethod(jprogram.getIndexedMethod(
@@ -1403,7 +1408,64 @@ public final class JavaToJavaScriptCompiler {
     }
     unifyAst.exec();
 
+    if (entryMethodHolderTypeName != null) {
+      // Generate preemptive calls to clinits if requested, now that we have access to properties
+      synthesizeEagerClinits(unifyAst, rpo.getGeneratorContext().getPropertyOracle(), entryMethodHolderTypeName);
+    }
+
     event.end();
+  }
+
+  private void synthesizeEagerClinits(UnifyAst unifyAst, PropertyOracle propertyOracle, String entryMethodHolderTypeName) throws UnableToCompleteException {
+    // TODO make a constant somewhere
+    String propertyName = "compiler.clinit.preload";
+
+    // see CompilerParameters.gwt.xml
+    List<String> eagerClinitTypeNames;
+    try {
+      ConfigurationProperty property = propertyOracle.getConfigurationProperty(propertyName);
+      eagerClinitTypeNames = property == null ? Collections.<String>emptyList() : property
+          .getValues();
+      if (eagerClinitTypeNames.isEmpty()) {
+        // property set to nothing, nothing to do
+        return;
+      }
+    } catch (BadPropertyValueException e) {
+      // property wasn't declared, nothing to do
+      return;
+    }
+
+    JDeclaredType entryMethodHolderType =
+        unifyAst.findType(entryMethodHolderTypeName, unifyAst.getSourceNameBasedTypeLocator());
+
+    JMethod eagerClinitsMethod = entryMethodHolderType.findMethod("eagerClinits()V", false);
+
+    JBlock eagerClinitsBlock = ((JMethodBody) eagerClinitsMethod.getBody()).getBlock();
+
+    SourceInfo origin = eagerClinitsBlock.getSourceInfo().makeChild();
+
+    for (String eagerClinitTypeName : eagerClinitTypeNames) {
+      JDeclaredType eagerClinitType = unifyAst.findType(eagerClinitTypeName, unifyAst
+          .getSourceNameBasedTypeLocator());
+
+      if (eagerClinitType == null) {
+        logger.log(TreeLogger.ERROR, "Could not find type " + eagerClinitTypeName + " to eagerly " +
+            "run its class initializer, please fix configuration property " + propertyName);
+        throw new UnableToCompleteException();
+      }
+
+      // TODO walk the method and visit its possible calls, ensure they perform no clinits of
+      // their own
+
+      JMethod clinitMethod = eagerClinitType.getClinitMethod();
+      JMethodCall clinitCall = new JMethodCall(origin, null, clinitMethod);
+      eagerClinitsBlock.addStmt(clinitCall.makeStatement());
+
+      // TODO copy clinit contents into new method and call _that_ instead
+
+      // TODO remove contents of actual clinit so that it optimizes out
+      // (the point of this patch in the first place)
+    }
   }
 
   private void optimizeJavaToFixedPoint() throws InterruptedException {
