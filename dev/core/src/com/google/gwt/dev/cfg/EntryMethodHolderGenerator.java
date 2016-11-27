@@ -44,7 +44,13 @@ public class EntryMethodHolderGenerator extends Generator {
     if (out != null) {
       out.println("package " + PACKAGE_PATH + ";");
       out.println("public class " + typeName + " {");
+
+      out.println("  public static final void eagerClinits() {");
+      out.println("    // to be synthesized later");
+      out.println("  }");
+
       out.println("  public static final void init() {");
+      out.println("    eagerClinits();");
       out.println("    // to be synthesized later");
       out.println("  }");
       out.println("}");
