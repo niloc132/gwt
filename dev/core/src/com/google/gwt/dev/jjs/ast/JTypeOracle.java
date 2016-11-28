@@ -1049,7 +1049,7 @@ public class JTypeOracle implements Serializable {
     }
     JClassType superClass = null;
     if (type instanceof JClassType) {
-      superClass = ((JClassType) type).getSuperClass();
+      superClass = type.getSuperClass();
     }
     if (superClass != null) {
       /*
