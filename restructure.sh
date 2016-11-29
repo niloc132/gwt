@@ -4,12 +4,14 @@ set -e
 
 move () {
    cp -r $1 $2
+   git rm -rf $1
    git add $2
 }
 ORIGIN=
 TARGET=
 movejava () {
     cp $ORIGIN/$1 $TARGET/$1
+    git rm -rf $ORIGIN/$1
     git add $TARGET/$1
 }
 
@@ -256,7 +258,7 @@ mkdir -p dev/core/src/com/google/gwt/core/linker/
 movejava com/google/gwt/core/linker/SoycReportLinker.java
 #movejava com/google/gwt/core/linker/SymbolMapsLinker.java
 #workaround until move/movejava actually mvs
-rm ideal/linkers/src/main/java/com/google/gwt/core/linker/SoycReportLinker.java
+#rm ideal/linkers/src/main/java/com/google/gwt/core/linker/SoycReportLinker.java
 #rm ideal/linkers/src/main/java/com/google/gwt/core/linker/SymbolMapsLinker.java
 
 pushd ideal/linkers
