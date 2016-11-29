@@ -33,7 +33,6 @@
   </path>
 
   <path id="DOC_PATH">
-    <pathelement location="./src" />
     <pathelement location="${gwt.build.lib}/gwt-doctool.jar" />
     <path refid="USER_SOURCE_PATH" />
   </path>
