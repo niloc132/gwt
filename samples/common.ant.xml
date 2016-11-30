@@ -149,6 +149,7 @@
             <pathelement location="${gwt.dev.jar}" />
           </classpath>
           <jvmarg value="-Xmx1g" />
+          <jvmarg value="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5555" />
           <arg value="-localWorkers" />
           <arg value="${gwt.samples.localworkers}" />
           <arg value="-war" />
