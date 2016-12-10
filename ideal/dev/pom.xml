@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>dev</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>gwt-dev-parent</name>
+    <description>
+        None of these jars should be directly depended on by a project, but
+        only used in ide/build tools, etc.
+    </description>
+
+    <properties>
+        <jetty.version>9.2.14.v20151106</jetty.version>
+    </properties>
+
+    <modules>
+        <module>compiler</module>
+        <module>devmode</module>
+        <!--<module>junit3</module>-->
+    </modules>
+
+</project>
