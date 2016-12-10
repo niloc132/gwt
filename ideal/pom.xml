@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.google.gwt</groupId>
+    <artifactId>gwt</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>gwt-parent</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.gwt.external</groupId>
+                <artifactId>com.google.guava.guava</artifactId>
+                <version>19.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.gwt.external</groupId>
+                <artifactId>jscomp-sourcemap</artifactId>
+                <version>20160315</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.gwt.external</groupId>
+                <artifactId>org.eclipse.jdt.core</artifactId>
+                <version>3.11.2-CUSTOM-GWT-2.8-20160205</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.gwt.external</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>2.5.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.gwt.external</groupId>
+                <artifactId>json-android-rebased</artifactId>
+                <version>19.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>tools</module>
+        <module>jsinterop</module>
+        <module>javaemul</module>
+        <module>core</module>
+        <module>lang</module>
+        <module>util</module>
+        <module>ext</module>
+        <module>linkers</module>
+        <module>emul</module>
+        <module>dev</module>
+    </modules>
+</project>
