@@ -53,16 +53,22 @@ import com.google.gwt.dev.javac.StandardGeneratorContext;
 import com.google.gwt.dev.javac.typemodel.TypeOracle;
 import com.google.gwt.dev.jdt.RebindPermutationOracle;
 import com.google.gwt.dev.jjs.UnifiedAst.AST;
+import com.google.gwt.dev.jjs.ast.AccessModifier;
 import com.google.gwt.dev.jjs.ast.Context;
+import com.google.gwt.dev.jjs.ast.JAbstractMethodBody;
 import com.google.gwt.dev.jjs.ast.JBlock;
 import com.google.gwt.dev.jjs.ast.JCastOperation;
 import com.google.gwt.dev.jjs.ast.JClassLiteral;
 import com.google.gwt.dev.jjs.ast.JClassType;
 import com.google.gwt.dev.jjs.ast.JDeclaredType;
+import com.google.gwt.dev.jjs.ast.JFieldRef;
 import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodBody;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
+import com.google.gwt.dev.jjs.ast.JNode;
+import com.google.gwt.dev.jjs.ast.JPrimitiveType;
 import com.google.gwt.dev.jjs.ast.JProgram;
+import com.google.gwt.dev.jjs.ast.JType;
 import com.google.gwt.dev.jjs.ast.JTypeOracle.StandardTypes;
 import com.google.gwt.dev.jjs.ast.JVisitor;
 import com.google.gwt.dev.jjs.impl.ArrayNormalizer;
@@ -1458,17 +1464,58 @@ public final class JavaToJavaScriptCompiler {
         throw new UnableToCompleteException();
       }
 
-      // TODO walk the method and visit its possible calls, ensure they perform no clinits of
-      // their own
-
       JMethod clinitMethod = eagerClinitType.getClinitMethod();
-      JMethodCall clinitCall = new JMethodCall(origin, null, clinitMethod);
-      eagerClinitsBlock.addStmt(clinitCall.makeStatement());
 
-      // TODO copy clinit contents into new method and call _that_ instead
+      JMethodBody clinitBody = (JMethodBody) clinitMethod.getBody();
+      if (clinitBody.getBlock().isEmpty()) {
+        // TODO consider warning user here
+        return;
+      }
 
-      // TODO remove contents of actual clinit so that it optimizes out
+      // walk the method and visit its possible calls, ensure they perform no clinits of their own
+      // this cast is legal since clinits can't be native
+      //TODO wrap this in a class and handle the context there, something like
+      //     TrackClinitCallsRecursively
+      clinitBody.traverse(new JVisitor() {
+        private Set<JNode> clinitRefsFound = new HashSet<>();
+        @Override
+        public void endVisit(JMethodCall x, Context ctx) {
+          if (x.getTarget())
+          super.endVisit(x, ctx);
+        }
+
+        @Override
+        public void endVisit(JFieldRef x, Context ctx) {
+          if (x.hasClinit()) {
+            clinitRefsFound.add(x);
+          }
+          super.endVisit(x, ctx);
+        }
+
+        @Override
+        public void endVisit(JClassLiteral x, Context ctx) {
+          //TODO unsure if this triggers clinit
+          super.endVisit(x, ctx);
+        }
+      }, UNMODIFIABLE_CONTEXT);
+
+
+      // copy clinit contents into new method and call _that_ instead
+      JMethod syntheticClinitMethod = new JMethod(clinitMethod.getSourceInfo().makeChild(),
+          "eager__clinit__oneshot", eagerClinitType, JPrimitiveType.VOID, false, true, true, AccessModifier.PUBLIC);
+
+      // move the body to the eager method that will be called
+      syntheticClinitMethod.setBody(clinitBody);
+      syntheticClinitMethod.setSynthetic();
+      eagerClinitType.addMethod(syntheticClinitMethod);
+
+      // remove contents of actual clinit so that it optimizes out
       // (the point of this patch in the first place)
+      clinitMethod.setBody(new JMethodBody(clinitBody.getSourceInfo()));
+
+      // call the synthetic method from our pre-onModuleLoad init
+      JMethodCall clinitCall = new JMethodCall(origin, null, syntheticClinitMethod);
+      eagerClinitsBlock.addStmt(clinitCall.makeStatement());
     }
   }
 
