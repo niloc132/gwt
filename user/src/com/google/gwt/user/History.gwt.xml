@@ -18,7 +18,9 @@
 <!--                                                                        -->
 <module>
   <inherits name="com.google.gwt.core.Core"/>
-  <inherits name="com.google.gwt.user.UserAgent"/>
+  <inherits name="com.google.gwt.useragent.UserAgent"/>
+  <inherits name="com.google.gwt.event.Event"/>
+  <inherits name="com.google.gwt.user.Window"/>
 
   <!-- Option to disable GWT double encoding of history tokens.               -->
   <!-- This double encoding is necessary to make History work across          -->
@@ -32,4 +34,9 @@
     <when-type-is class="com.google.gwt.user.client.History.HistoryTokenEncoder" />
     <when-property-is name="history.noDoubleEncoding" value="true" />
   </replace-with>
+
+  <source path="client">
+    <include name="History.java" />
+    <include name="HistoryListener.java" />
+  </source>
 </module>
