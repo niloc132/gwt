@@ -18,7 +18,7 @@
 <!--                                                                        -->
 <module>
   <inherits name="com.google.gwt.core.Core"/>
-  <inherits name="com.google.gwt.user.UserAgent"/>
+  <inherits name="com.google.gwt.useragent.UserAgent"/>
   <inherits name="com.google.gwt.resources.Resources"/>
   <inherits name="com.google.gwt.dom.DOM"/>
   <inherits name="com.google.gwt.event.Event"/>
@@ -34,6 +34,8 @@
     <include name="WindowCloseListener.java" />
     <include name="WindowResizeListener.java" />
     <include name="WindowScrollListener.java" />
+    <include name="Cookies.java" />
+    <include name="BaseListenerWrapper.java" />
     <include name="impl/WindowImpl.java" />
     <include name="impl/WindowImplIE.java" />
     <include name="impl/WindowImplMozilla.java" />
