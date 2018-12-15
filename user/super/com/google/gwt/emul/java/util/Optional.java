@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static javaemul.internal.InternalPreconditions.checkCriticalElement;
 import static javaemul.internal.InternalPreconditions.checkCriticalNotNull;
@@ -72,6 +73,14 @@ public final class Optional<T> {
     }
   }
 
+  public void ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) {
+    if (isPresent()) {
+      action.accept(ref);
+    } else {
+      emptyAction.run();
+    }
+  }
+
   public Optional<T> filter(Predicate<? super T> predicate) {
     checkNotNull(predicate);
     if (!isPresent() || predicate.test(ref)) {
@@ -94,6 +103,22 @@ public final class Optional<T> {
       return checkNotNull(mapper.apply(ref));
     }
     return empty();
+  }
+
+  public Optional<T> or(Supplier<? extends Optional<? extends T>> supplier) {
+    if (isPresent()) {
+      return this;
+    } else {
+      return supplier.get();
+    }
+  }
+
+  public Stream<T> stream() {
+    if (isPresent()) {
+      return Stream.of(ref);
+    } else {
+      return Stream.empty();
+    }
   }
 
   public T orElse(T other) {
