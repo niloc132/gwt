@@ -98,4 +98,9 @@ public interface Set<E> extends Collection<E> {
   default Spliterator<E> spliterator() {
     return Spliterators.spliterator(this, Spliterator.DISTINCT);
   }
+
+  static <E> Set<E> copyOf(Collection<? extends E> coll) {
+    // TODO if the given collection is immutable and has no nulls, return it
+    return coll.stream().collect(Collectors.toUnmodifiableSet());
+  }
 }
