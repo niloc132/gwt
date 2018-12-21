@@ -179,8 +179,6 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
             }
             if (!hasNext.test(next)) {
               terminated = true;
-              action.accept(next);
-              next = null;
               return false;
             }
             action.accept(next);

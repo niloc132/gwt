@@ -29,7 +29,7 @@ public class StreamTest extends EmulTestBase {
 
   public void testDropWhile() {
     assertEquals(
-        new Integer[] {4, 5},
+        new Integer[] {3, 4, 5},
         Stream.of(1, 2, 3, 4, 5).dropWhile(i -> i < 3).toArray(Integer[]::new)
     );
     assertEquals(
