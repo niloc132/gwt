@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsNonNull;

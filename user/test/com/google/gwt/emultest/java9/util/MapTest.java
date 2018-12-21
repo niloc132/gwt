@@ -19,6 +19,8 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.Map;
 
+import static com.google.gwt.emultest.java9.util.SetTest.*;
+
 /**
  * Tests for java.util.Map Java 9 API emulation.
  */

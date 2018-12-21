@@ -20,6 +20,8 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.google.gwt.emultest.java9.util.SetTest.assertNPE;
+
 /**
  * Tests for java.util.List Java 9 API emulation.
  */

@@ -38,6 +38,6 @@ public interface Enumeration<E> {
       public E next() {
         return nextElement();
       }
-    }
+    };
   }
 }

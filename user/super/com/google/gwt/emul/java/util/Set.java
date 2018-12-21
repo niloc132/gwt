@@ -18,6 +18,8 @@ package java.util;
 import static javaemul.internal.InternalPreconditions.checkArgument;
 import static javaemul.internal.InternalPreconditions.checkNotNull;
 
+import java.util.stream.Collectors;
+
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 

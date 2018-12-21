@@ -109,7 +109,7 @@ public final class Optional<T> {
     if (isPresent()) {
       return this;
     } else {
-      return supplier.get();
+      return (Optional) supplier.get();
     }
   }
 
