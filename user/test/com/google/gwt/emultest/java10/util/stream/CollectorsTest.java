@@ -1,5 +1,7 @@
 package com.google.gwt.emultest.java10.util.stream;
 
+import com.google.gwt.emultest.java.util.EmulTestBase;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -8,11 +10,12 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static com.google.gwt.emultest.java8.util.stream.CollectorsTest.applyItems;
 import static java.util.stream.Collectors.toUnmodifiableList;
 import static java.util.stream.Collectors.toUnmodifiableMap;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
-public class CollectorsTest extends com.google.gwt.emultest.java8.util.stream.CollectorsTest {
+public class CollectorsTest extends EmulTestBase {
   private static <T> boolean unmodifiableCollection(Collection<T> c, T existingSample, T newSample) {
     try {
       c.remove(existingSample);

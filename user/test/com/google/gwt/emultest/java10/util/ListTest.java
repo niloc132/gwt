@@ -1,10 +1,14 @@
 package com.google.gwt.emultest.java10.util;
 
+import com.google.gwt.emultest.java.util.EmulTestBase;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListTest extends com.google.gwt.emultest.java9.util.ListTest {
+import static com.google.gwt.emultest.java9.util.ListTest.assertIsImmutableListOf;
+
+public class ListTest extends EmulTestBase {
   public void testCopyOf() {
     assertIsImmutableListOf(List.copyOf(List.of("a", "b")), "a", "b");
     assertIsImmutableListOf(List.copyOf(Arrays.asList("a", "b")), "a", "b");

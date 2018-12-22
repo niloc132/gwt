@@ -1,9 +1,13 @@
 package com.google.gwt.emultest.java10.util;
 
+import com.google.gwt.emultest.java.util.EmulTestBase;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapTest extends com.google.gwt.emultest.java9.util.MapTest {
+import static com.google.gwt.emultest.java9.util.MapTest.assertIsImmutableMapOf;
+
+public class MapTest extends EmulTestBase {
   public void testCopyOf() {
     assertIsImmutableMapOf(Map.copyOf(Map.of("a", 1)), "a");
 
