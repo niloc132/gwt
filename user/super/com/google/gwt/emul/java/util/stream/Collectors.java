@@ -18,6 +18,7 @@ package java.util.stream;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -336,7 +338,8 @@ public final class Collectors {
   }
 
   public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
-    return collectingAndThen(mapping(Objects::requireNonNull, toList()), Collections::unmodifiableList);
+    return collectingAndThen(mapping(Objects::requireNonNull, toList()),
+        Collections::unmodifiableList);
   }
 
   public static <T, K, U> Collector<T, ?, Map<K, U>> toMap(
