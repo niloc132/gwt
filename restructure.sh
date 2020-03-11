@@ -15,8 +15,8 @@ movejava () {
     git add $TARGET/$1
 }
 
-# install tools
-pushd ideal/tools
+# install external tools
+pushd ideal/external
 mvn install
 popd
 
@@ -422,8 +422,20 @@ mvn clean install
 popd
 
 #  tools
+mkdir -p ideal/tools/api-checker/src/main/java/
+move tools/api-checker/src/com ideal/tools/api-checker/src/main/java/
 
+mkdir -p ideal/tools/cldr-import/src/main/java/
+mkdir -p ideal/tools/cldr-import/src/test/java/
+move tools/cldr-import/src/com ideal/tools/cldr-import/src/main/java/
+move tools/cldr-import/test/com ideal/tools/cldr-import/src/test/java/
 
+mkdir -p ideal/tools/datetimefmtcreator/src/main/java/
+move tools/datetimefmtcreator/src/com ideal/tools/datetimefmtcreator/src/main/java/
+
+pushd ideal/tools
+mvn clean install
+popd
 
 #  user
 #
