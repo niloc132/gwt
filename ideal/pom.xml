@@ -55,11 +55,16 @@
                 <artifactId>json-android-rebased</artifactId>
                 <version>19.1</version>
             </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
-        <module>tools</module>
+        <module>external</module>
         <module>jsinterop</module>
         <module>javaemul</module>
         <module>core</module>
@@ -69,5 +74,7 @@
         <module>linkers</module>
         <module>emul</module>
         <module>dev</module>
+        <module>tools</module>
+        <module>user</module>
     </modules>
 </project>

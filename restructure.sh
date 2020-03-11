@@ -164,7 +164,7 @@ popd
 # GWT 1.x/2.x API to generate code and affect final compiled output
 mkdir -p ideal/ext/src/main/java/com/google/gwt/core/ext/typeinfo \
          ideal/ext/src/main/java/com/google/gwt/core/ext/linker/impl \
-         ideal/ext/src/main/java/com/google/gwt/dev/{resource,util}/
+         ideal/ext/src/main/java/com/google/gwt/dev/{resource,util,generator}/
 
 ORIGIN=dev/core/src
 TARGET=ideal/ext/src/main/java
@@ -439,6 +439,14 @@ popd
 
 #  user
 #
+mkdir -p ideal/user/src/main/java/
+move user/src/com ideal/user/src/main/java/
+move user/src/javax ideal/user/src/main/java/
+move user/src/org ideal/user/src/main/java/
+
+pushd ideal/user
+mvn clean install
+popd
 
 
 #  integration tests
