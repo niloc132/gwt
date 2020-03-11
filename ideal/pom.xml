@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>com.google.gwt.external</groupId>
                 <artifactId>org.eclipse.jdt.core</artifactId>
-                <version>3.11.2-CUSTOM-GWT-2.8-20160205</version>
+                <version>3.17.0.v20190306-2240</version>
             </dependency>
             <dependency>
                 <groupId>com.google.gwt.external</groupId>
