@@ -95,6 +95,20 @@
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>gss</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${pathToToolsFromHere}/gss/2015-11-04/closure-stylesheets-library-20151104-rebased.jar</file>
+                            <groupId>com.google.gwt.external</groupId>
+                            <artifactId>closure-stylesheets-library</artifactId>
+                            <version>20151104-rebased</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
