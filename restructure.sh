@@ -445,3 +445,9 @@ popd
 
 
 #  samples
+
+
+# last, build the whole thing to make sure it is sane
+pushd ideal
+mvn clean install
+popd
