@@ -392,6 +392,9 @@ move dev/core/src/com/google/gwt/dev/shell/*.png \
 move dev/core/src/com/google/gwt/dev/shell/*.gif \
      ideal/dev/devmode/src/main/java/com/google/gwt/dev/shell/
 
+# Move all of codeserver TODO maybe its own jar? though it is almost only used as part of devmode
+move dev/codeserver/java/com/google/gwt/dev/codeserver ideal/dev/devmode/src/main/java/com/google/gwt/dev/
+
 # Junit classes for devmode-htmlunit interaction
 TARGET=ideal/dev/junit3/src/main/java
 mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt/dev/shell/
@@ -451,6 +454,25 @@ move user/src/com/google/gwt/i18n/tools ideal/i18n-creator/src/main/java/com/goo
 mkdir -p ideal/i18n-creator/src/main/java/com/google/gwt/user/
 move user/src/com/google/gwt/user/tools ideal/i18n-creator/src/main/java/com/google/gwt/user/
 
+# requestfactory client
+# requestfactory shared
+# requestfactory server
+# requestfactory apt
+
+mkdir -p ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/client ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/RequestFactory.gwt.xml ideal/user/src/main/java/com/google/web/bindery/requestfactory/
+
+mkdir -p ideal/requestfactory/shared/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/shared ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+
+mkdir -p ideal/requestfactory/apt/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/apt ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+
+mkdir -p ideal/requestfactory/server/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/server ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/vm ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+
 #  user
 #
 mkdir -p ideal/user/src/main/java/
@@ -468,6 +490,8 @@ popd
 
 #  samples
 
+
+#  uberjars for non-maven use
 
 # Clean up old layout
 #git rm build.xml common.ant.xml platforms.ant.xml
