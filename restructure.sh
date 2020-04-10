@@ -469,6 +469,11 @@ popd
 #  samples
 
 
+# Clean up old layout
+#git rm build.xml common.ant.xml platforms.ant.xml
+#git rm -r elemental
+
+
 # last, build the whole thing to make sure it is sane
 pushd ideal
 mvn clean install
