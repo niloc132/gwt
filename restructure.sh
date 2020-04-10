@@ -124,7 +124,7 @@ popd
 #  utils
 # Classes required by most of the compiler, generators, linkers, command line tools...
 mkdir -p ideal/util/src/main/java/com/google/gwt/dev/util/log/speedtracer \
-         ideal/util/src/main/java/com/google/gwt/util/tools/shared \
+         ideal/util/src/main/java/com/google/gwt/util/tools/ \
          ideal/util/src/main/java/com/google/gwt/core/ext
 ORIGIN=dev/core/src
 TARGET=ideal/util/src/main/java
@@ -137,7 +137,7 @@ movejava com/google/gwt/dev/util/Util.java #depends on TreeLogger, UnableToCompl
 
 movejava com/google/gwt/dev/util/StringInterningObjectInputStream.java
 movejava com/google/gwt/util/tools/Utility.java
-movejava com/google/gwt/util/tools/shared/StringUtils.java
+move dev/core/src/com/google/gwt/util/tools/shared ideal/util/src/main/java/com/google/gwt/util/tools/
 
 #movejava com/google/gwt/core/ext/TreeLogger.java
 movejava com/google/gwt/core/ext/UnableToCompleteException.java
@@ -209,12 +209,14 @@ movejava com/google/gwt/core/ext/linker/StylesheetReference.java
 movejava com/google/gwt/core/ext/linker/AbstractLinker.java
 movejava com/google/gwt/core/ext/linker/SyntheticArtifact.java
 
+movejava com/google/gwt/dev/generator/NameFactory.java
 
 movejava com/google/gwt/dev/resource/ResourceOracle.java
 movejava com/google/gwt/dev/resource/Resource.java
 
 movejava com/google/gwt/dev/util/DiskCache.java
 movejava com/google/gwt/dev/util/StringKey.java
+movejava com/google/gwt/dev/util/Pair.java
 
 # okay, lets just move everything in these packages and not worry about exposing classes
 # downstream shouldn't see
@@ -436,6 +438,18 @@ move tools/datetimefmtcreator/src/com ideal/tools/datetimefmtcreator/src/main/ja
 pushd ideal/tools
 mvn clean install
 popd
+
+
+# i18n-creator - TODO no pom yet, just a place to get these out of user
+#
+mkdir -p ideal/i18n-creator/src/main/java/com/google/gwt/i18n
+move user/src/com/google/gwt/i18n/tools ideal/i18n-creator/src/main/java/com/google/gwt/i18n/
+
+# webapp-creator - TODO no pom yet, just a place to get these out of user
+# TODO also, there are some classes that compiler owns that we don't have, and we have to share with the i18n-creator
+#
+mkdir -p ideal/i18n-creator/src/main/java/com/google/gwt/user/
+move user/src/com/google/gwt/user/tools ideal/i18n-creator/src/main/java/com/google/gwt/user/
 
 #  user
 #
