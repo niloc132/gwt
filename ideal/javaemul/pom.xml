@@ -30,7 +30,6 @@
                     <excludes>
                         <exclude>**/EmulatedCharset.java</exclude>
                         <exclude>**/HashCodes.java</exclude>
-                        <exclude>**/ConsoleLogger.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
