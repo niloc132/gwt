@@ -15,6 +15,7 @@
  */
 package com.google.gwt.dev.shell;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.dev.shell.BrowserChannel.JavaObjectRef;
 import com.google.gwt.dev.shell.BrowserChannel.JsObjectRef;
@@ -108,9 +109,11 @@ public class HtmlUnitSessionHandler extends SessionHandlerClient {
   private final ToStringMethod toStringMethod = new ToStringMethod();
 
   private final Window window;
+  private final WebClient webClient;
 
-  HtmlUnitSessionHandler(Window window, JavaScriptEngine jsEngine) {
+  HtmlUnitSessionHandler(Window window, JavaScriptEngine jsEngine, WebClient webClient) {
     this.window = window;
+    this.webClient = webClient;
     logger.setMaxDetail(TreeLogger.ERROR);
     this.jsEngine = jsEngine;
     htmlPage = (HtmlPage) this.window.getWebWindow().getEnclosedPage();
@@ -161,7 +164,7 @@ public class HtmlUnitSessionHandler extends SessionHandlerClient {
   @Override
   public String getUserAgent() {
     return "HtmlUnit-"
-        + jsEngine.getWebClient().getBrowserVersion().getUserAgent();
+        + webClient.getBrowserVersion().getUserAgent();
   }
 
   @SuppressWarnings("unchecked")

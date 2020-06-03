@@ -108,8 +108,8 @@
           <include name="apache/commons/commons-lang3-3.4.jar"/>
           <include name="apache/commons/commons-logging-1.2.jar"/>
           <include name="cssparser/cssparser-0.9.18.jar"/>
-         <include name="htmlunit/htmlunit-2.19/htmlunit-2.19.jar"/>
-         <include name="htmlunit/htmlunit-2.19/htmlunit-core-js-2.15.jar"/>
+	  <include name="htmlunit/htmlunit-2.40.0/htmlunit-2.40.0.jar"/>
+          <include name="htmlunit/htmlunit-2.40.0/htmlunit-core-js-2.40.0.jar"/>
           <include name="nekohtml/nekohtml-1.9.22.jar"/>
           <include name="cup/java-cup-11a.jar"/>
           <include name="xalan/xalan-2.7.1-nocup.jar"/>
@@ -170,9 +170,9 @@
           <zipfileset src="${gwt.tools.lib}/apache/commons/commons-lang3-3.4.jar"/>
           <zipfileset src="${gwt.tools.lib}/apache/commons/commons-logging-1.2.jar"/>
           <zipfileset src="${gwt.tools.lib}/cssparser/cssparser-0.9.18.jar"/>
-          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.19/htmlunit-2.19.jar"/>
+          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.40.0/htmlunit-2.40.0.jar"/>
           <zipfileset
-              src="${gwt.tools.lib}/htmlunit/htmlunit-2.19/htmlunit-core-js-2.15.jar"/>
+              src="${gwt.tools.lib}/htmlunit/htmlunit-2.40.0/htmlunit-core-js-2.40.0.jar"/>
           <zipfileset src="${gwt.tools.lib}/nekohtml/nekohtml-1.9.22.jar"/>
           <zipfileset src="${gwt.tools.lib}/cup/java-cup-11a.jar"/>
           <zipfileset src="${gwt.tools.lib}/xalan/xalan-2.7.1-nocup.jar"/>

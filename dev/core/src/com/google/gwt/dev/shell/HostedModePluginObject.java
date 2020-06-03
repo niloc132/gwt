@@ -15,6 +15,7 @@
  */
 package com.google.gwt.dev.shell;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.gwt.core.ext.TreeLogger;
 
 import com.gargoylesoftware.htmlunit.javascript.JavaScriptEngine;
@@ -149,6 +150,7 @@ public class HostedModePluginObject extends ScriptableObject {
   private Scriptable initMethod;
   private Window window;
   private final JavaScriptEngine jsEngine;
+  private final WebClient webClient;
   private final TreeLogger logger;
 
   private BrowserChannelClient browserChannelClient;
@@ -157,9 +159,11 @@ public class HostedModePluginObject extends ScriptableObject {
    * Creates a HostedModePluginObject with the passed-in JavaScriptEngine.
    *
    * @param jsEngine The JavaScriptEngine.
+   * @param webClient
    */
-  public HostedModePluginObject(JavaScriptEngine jsEngine, TreeLogger logger) {
+  public HostedModePluginObject(JavaScriptEngine jsEngine, WebClient webClient, TreeLogger logger) {
     this.jsEngine = jsEngine;
+    this.webClient = webClient;
     this.logger = logger;
   }
 
@@ -186,7 +190,7 @@ public class HostedModePluginObject extends ScriptableObject {
 
     try {
       HtmlUnitSessionHandler htmlUnitSessionHandler = new HtmlUnitSessionHandler(
-          window, jsEngine);
+          window, jsEngine, webClient);
       browserChannelClient = new BrowserChannelClient(addressParts, url,
           sessionKey, module, version, htmlUnitSessionHandler);
       htmlUnitSessionHandler.setSessionData(new SessionData(
