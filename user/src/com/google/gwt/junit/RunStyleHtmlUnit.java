@@ -204,9 +204,9 @@ public class RunStyleHtmlUnit extends RunStyle {
     }
 
     @Override
-    public void initialize(WebWindow webWindow) {
+    public void initialize(WebWindow webWindow, Page page) {
       // Hook in the hosted-mode plugin after initializing the JS engine.
-      super.initialize(webWindow);
+      super.initialize(webWindow, page);
       Window window = (Window) webWindow.getScriptableObject();
       window.defineProperty("__gwt_HostedModePlugin",
           new HostedModePluginObject(this, webClient, logger), ScriptableObject.READONLY);
