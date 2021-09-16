@@ -26,6 +26,7 @@ import com.google.gwt.thirdparty.guava.common.collect.Lists;
 
 import org.eclipse.jetty.http.HttpField;
 import org.eclipse.jetty.http.HttpFields;
+import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
@@ -746,7 +747,8 @@ public class JettyLauncher extends ServletContainerLauncher {
     }
 
     // Create a new web app in the war directory.
-      WebAppContext wac = createWebAppContext(logger, appRootDir);
+    WebAppContext wac = createWebAppContext(logger, appRootDir);
+    wac.setSecurityHandler(new ConstraintSecurityHandler());
 
     RequestLogHandler logHandler = new RequestLogHandler();
     logHandler.setRequestLog(new JettyRequestLogger(logger, getBaseLogLevel()));
