@@ -329,8 +329,8 @@ public class RunStyleHtmlUnit extends RunStyle {
   @Override
   public int initialize(String args) {
     if (args == null || args.length() == 0) {
-      // If no browsers specified, default to Firefox 38.
-      args = "FF38";
+      // If no browsers specified, default to Firefox.
+      args = "FF";
     }
     Set<BrowserVersion> browserSet = new HashSet<BrowserVersion>();
     Set<String> userAgentSet = new HashSet<String>();

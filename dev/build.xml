@@ -145,16 +145,19 @@
           <zipfileset src="${gwt.tools.lib}/guava/guava-19.0/guava-19.0-rebased.jar"/>
           <zipfileset src="${gwt.tools.lib}/icu4j/63.1/icu4j.jar"/>
           <zipfileset
-              src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/jetty-all-9.4.43.v20210629.jar"/>
+              src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/jetty-all-9.4.43.v20210629.jar">
+            <!-- Don't add jetty auth implementation from jetty-jaspi, as we would also need to package -->
+            <exclude name="META-INF/services/org.eclipse.jetty.security.Authenticator$Factory"/>
+          </zipfileset>
           <zipfileset src="${gwt.tools.lib}/gson/gson-2.6.2.jar"/>
           <zipfileset src="${gwt.tools.lib}/jscomp/20160315/sourcemap-rebased.jar"/>
           <zipfileset src="${gwt.tools.lib}/jsr305/jsr305.jar"/>
           <zipfileset
               src="${gwt.tools.lib}/protobuf/protobuf-2.5.0/protobuf-java-rebased-2.5.0.jar"/>
           <!-- dependencies needed for JSP support in DevMode: BEGIN -->
-          <zipfileset src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/mortbay-apache-jsp-8.0.9.M3.jar"/>
-          <zipfileset src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/mortbay-apache-el-8.0.9.M3.jar"/>
-          <zipfileset src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/jetty-apache-jsp-9.2.14.v20151106.jar"/>
+          <zipfileset src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/mortbay-apache-jsp-8.5.54.jar"/>
+          <zipfileset src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/mortbay-apache-el-8.5.54.jar"/>
+          <zipfileset src="${gwt.tools.lib}/jetty/jetty-9.4.43.v20210629/jetty-apache-jsp-9.4.43.v20210629.jar"/>
           <!-- dependencies needed for JSP support in DevMode: END -->
           <zipfileset src="${gwt.tools.lib}/tomcat/tomcat-servlet-api-8.0.28.jar"/>
           <zipfileset src="${gwt.tools.lib}/tomcat/tomcat-websocket-api-8.0.28.jar"/>
