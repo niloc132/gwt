@@ -107,10 +107,11 @@
           <include name="apache/commons/commons-io-2.4.jar"/>
           <include name="apache/commons/commons-lang3-3.4.jar"/>
           <include name="apache/commons/commons-logging-1.2.jar"/>
-          <include name="htmlunit/htmlunit-2.52.0/htmlunit-cssparser-1.9.0.jar"/>
-          <include name="htmlunit/htmlunit-2.52.0/htmlunit-2.52.0.jar"/>
-          <include name="htmlunit/htmlunit-2.52.0/htmlunit-core-js-2.52.0.jar"/>
-          <include name="htmlunit/htmlunit-2.52.0/neko-htmlunit-2.52.0.jar"/>
+          <include name="htmlunit/htmlunit-2.53.0/htmlunit-cssparser-1.10.0.jar"/>
+          <include name="htmlunit/htmlunit-2.53.0/htmlunit-2.53.0.jar"/>
+          <include name="htmlunit/htmlunit-2.53.0/htmlunit-core-js-2.53.0.jar"/>
+          <include name="htmlunit/htmlunit-2.53.0/neko-htmlunit-2.53.0.jar"/>
+          <include name="htmlunit/htmlunit-2.53.0/salvation2-3.0.0.jar"/>
           <include name="cup/java-cup-11a.jar"/>
           <include name="xalan/xalan-2.7.1-nocup.jar"/>
           <include name="xerces/xerces-2_11_0/serializer-2.7.1.jar"/>
@@ -173,11 +174,12 @@
           <zipfileset src="${gwt.tools.lib}/apache/commons/commons-io-2.4.jar"/>
           <zipfileset src="${gwt.tools.lib}/apache/commons/commons-lang3-3.4.jar"/>
           <zipfileset src="${gwt.tools.lib}/apache/commons/commons-logging-1.2.jar"/>
-          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.52.0/htmlunit-cssparser-1.9.0.jar"/>
-          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.52.0/htmlunit-2.52.0.jar"/>
+          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.53.0/htmlunit-cssparser-1.10.0.jar"/>
+          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.53.0/htmlunit-2.53.0.jar"/>
           <zipfileset
-              src="${gwt.tools.lib}/htmlunit/htmlunit-2.52.0/htmlunit-core-js-2.52.0.jar"/>
-          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.52.0/neko-htmlunit-2.52.0.jar"/>
+              src="${gwt.tools.lib}/htmlunit/htmlunit-2.53.0/htmlunit-core-js-2.53.0.jar"/>
+          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.53.0/neko-htmlunit-2.53.0.jar"/>
+          <zipfileset src="${gwt.tools.lib}/htmlunit/htmlunit-2.53.0/salvation2-3.0.0.jar"/>
           <zipfileset src="${gwt.tools.lib}/cup/java-cup-11a.jar"/>
           <zipfileset src="${gwt.tools.lib}/xalan/xalan-2.7.1-nocup.jar"/>
           <zipfileset src="${gwt.tools.lib}/xerces/xerces-2_11_0/serializer-2.7.1.jar"/>
