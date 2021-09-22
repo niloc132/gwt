@@ -216,7 +216,6 @@ public class MenuBarTest extends WidgetTestBase {
     assertNull(l2.getPopup());
   }
 
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void testBlur() {
     // Create a menu bar with children.
     final MenuBar menu = new MenuBar();
@@ -234,7 +233,6 @@ public class MenuBarTest extends WidgetTestBase {
     assertNull(menu.getSelectedItem());
   }
 
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void testSetFocusOnHoverEnabled() {
     delayTestFinish(1000);
     TextBox focusOwner = new TextBox();

@@ -328,7 +328,6 @@ public class SystemTest extends GWTTestCase {
     assertEquals("default", System.getProperty("otherNonExistent", someConf));
   }
 
-  @DoNotRunWith({HtmlUnitBug})
   public void testNanoTime() {
     assertTrue(System.nanoTime() > 0);
   }

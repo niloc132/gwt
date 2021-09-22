@@ -266,7 +266,6 @@ public class NodeTest extends GWTTestCase {
   /**
    * ownerDocument.
    */
-  @DoNotRunWith(Platform.HtmlUnitBug)
   public void testOwnerDocument() {
     Document doc = Document.get();
     BodyElement body = doc.getBody();

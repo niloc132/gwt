@@ -55,15 +55,6 @@ public class ClippedImagePrototypeTest extends GWTTestCase {
     return "com.google.gwt.user.UserTest";
   }
 
-  /**
-   * Tests that a clipped image can be transformed to match a given prototype.
-   * Also checks to make sure that a load event is fired on when
-   * {@link com.google.gwt.user.client.ui.impl.ClippedImagePrototype#applyTo(com.google.gwt.user.client.ui.Image)}
-   * is called.
-   *
-   * TODO(jlabanca): Enable this test when issue 863 is fixed
-   */
-  @DoNotRunWith({Platform.HtmlUnitBug})
   public void disabledTestApplyToClippedImage() {
     final Image image = new Image("counting-backwards.png", 12, 13, 8, 8);
 
