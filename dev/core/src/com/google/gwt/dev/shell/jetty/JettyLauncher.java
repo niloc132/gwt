@@ -438,7 +438,7 @@ public class JettyLauncher extends ServletContainerLauncher {
         // For system path, always prefer the outside world.
         // Note: bootstrap has already been searched, so javax. classes should be
         // tried from the webapp first (except for javax.servlet).
-        if (WebAppContextWithReload.this.isServerClass(name) && !systemClassesFromWebappFirst.match(name)) {
+        if (WebAppContextWithReload.this.isSystemClass(name) && !systemClassesFromWebappFirst.match(name)) {
           try {
             return systemClassLoader.loadClass(name);
           } catch (ClassNotFoundException e) {
