@@ -293,7 +293,7 @@ public class RunStyleHtmlUnit extends RunStyle {
     // “Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0″
     addBrowser(BrowserVersion.FIREFOX, "gecko1_8");
     addBrowser(BrowserVersion.CHROME, "safari");
-    addBrowser(BrowserVersion.INTERNET_EXPLORER, "gecko1_8");
+    addBrowser(BrowserVersion.INTERNET_EXPLORER, "safari");// Edge is based on webkit
   }
 
   private static void addBrowser(BrowserVersion browser, String userAgent) {
