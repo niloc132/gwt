@@ -289,6 +289,15 @@ public class HtmlUnitSessionHandler extends SessionHandlerClient {
       return returnVal;
     }
     if (value instanceof Scriptable) {
+      if (value instanceof SimpleScriptableProxy) {
+        // HtmlUnit will return proxies to java for the window/document objects,
+        // so that those objects can work after navigating away from the page.
+        // However, GWTTestCase operates inside a single page session, so we
+        // can unwrap these proxies to get the real instance. Without doing
+        // this, the refToJsObject mapping would indicate that an object might
+        // not equal itself
+        value = ((SimpleScriptableProxy<?>) value).getDelegee();
+      }
       if (value instanceof ScriptableObject) {
         /*
          * HACK: check for native types like NativeString. NativeString is
