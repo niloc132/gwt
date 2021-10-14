@@ -12,8 +12,9 @@ jobs:
       - name: Checkout GWT tools into a sibling directory
         uses: actions/checkout@v2
         with:
-          repository: 'gwtproject/tools'
+          repository: 'vertispan/tools'
           path: 'tools'
+          ref: 'temp_master'
       - name: Set up JDK 8
         # GWT presently requires Java8 to build, but can run on newer Java versions
         uses: actions/setup-java@v2
