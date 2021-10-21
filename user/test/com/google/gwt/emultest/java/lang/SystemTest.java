@@ -15,9 +15,6 @@
  */
 package com.google.gwt.emultest.java.lang;
 
-import static com.google.gwt.junit.Platform.HtmlUnitBug;
-
-import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.testing.TestUtils;
 

@@ -20,8 +20,6 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.junit.DoNotRunWith;
-import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource.NotStrict;
