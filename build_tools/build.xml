@@ -7,7 +7,7 @@
   <property name="target" value="build" />
 
   <target name="doctool" description="Build the doctool">
-    <gwt.ant dir="doctool" />
+    <!--<gwt.ant dir="doctool" />-->
   </target>
 
   <target name="-do" depends="doctool" description="Run all subprojects"/>
