@@ -50,7 +50,9 @@ public class Hello implements EntryPoint {
   public static final class Circle extends Shape {
 
   }
-  public static final class Rectangle extends Shape {
+//  public static final class Rectangle extends Shape {
+//
+//  }
 
   }
 }
