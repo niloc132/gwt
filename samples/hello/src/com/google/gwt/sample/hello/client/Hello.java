@@ -39,4 +39,18 @@ public class Hello implements EntryPoint {
 
     RootPanel.get().add(b);
   }
+
+  public static sealed class Shape permits Square, Circle {
+
+  }
+
+  public static final class Square extends Shape {
+
+  }
+  public static final class Circle extends Shape {
+
+  }
+  public static final class Rectangle extends Shape {
+
+  }
 }
