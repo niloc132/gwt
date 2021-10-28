@@ -151,6 +151,8 @@
           <jvmarg value="-Xmx1g" />
           <arg value="-localWorkers" />
           <arg value="${gwt.samples.localworkers}" />
+          <arg value="-sourceLevel"/>
+          <arg value="17"/>
           <arg value="-war" />
           <arg file="${sample.build}/war" />
           <arg value="com.google.gwt.sample.${sample.lower}.${sample.upper}" />
