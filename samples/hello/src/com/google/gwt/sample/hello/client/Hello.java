@@ -30,14 +30,19 @@ public class Hello implements EntryPoint {
   public void onModuleLoad() {
     Button b = new Button("Click me", new ClickHandler() {
       public void onClick(ClickEvent event) {
-        Window.alert("""
-      Hello,
-       AJAX
-      """);
+      sayHello(new Message("""
+                Hello
+                from
+                AJAX
+                """, "user"));
       }
     });
 
     RootPanel.get().add(b);
+  }
+
+  private void sayHello(Message message) {
+    Window.alert(message.toString()+","+message.label()+","+message.name());
   }
 
   public static sealed class Shape permits Square, Circle {
@@ -54,5 +59,5 @@ public class Hello implements EntryPoint {
 //
 //  }
 
-  }
+  public record Message(String label, String name) {}
 }
