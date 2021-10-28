@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
+import java.util.Objects;
 
 /**
  * HelloWorld application.
@@ -30,6 +31,12 @@ public class Hello implements EntryPoint {
   public void onModuleLoad() {
     Button b = new Button("Click me", new ClickHandler() {
       public void onClick(ClickEvent event) {
+        sayHello(new Person("""
+                Hello
+                from
+                AJAX
+                """, "user"));
+
       sayHello(new Message("""
                 Hello
                 from
@@ -43,6 +50,10 @@ public class Hello implements EntryPoint {
 
   private void sayHello(Message message) {
     Window.alert(message.toString()+","+message.label()+","+message.name());
+  }
+
+  private void sayHello(Person person) {
+    Window.alert(person.toString()+","+person.getName()+","+person.getTitle());
   }
 
   public static sealed class Shape permits Square, Circle {
@@ -60,4 +71,43 @@ public class Hello implements EntryPoint {
 //  }
 
   public record Message(String label, String name) {}
+
+  public static final class Person {
+
+    private final String name;
+    private final String title;
+
+    public Person(String name, String title){
+      this.name = name;
+      this.title = title;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getTitle() {
+      return title;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+      return "Person{" +
+              "name='" + name + '\'' +
+              ", title='" + title + '\'' +
+              '}';
+    }
+
+    public boolean equals(Object object) {
+      if (this == object) return true;
+      if (object == null || getClass() != object.getClass()) return false;
+      if (!super.equals(object)) return false;
+      Person person = (Person) object;
+      return Objects.equals(name, person.name) && Objects.equals(title, person.title);
+    }
+
+    public int hashCode() {
+      return Objects.hash(name, title);
+    }
+  }
 }
