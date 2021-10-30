@@ -35,13 +35,13 @@ public class Hello implements EntryPoint {
                 Hello
                 from
                 AJAX
-                """, "user"));
+                """, "user2"));
 
       sayHello(new Message("""
                 Hello
                 from
                 AJAX
-                """, "user"));
+                """, "user3"));
       }
     });
 
@@ -50,6 +50,8 @@ public class Hello implements EntryPoint {
 
   private void sayHello(Message message) {
     Window.alert(message.toString()+","+message.label()+","+message.name());
+    Window.alert("" + message.equals(new Message("", "")));
+    Window.alert("" + message.hashCode());
   }
 
   private void sayHello(Person person) {
@@ -70,7 +72,14 @@ public class Hello implements EntryPoint {
 //
 //  }
 
-  public record Message(String label, String name) {}
+  public record Message(String label, String name) {
+
+    @Override
+            public String toString() {
+      return label() + " :: " + name();
+    }
+
+  }
 
   public static final class Person {
 
