@@ -1,15 +1,14 @@
 # Run all tests and builds all aspects of GWT using Java8. Runs nightly (plus
-# or minus timzeones) on the master branch, and will also run right away on a
-# push to a release branch. Checkstyle and test failures will be reported so
-# they are visible on github, releases will be made available too (soon).
+# or minus timzeones) on the main branch, and will also run right away on a
+# push to a release branch. Checkstyle and test failures will be reported to
+# be visible on github, releases will be made available too (soon).
 name: Full build
 on:
   schedule:
     # This time is selected to be early in the morning in NA/SA/EU/ME
     - cron:  '0 6 * * *'
   push:
-    # Temporary addition to be able to run tests on branches that match the pattern
-    branches: [ '*-test', 'release/*' ]
+    branches: [ 'main', 'release/*' ]
 jobs:
   build:
     runs-on: ubuntu-latest
