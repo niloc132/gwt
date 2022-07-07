@@ -47,7 +47,7 @@ jobs:
         run: |
               cd gwt
               for xml in $(find build/out | grep checkstyle); do
-                reviewdog -f=checkstyle -reporter=github-pr-review < $xml;
+                reviewdog -f=checkstyle -reporter=github-pr-review -level=info < $xml
               done
       - name: Upload checkstyle xml for manual review
         uses: actions/upload-artifact@v2
