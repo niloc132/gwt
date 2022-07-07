@@ -1,7 +1,7 @@
 # Run all tests and builds all aspects of GWT using Java8. Runs nightly (plus
 # or minus timzeones) on the main branch, and will also run right away on a
-# push to a release branch. Checkstyle and test failures will be reported to
-# be visible on github, releases will be made available too (soon).
+# push to a release branch. Release zips are uploaded as part of the build,
+# but checkstyle and test reports are a work in process
 name: Full build
 on:
   schedule:
@@ -29,13 +29,13 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '8'
-          distribution: 'adopt'
+          distribution: 'temurin'
       - name: Build, test, produce docs
         run: |
           cd gwt
           java -version
           ant -version
-          # Set env vars to ensure we get the build we expect
+          # Set env vars to ensure we get the build/test we expect
           export \
             TZ=America/Los_Angeles \
             ANT_OPTS='-Dfile.encoding=UTF8 -Xmx2g'
@@ -55,14 +55,14 @@ jobs:
 #        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
 #        with:
 #          path: 'gwt/build/out/**/checkstyle*.xml'
-      - name: Upload checkstyle xml for manual review
+      - name: Upload checkstyle xml for manual review in its own artifact
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: checkstyle-reports
           path: 'gwt/build/out/**/checkstyle*.xml'
           retention-days: 14
-      - name: Upload test xml files for manual review
+      - name: Upload test xml files for manual review in its own artifact
         uses: actions/upload-artifact@v2
         if: always()
         with:
