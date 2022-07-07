@@ -36,10 +36,10 @@ jobs:
 #        if: always()
 #        with:
 #          report_paths: 'gwt/build/out/**/test/**/reports/TEST-*.xml'
-#      - name: Report Checkstyle issues
-#        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
-#        with:
-#          path: 'gwt/build/out/**/checkstyle*.xml'
+      - name: Report Checkstyle issues
+        uses: jwgmeligmeyling/checkstyle-github-action@v1.2
+        with:
+          path: 'gwt/build/out/**/checkstyle*.xml'
       - name: Upload checkstyle xml for manual review
         uses: actions/upload-artifact@v2
         if: always()
