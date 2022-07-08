@@ -16,8 +16,9 @@
 package com.google.gwt.core.client;
 
 import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
+
+import java.lang.annotation.ElementType;
 
 /**
  * This annotation is used to break out of a module's source path in hosted
@@ -41,4 +42,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Deprecated
 public @interface GwtScriptOnly {
+
+
+
 }
+
+
