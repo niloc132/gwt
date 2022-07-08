@@ -53,8 +53,8 @@ jobs:
           git diff ${{github.event.pull_request.base.sha}}
           for xml in $(find build/out | grep checkstyle); do
             echo $xml
-            reviewdog -f=checkstyle -reporter=local -level=info -diff="git diff ${{github.event.pull_request.base.sha}}" < $xml
-            reviewdog -f=checkstyle -reporter=github-pr-review -level=info < $xml
+            reviewdog -tee -f=checkstyle -reporter=local -level=info -diff="git diff ${{github.event.pull_request.base.sha}}" < $xml
+            reviewdog -tee -f=checkstyle -reporter=github-pr-review -level=info < $xml
           done
       - name: Upload checkstyle xml for manual review
         uses: actions/upload-artifact@v2
