@@ -8,7 +8,7 @@ on:
     # This time is selected to be early in the morning in NA/SA/EU/ME
     - cron:  '0 6 * * *'
   push:
-    branches: [ 'main', 'release/*' ]
+    branches: [ 'main', 'release/*', "*-test" ]
 jobs:
   build:
     runs-on: ubuntu-latest
