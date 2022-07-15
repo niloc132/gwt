@@ -273,9 +273,11 @@ public class GwtAstBuilder {
    * about the code. The JDT nodes should never again be referenced after this.
    */
   class AstVisitor extends SafeASTVisitor {
+
+
+
     /**
-     * Collects JSNI references from native method bodies and replaces the ones referring to
-     * compile time constants by their corresponding constant value.
+     * Collects JSNI references from native method bodies and replaces the ones referring to compile time constants by their corresponding constant value.
      */
     private class JsniReferenceCollector extends JsModVisitor {
       private final JsniMethodBody nativeMethodBody;
