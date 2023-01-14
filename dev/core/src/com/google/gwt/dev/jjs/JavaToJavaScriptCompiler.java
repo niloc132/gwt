@@ -116,6 +116,7 @@ import com.google.gwt.dev.jjs.impl.ResolveRuntimeTypeReferences.StringTypeMapper
 import com.google.gwt.dev.jjs.impl.ResolveRuntimeTypeReferences.TypeMapper;
 import com.google.gwt.dev.jjs.impl.ResolveRuntimeTypeReferences.TypeOrder;
 import com.google.gwt.dev.jjs.impl.RewriteConstructorCallsForUnboxedTypes;
+import com.google.gwt.dev.jjs.impl.RewriteJsEnums;
 import com.google.gwt.dev.jjs.impl.SameParameterValueOptimizer;
 import com.google.gwt.dev.jjs.impl.SourceInfoCorrelator;
 import com.google.gwt.dev.jjs.impl.TypeCoercionNormalizer;
@@ -1168,6 +1169,9 @@ public final class JavaToJavaScriptCompiler {
         CodeSplitters.pickInitialLoadSequence(logger, jprogram, config);
       }
       ImplementClassLiteralsAsFields.exec(jprogram, shouldOptimize());
+
+      // Rewrite JsEnum instances and remove value field, if any
+      RewriteJsEnums.exec(jprogram);
 
       // TODO(stalcup): hide metrics gathering in a callback or subclass
       logAstTypeMetrics(precompilationMetrics);

@@ -64,9 +64,23 @@ public final class JsInteropUtil {
 
   public static void maybeSetJsInteropProperties(JDeclaredType type, Annotation[] annotations) {
     AnnotationBinding jsType = getInteropAnnotation(annotations, "JsType");
-    String namespace = JdtUtil.getAnnotationParameterString(jsType, "namespace");
-    String name = JdtUtil.getAnnotationParameterString(jsType, "name");
-    boolean isJsNative = JdtUtil.getAnnotationParameterBoolean(jsType, "isNative", false);
+    AnnotationBinding jsEnum = getInteropAnnotation(annotations, "JsEnum");
+    String namespace = null;
+    String name = null;
+    boolean isJsNative = false;
+    boolean jsEnumHasCustomValue = false;
+    if (jsType != null) {
+      namespace = JdtUtil.getAnnotationParameterString(jsType, "namespace");
+      name = JdtUtil.getAnnotationParameterString(jsType, "name");
+      isJsNative = JdtUtil.getAnnotationParameterBoolean(jsType, "isNative", false);
+    }
+    if (jsEnum != null) {
+      namespace = JdtUtil.getAnnotationParameterString(jsEnum, "namespace");
+      name = JdtUtil.getAnnotationParameterString(jsEnum, "name");
+      isJsNative = JdtUtil.getAnnotationParameterBoolean(jsEnum, "isNative", false);
+      jsEnumHasCustomValue = JdtUtil.getAnnotationParameterBoolean(jsEnum, "hasCustomValue", false);
+    }
+
 
     AnnotationBinding jsPackage = getInteropAnnotation(annotations, "JsPackage");
     String packageNamespace = JdtUtil.getAnnotationParameterString(jsPackage, "namespace");
@@ -75,8 +89,9 @@ public final class JsInteropUtil {
     }
 
     boolean isJsType = jsType != null;
+    boolean isJsEnum = jsEnum != null;
     boolean isJsFunction = getInteropAnnotation(annotations, "JsFunction") != null;
-    type.setJsTypeInfo(isJsType, isJsNative, isJsFunction, namespace, name, isJsType);
+    type.setJsTypeInfo(isJsType, isJsNative, isJsFunction, isJsEnum, namespace, name, isJsType, jsEnumHasCustomValue);
   }
 
   public static void maybeSetJsInteropProperties(
@@ -115,7 +130,8 @@ public final class JsInteropUtil {
       return;
     }
 
-    boolean isPublicMemberForJsType = member.getEnclosingType().isJsType() && member.isPublic();
+    boolean typeIsVisibleToJs = member.getEnclosingType().isJsType() || member.getEnclosingType().isJsEnum();
+    boolean isPublicMemberForJsType = typeIsVisibleToJs && member.isPublic();
     boolean memberForNativeType = member.getEnclosingType().isJsNative();
     if (memberAnnotation == null
         && (!isPublicMemberForJsType && !memberForNativeType || member.isJsOverlay())) {

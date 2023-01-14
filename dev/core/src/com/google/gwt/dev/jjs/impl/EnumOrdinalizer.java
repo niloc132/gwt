@@ -333,9 +333,12 @@ public class EnumOrdinalizer {
 
       enumsVisited.add(enumClass);
 
-      // don't need to re-ordinalize a previously ordinalized enum
+      // don't need to re-ordinalize a previously ordinalized enum,
+      // one that can be referenced from JS, or a js enum (effectively
+      // already ordinalized)
       if (enumClass.isOrdinalized()
-          || enumClass.canBeReferencedExternally()) {
+          || enumClass.canBeReferencedExternally()
+          || enumClass.isJsEnum()) {
         addToBlackList(enumClass, x.getSourceInfo());
       }
     }

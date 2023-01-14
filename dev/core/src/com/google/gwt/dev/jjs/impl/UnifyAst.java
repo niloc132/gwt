@@ -770,8 +770,8 @@ public class UnifyAst {
         ImmutableMap.<String, JBooleanLiteral>builder()
             .put(GWT_IS_CLIENT, JBooleanLiteral.TRUE)
             .put(OLD_GWT_IS_CLIENT, JBooleanLiteral.TRUE)
-            .put(GWT_IS_PROD_MODE, JBooleanLiteral.TRUE)
-            .put(OLD_GWT_IS_PROD_MODE, JBooleanLiteral.TRUE)
+            .put(GWT_IS_PROD_MODE, JBooleanLiteral.FALSE)
+            .put(OLD_GWT_IS_PROD_MODE, JBooleanLiteral.FALSE)
             .put(GWT_IS_SCRIPT, JBooleanLiteral.TRUE)
             .put(OLD_GWT_IS_SCRIPT, JBooleanLiteral.TRUE)
             .put(

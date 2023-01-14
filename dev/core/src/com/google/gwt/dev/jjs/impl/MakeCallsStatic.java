@@ -103,7 +103,7 @@ public class MakeCallsStatic {
      * thisRefs must be replaced with paramRefs to the synthetic this param.
      * ParameterRefs also need to be targeted to the params in the new method.
      */
-    private class RewriteMethodBody extends JChangeTrackingVisitor {
+    private static class RewriteMethodBody extends JChangeTrackingVisitor {
 
       private final JParameter thisParam;
       private final Map<JParameter, JParameter> varMap;

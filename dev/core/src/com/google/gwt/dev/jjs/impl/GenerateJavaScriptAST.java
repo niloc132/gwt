@@ -1501,13 +1501,14 @@ public class GenerateJavaScriptAST {
           continue;
         }
 
-        if (type.isJsType()) {
+        if (type.isJsType() || type.isJsEnum()) {
           exportedMembersByExportName.put(type.getQualifiedJsName(), type);
         }
 
         for (JMember member : type.getMembers()) {
           if (member.isJsInteropEntryPoint()) {
             if (member.getJsMemberType() == JsMemberType.PROPERTY && !member.isFinal()) {
+
               // TODO(goktug): Remove the warning when we export via Object.defineProperty
               logger.log(
                   TreeLogger.Type.WARN,
@@ -1818,6 +1819,8 @@ public class GenerateJavaScriptAST {
         if (JProgram.isClinit(method)) {
           handleClinit(type, function);
         }
+
+        //TODO should we handle static properties here?
 
         emitMethodImplementation(method,
             function.getName().makeRef(function.getSourceInfo()), function.makeStmt());
@@ -2591,6 +2594,10 @@ public class GenerateJavaScriptAST {
       }
       if (x.isFinal() || x.isStatic() || x.isCompileTimeConstant()) {
         // we can definitely initialize at top-scope, as JVM does so as well
+        return true;
+      }
+      if (x.getEnclosingType().isJsEnum()) {
+        //TODO value must be already removed, so we only have string/number static constants, which must be initialized
         return true;
       }
 

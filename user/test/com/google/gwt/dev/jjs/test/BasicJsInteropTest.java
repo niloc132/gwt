@@ -19,6 +19,7 @@ import com.google.gwt.junit.DoNotRunWith;
 import com.google.gwt.junit.Platform;
 import com.google.gwt.junit.client.GWTTestCase;
 
+import jsinterop.annotations.JsEnum;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
@@ -68,5 +69,26 @@ public class BasicJsInteropTest extends GWTTestCase {
     B b = new B();
     b.field = "secret";
     assertEquals("secret", getB(b));
+  }
+
+  @JsEnum
+  enum ComparableJsEnum {
+    ZERO,
+    ONE,
+    TWO;
+
+    public int getValue() {
+      return ordinal();
+    }
+  }
+
+  public void testJsEnum() {
+    ComparableJsEnum comparableJsEnum =
+            ComparableJsEnum.ONE.getValue() == 1 ? ComparableJsEnum.TWO : null;
+    switch (comparableJsEnum) {
+      case TWO:
+        break;
+      default:
+    }
   }
 }

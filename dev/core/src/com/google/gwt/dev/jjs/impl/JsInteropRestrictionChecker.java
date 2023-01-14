@@ -812,6 +812,11 @@ public class JsInteropRestrictionChecker extends AbstractRestrictionChecker {
     return true;
   }
 
+  private boolean checkNativeJsEnum(JDeclaredType type) {
+    //TODO
+    return false;
+  }
+
   private void checkMemberOfJsFunction(JMember member) {
     if (member.getJsMemberType() != JsMemberType.NONE) {
       logError(member,
@@ -837,7 +842,7 @@ public class JsInteropRestrictionChecker extends AbstractRestrictionChecker {
       logError("JsFunction '%s' cannot extend other interfaces.", type);
     }
 
-    if (type.isJsType()) {
+    if (type.isJsType() || type.isJsEnum()) {
       logError("'%s' cannot be both a JsFunction and a JsType at the same time.", type);
       return;
     }
@@ -889,7 +894,7 @@ public class JsInteropRestrictionChecker extends AbstractRestrictionChecker {
       logError("JsFunction implementation '%s' cannot extend a class.", type);
     }
 
-    if (type.isJsType()) {
+    if (type.isJsType() || type.isJsEnum()) {
       logError("'%s' cannot be both a JsFunction implementation and a JsType at the same time.",
           type);
       return;
@@ -897,6 +902,21 @@ public class JsInteropRestrictionChecker extends AbstractRestrictionChecker {
     for (JMember member : type.getMembers()) {
       checkMemberOfJsFunctionImplementation(member);
     }
+  }
+
+  private void checkJsEnum(JDeclaredType type) {
+    if (type.isJsNative()) {
+      return;
+    }
+
+    //TODO
+//    asdf
+
+    // check fields...
+
+
+
+    // much later... scan the whole program and ensure that a jsenum is never used where an Enum is expected
   }
 
   private void checkJsFunctionSubtype(JDeclaredType type) {
@@ -968,8 +988,14 @@ public class JsInteropRestrictionChecker extends AbstractRestrictionChecker {
     }
 
     if (type.isJsNative()) {
-      if (!checkNativeJsType(type)) {
-        return;
+      if (type.isJsType()) {
+        if (!checkNativeJsType(type)) {
+          return;
+        }
+      } else if (type.isJsEnum()) {
+        if (!checkNativeJsEnum(type)) {
+          return;
+        }
       }
     } else if (isSubclassOfNativeClass(type)) {
       checkSubclassOfNativeClass(type);
@@ -979,6 +1005,8 @@ public class JsInteropRestrictionChecker extends AbstractRestrictionChecker {
       checkJsFunction(type);
     } else if (type.isJsFunctionImplementation()) {
       checkJsFunctionImplementation(type);
+    } else if (type.isJsEnum()) {
+      checkJsEnum(type);
     } else {
       checkJsFunctionSubtype(type);
       checkJsConstructors(type);

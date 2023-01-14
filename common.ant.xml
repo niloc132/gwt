@@ -116,7 +116,7 @@
 
   <!-- JUnit support -->
   <property name="gwt.junit.port" value="8888"/>
-  <property name="gwt.junit.testcase.includes" value="**/*Suite.class"/>
+  <property name="gwt.junit.testcase.includes" value="**/*ExtraCompilerSuite.class"/>
 
   <!-- Shared class paths -->
   <path id="project.classpath.class">

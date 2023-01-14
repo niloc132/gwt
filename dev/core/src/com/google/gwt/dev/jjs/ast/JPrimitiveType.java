@@ -90,6 +90,11 @@ public class JPrimitiveType extends JType {
   }
 
   @Override
+  public boolean isJsEnum() {
+    return false;
+  }
+
+  @Override
   public boolean isJsFunction() {
     return false;
   }

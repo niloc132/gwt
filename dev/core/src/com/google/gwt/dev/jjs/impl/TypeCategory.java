@@ -22,6 +22,7 @@ import com.google.gwt.dev.jjs.ast.JPrimitiveType;
 import com.google.gwt.dev.jjs.ast.JProgram;
 import com.google.gwt.dev.jjs.ast.JReferenceType;
 import com.google.gwt.dev.jjs.ast.JType;
+import com.google.gwt.dev.jjs.ast.JTypeOracle;
 import com.google.gwt.thirdparty.guava.common.collect.ImmutableMap;
 
 import java.util.Map;
@@ -125,7 +126,7 @@ public enum TypeCategory {
       return TypeCategory.TYPE_JSO;
     } else if (program.typeOracle.isDualJsoInterface(type)) {
       return TypeCategory.TYPE_JAVA_OBJECT_OR_JSO;
-    } else if (program.typeOracle.isNoOpCast(type)) {
+    } else if (JTypeOracle.isNoOpCast(type)) {
       return TypeCategory.TYPE_JS_UNKNOWN_NATIVE;
     } else if (type instanceof JClassType && type.isJsNative()) {
       return TypeCategory.TYPE_JS_NATIVE;
@@ -135,7 +136,7 @@ public enum TypeCategory {
     return TypeCategory.TYPE_JAVA_OBJECT;
   }
 
-  private static Map<String, TypeCategory> specialGlobalNames =
+  private static final Map<String, TypeCategory> specialGlobalNames =
       ImmutableMap.<String,TypeCategory>builder()
           .put("Object", TYPE_JS_OBJECT)
           .put("Function", TYPE_JS_FUNCTION)
@@ -145,11 +146,23 @@ public enum TypeCategory {
           .build();
 
   private static TypeCategory getJsSpecialType(JType type) {
-    if (!(type instanceof JClassType) || !type.isJsNative()) {
+    if (!(type instanceof JClassType)) {
       return null;
     }
 
     JClassType classType = (JClassType) type;
+
+    // JsEnums have special handling, whether or not they are native
+    if (classType.isJsEnum()) {
+      if (classType.jsEnumHasCustomValue()) {
+        return getJsSpecialType(classType.getJsEnumCustomValueType());
+      }
+      return TYPE_JAVA_LANG_DOUBLE;
+    }
+
+    if (!type.isJsNative()) {
+      return null;
+    }
     if (!JsInteropUtil.isGlobal(classType.getJsNamespace())) {
       return null;
     }

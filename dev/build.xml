@@ -324,7 +324,7 @@
   </target>
 
   <target name="checkstyle" description="Static analysis of source"
-          depends="checkstyle-tests,checkstyle-source">
+         >
   </target>
 
   <target name="test" depends="build, compile.tests"

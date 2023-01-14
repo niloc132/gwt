@@ -76,6 +76,11 @@ public abstract class JReferenceType extends JType implements CanBeAbstract {
         }
 
         @Override
+        public boolean isJsEnum() {
+          return false;
+        }
+
+        @Override
         public boolean isJsFunction() {
           return false;
         }
@@ -209,6 +214,11 @@ public abstract class JReferenceType extends JType implements CanBeAbstract {
     @Override
     public boolean isJsType() {
       return ref.isJsType();
+    }
+
+    @Override
+    public boolean isJsEnum() {
+      return ref.isJsEnum();
     }
 
     @Override

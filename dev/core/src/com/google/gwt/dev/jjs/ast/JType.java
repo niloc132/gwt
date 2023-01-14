@@ -74,6 +74,8 @@ public abstract class JType extends JNode implements HasName, CanBeFinal {
 
   public abstract boolean isJsType();
 
+  public abstract boolean isJsEnum();
+
   public abstract boolean isJsFunction();
 
   public abstract boolean isJsFunctionImplementation();

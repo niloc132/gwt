@@ -122,6 +122,11 @@ public class JArrayType extends JReferenceType {
   }
 
   @Override
+  public boolean isJsEnum() {
+    return false;
+  }
+
+  @Override
   public boolean isJsFunction() {
     return false;
   }

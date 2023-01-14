@@ -55,12 +55,31 @@ public abstract class JDeclaredType extends JReferenceType
     implements CanHaveSuppressedWarnings, HasJsName, CanBeJsNative {
 
   private boolean isJsFunction;
+  private boolean isJsEnum;
   private boolean isJsType;
   private boolean isClassWideExport;
   private boolean isJsNative;
+  private boolean jsEnumHasCustomValue;
+  private JType jsEnumCustomValueType;
   private String jsNamespace = null;
   private String jsName = null;
   private Set<String> suppressedWarnings;
+
+  public boolean isJsEnum() {
+    return isJsEnum;
+  }
+
+  public boolean jsEnumHasCustomValue() {
+    return jsEnumHasCustomValue;
+  }
+
+  public JType getJsEnumCustomValueType() {
+    return jsEnumCustomValueType;
+  }
+
+  public void setJsEnumCustomValueType(JType jsEnumCustomValueType) {
+    this.jsEnumCustomValueType = jsEnumCustomValueType;
+  }
 
   /**
    * The types of nested classes, https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
@@ -405,7 +424,7 @@ public abstract class JDeclaredType extends JReferenceType
 
   @Override
   public boolean canBeReferencedExternally() {
-    if (isJsType()) {
+    if (isJsType() || isJsEnum()) {
       return true;
     }
     for (JMember member : getMembers()) {
@@ -508,13 +527,16 @@ public abstract class JDeclaredType extends JReferenceType
   }
 
   public void setJsTypeInfo(boolean isJsType, boolean isJsNative, boolean isJsFunction,
-      String jsNamespace, String jsName, boolean isClassWideExport) {
+                            boolean isJsEnum, String jsNamespace, String jsName, boolean isClassWideExport,
+                            boolean jsEnumHasCustomValue) {
     this.isJsType = isJsType;
     this.isJsNative = isJsNative;
     this.isJsFunction = isJsFunction;
+    this.isJsEnum = isJsEnum;
     this.jsNamespace = jsNamespace;
     this.jsName = jsName;
     this.isClassWideExport = isClassWideExport;
+    this.jsEnumHasCustomValue = jsEnumHasCustomValue;
   }
 
   /**
