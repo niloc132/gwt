@@ -88,6 +88,7 @@ public class RuntimeConstants {
   public static final String RUNTIME_COPY_OBJECT_PROPERTIES = "Runtime.copyObjectProperties";
   public static final String RUNTIME_DEFINE_CLASS = "Runtime.defineClass";
   public static final String RUNTIME_DEFINE_PROPERTIES = "Runtime.defineProperties";
+  public static final String RUNTIME_UNCHECKED_CAST = "Runtime.uncheckedCast";
   public static final String RUNTIME_EMPTY_METHOD = "Runtime.emptyMethod";
   public static final String RUNTIME_GET_CLASS_PROTOTYPE = "Runtime.getClassPrototype";
   public static final String RUNTIME_MAKE_LAMBDA_FUNCTION = "Runtime.makeLambdaFunction";

@@ -1,10 +1,9 @@
 package com.google.gwt.dev.jjs.impl;
 
 import com.google.gwt.dev.jjs.InternalCompilerException;
+import com.google.gwt.dev.jjs.SourceInfo;
 import com.google.gwt.dev.jjs.ast.Context;
 import com.google.gwt.dev.jjs.ast.JAbstractMethodBody;
-import com.google.gwt.dev.jjs.ast.JBinaryOperation;
-import com.google.gwt.dev.jjs.ast.JBinaryOperator;
 import com.google.gwt.dev.jjs.ast.JCastOperation;
 import com.google.gwt.dev.jjs.ast.JClassType;
 import com.google.gwt.dev.jjs.ast.JDeclarationStatement;
@@ -14,9 +13,6 @@ import com.google.gwt.dev.jjs.ast.JEnumField;
 import com.google.gwt.dev.jjs.ast.JEnumType;
 import com.google.gwt.dev.jjs.ast.JExpression;
 import com.google.gwt.dev.jjs.ast.JField;
-import com.google.gwt.dev.jjs.ast.JFieldRef;
-import com.google.gwt.dev.jjs.ast.JIntLiteral;
-import com.google.gwt.dev.jjs.ast.JLiteral;
 import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
 import com.google.gwt.dev.jjs.ast.JModVisitor;
@@ -27,7 +23,6 @@ import com.google.gwt.dev.jjs.ast.JProgram;
 import com.google.gwt.dev.jjs.ast.JThisRef;
 import com.google.gwt.dev.jjs.ast.JType;
 import com.google.gwt.dev.jjs.ast.RuntimeConstants;
-import com.google.gwt.dev.jjs.ast.js.JMultiExpression;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.google.gwt.thirdparty.guava.common.collect.Maps;
 
@@ -74,9 +69,14 @@ public class RewriteJsEnums {
 
 
     public static void exec(JProgram program) {
+        // Find each jsenum in the program, work out its js type.
+        // Rewrite references to .ordinal() or .value (if it exists) to the
+        // instance expression
+        // Once those are done,
         // rewrite each instance to be a static reference to the actual value
 //        Map<JField, JField> replacementFields = new HashMap<>();
         Map<JMethod, JMethod> replacementMethods = new HashMap<>();
+//        Map<JType, JType> actualTypes = new HashMap<>();
         for (JDeclaredType declaredType : program.getDeclaredTypes()) {
             if (!declaredType.isJsEnum()) {
                 continue;
@@ -90,6 +90,7 @@ public class RewriteJsEnums {
                 actualType = JPrimitiveType.DOUBLE;
             }
             declaredType.setJsEnumCustomValueType(actualType);
+
 //            JType valueType = declaredType.getJsEnumCustomValueType();
 //            List<JField> fields = declaredType.getFields();
 //            for (int i = fields.size() - 1; i >= 0; i--) {
@@ -112,6 +113,10 @@ public class RewriteJsEnums {
                     // Skip, already static
                     continue;
                 }
+                if (method.isJsNative()) {
+                    // it is assumed that these methods make sense in context of the underlying type
+                    continue;
+                }
                 declaredType.removeMethod(i);
                 if (method.isConstructor()) {
                     // constructor removed, nothing to replace it with
@@ -127,7 +132,7 @@ public class RewriteJsEnums {
                 }
 
                 // Do not strengthen to non null since the implicit NPE in instance dispatch is gone.
-                JType thisParameterType = actualType;
+                JType thisParameterType = declaredType;
                 // Setup parameters; map from the old params to the new params
                 JParameter thisParam = replacement.createThisParameter(method.getSourceInfo(), thisParameterType);
                 Map<JParameter, JParameter> varMap = Maps.newIdentityHashMap();
@@ -206,9 +211,20 @@ public class RewriteJsEnums {
 //                            value = autobox.box(JDoubleLiteral.get(enumField.ordinal()), JPrimitiveType.DOUBLE);
 //                            value = new JCastOperation(x.getSourceInfo(), program.getFromTypeMap(JPrimitiveType.DOUBLE.getWrapperTypeName()), JDoubleLiteral.get(enumField.ordinal()));
                         }
-                        ctx.replaceMe(new JDeclarationStatement(x.getSourceInfo(), x.getVariableRef(), value));
+                        JExpression cast = uncheckedCast(x.getSourceInfo(), value, enumType, program);
+                        ctx.replaceMe(new JDeclarationStatement(x.getSourceInfo(), x.getVariableRef(), cast));
                         return false;
                     }
+                }
+                return super.visit(x, ctx);
+            }
+
+
+            @Override
+            public boolean visit(JMethod x, Context ctx) {
+                // avoid visiting the non-empty contents of native constructors
+                if (x.isJsNative()) {
+                    return false;
                 }
                 return super.visit(x, ctx);
             }
@@ -230,13 +246,24 @@ public class RewriteJsEnums {
                     return;
                 }
 
-                if (x.getTarget().getName().equals("ordinal")) {
-                    //TODO this doesnt get called because the superclass defines ordinal
-                    ctx.replaceMe(x.getInstance());
+                if (x.getTarget().isJsNative()) {
+                    super.endVisit(x, ctx);
+                    return;
+                }
+
+                if (x.getTarget().getName().equals("ordinal") && x.getTarget().getParams().isEmpty()) {
+                    // cast the enum to int since ordinal() must return int
+                    ctx.replaceMe(uncheckedCast(x.getSourceInfo(), x.getInstance(), JPrimitiveType.INT, program));
+                } else if (x.getTarget().getName().equals("compareTo") && x.getTarget().getParams().size() == 1) {
+                    // for some enums, we can implement Comparable
+                } else if (x.getTarget().getName().equals("equals") && x.getTarget().getParams().size() == 1) {
+                    // for now try to ignore this, see if super can help us out
+                    super.endVisit(x, ctx);
+                    return;
                 } else {
                     JMethod replacementMethod = replacementMethods.get(x.getTarget());
                     if (replacementMethod == null) {
-                        throw new InternalCompilerException("Missing replacement method for JsEnum instance methods");
+                        throw new InternalCompilerException("Missing replacement method for JsEnum instance method " + x);
                     }
 
 
@@ -277,5 +304,32 @@ public class RewriteJsEnums {
 
             }
         }.accept(program);
+    }
+
+    private static JExpression uncheckedCast(SourceInfo sourceInfo, JExpression value, JType type, JProgram program) {
+        JMethod cast = program.getIndexedMethod(RuntimeConstants.RUNTIME_UNCHECKED_CAST);
+        JExpression result = new JMethodCall(sourceInfo, null, cast, value);
+
+        JClassType classType;
+        JPrimitiveType primitiveType;
+        if (type instanceof JClassType) {
+            //only String is possible here
+            classType = (JClassType) type;
+            primitiveType = null;
+        } else if (type instanceof JPrimitiveType) {
+            primitiveType = (JPrimitiveType) type;
+            classType = (JClassType) program.getFromTypeMap("java.lang.Double");
+        } else {
+            throw new IllegalStateException("Unexpected type " + type);
+        }
+        if (classType != null) {
+            result = new JCastOperation(sourceInfo, classType, result);
+        }
+        if (primitiveType != null) {
+            JMethod unbox = classType.getMethods().stream().filter(m -> m.getName().equals(primitiveType.getName() + "Value")).findFirst().get();
+            result = new JMethodCall(sourceInfo, result, unbox);
+        }
+
+        return result;
     }
 }
