@@ -15,6 +15,7 @@
  */
 package com.google.gwt.core;
 
+import com.google.gwt.core.interop.JsEnumTest;
 import com.google.gwt.core.interop.JsExportOptimizationTest;
 import com.google.gwt.core.interop.JsExportTest;
 import com.google.gwt.core.interop.JsFunctionTest;
@@ -37,6 +38,7 @@ public class CoreJsInteropSuite {
   public static Test suite() {
     TestSuite suite = new TestSuite("All core js interop tests");
 
+    suite.addTestSuite(JsEnumTest.class);
     suite.addTestSuite(JsExportTest.class);
     suite.addTestSuite(JsExportOptimizationTest.class);
     suite.addTestSuite(JsTypeTest.class);

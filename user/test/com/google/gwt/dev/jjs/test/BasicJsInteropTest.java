@@ -154,21 +154,21 @@ public class BasicJsInteropTest extends GWTTestCase {
 //    Comparable comparable = comparableJsEnum;
 //    comparableJsEnum = (ComparableJsEnum) comparable;
 
-//    IntJsEnum intJsEnum = IntJsEnum.ELEVEN.getValue() == 10 ? IntJsEnum.ELEVEN : null;
-//    switch (intJsEnum) {
-//      case TWENTY:
-//        break;
-//      default:
-//    }
-//
-//    Object o = intJsEnum;
-//    intJsEnum = (IntJsEnum) o;
-//
+    IntJsEnum intJsEnum = IntJsEnum.ELEVEN.getValue() == 10 ? IntJsEnum.ELEVEN : null;
+    switch (intJsEnum) {
+      case TWENTY:
+        break;
+      default:
+    }
+
+    Object o = intJsEnum;
+    intJsEnum = (IntJsEnum) o;
+
 //    // No boxing here.
 //    boolean equal = intJsEnum == IntJsEnum.TWENTY;
 //    boolean isInstance = intJsEnum instanceof IntJsEnum;
 //
-//    isInstance = intJsEnum instanceof Comparable;
+////    isInstance = intJsEnum instanceof Comparable;
 //
 //    StringJsEnum stringJsEnum = StringJsEnum.ONE.getValue() == "10" ? StringJsEnum.THREE : null;
 //    switch (stringJsEnum) {
@@ -180,10 +180,10 @@ public class BasicJsInteropTest extends GWTTestCase {
 //    NativeStringEnum.ONE.compareTo(NativeStringEnum.THREE);
 //    NativeStringEnum.ONE.equals(NativeStringEnum.THREE);
 //    ComparableJsEnum.ONE.compareTo(ComparableJsEnum.ZERO);
-    ComparableJsEnum.ONE.equals(ComparableJsEnum.ZERO);
+//    ComparableJsEnum.ONE.equals(ComparableJsEnum.ZERO);
 
     Supplier<ComparableJsEnum> supplier = () -> ComparableJsEnum.ONE;
-    Consumer<ComparableJsEnum> consummer = e -> e.ordinal();
+    Consumer<ComparableJsEnum> consumer = e -> e.ordinal();
   }
 //
 //  public void testBoxUnboxWithTypeInference() {

@@ -114,8 +114,8 @@ public enum TypeCategory {
       return TypeCategory.TYPE_ARRAY;
     } else if (isJsoArray(type)) {
       return TypeCategory.TYPE_JSO_ARRAY;
-    } else if (getJsSpecialType(type) != null) {
-      return getJsSpecialType(type);
+    } else if (getJsSpecialType(type, program) != null) {
+      return getJsSpecialType(type, program);
     } else if (program.isUntypedArrayType(type)) {
       return TypeCategory.TYPE_JS_ARRAY;
     } else if (type == program.getTypeJavaLangObject()) {
@@ -145,7 +145,7 @@ public enum TypeCategory {
           .put("String", TYPE_JAVA_LANG_STRING)
           .build();
 
-  private static TypeCategory getJsSpecialType(JType type) {
+  private static TypeCategory getJsSpecialType(JType type, JProgram program) {
     if (!(type instanceof JClassType)) {
       return null;
     }
@@ -155,7 +155,12 @@ public enum TypeCategory {
     // JsEnums have special handling, whether or not they are native
     if (classType.isJsEnum()) {
       if (classType.jsEnumHasCustomValue()) {
-        return getJsSpecialType(classType.getJsEnumCustomValueType());
+        if (classType.getJsEnumCustomValueType().isPrimitiveType()) {
+          return TYPE_JAVA_LANG_DOUBLE;
+        } else {
+          assert classType.getJsEnumCustomValueType().equals(program.getTypeJavaLangString());
+          return TYPE_JAVA_LANG_STRING;
+        }
       }
       return TYPE_JAVA_LANG_DOUBLE;
     }

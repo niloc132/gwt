@@ -17,7 +17,9 @@ package com.google.gwt.lang;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
+import javaemul.internal.annotations.DoNotAutobox;
 import javaemul.internal.annotations.ForceInline;
+import javaemul.internal.annotations.UncheckedCast;
 
 /**
  * Utility class that provides methods for dealing with the runtime representation of Java classes
@@ -216,4 +218,9 @@ public class Runtime {
     return object.toString();
   }-*/;
 
+  //TODO find a way to lean on JsUtil.uncheckedCast instead of adding a new method here
+  @UncheckedCast
+  public static native <T> T uncheckedCast(@DoNotAutobox Object o) /*-{
+    return o;
+  }-*/;
 }

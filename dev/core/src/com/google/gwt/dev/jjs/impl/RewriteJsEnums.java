@@ -13,6 +13,7 @@ import com.google.gwt.dev.jjs.ast.JEnumField;
 import com.google.gwt.dev.jjs.ast.JEnumType;
 import com.google.gwt.dev.jjs.ast.JExpression;
 import com.google.gwt.dev.jjs.ast.JField;
+import com.google.gwt.dev.jjs.ast.JFieldRef;
 import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
 import com.google.gwt.dev.jjs.ast.JModVisitor;
@@ -29,6 +30,7 @@ import com.google.gwt.thirdparty.guava.common.collect.Maps;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Rewrite all JsEnums to something closer to a java class with static+final fields, and remove
@@ -69,42 +71,21 @@ public class RewriteJsEnums {
 
 
     public static void exec(JProgram program) {
-        // Find each jsenum in the program, work out its js type.
-        // Rewrite references to .ordinal() or .value (if it exists) to the
-        // instance expression
-        // Once those are done,
         // rewrite each instance to be a static reference to the actual value
-//        Map<JField, JField> replacementFields = new HashMap<>();
         Map<JMethod, JMethod> replacementMethods = new HashMap<>();
-//        Map<JType, JType> actualTypes = new HashMap<>();
         for (JDeclaredType declaredType : program.getDeclaredTypes()) {
             if (!declaredType.isJsEnum()) {
                 continue;
             }
-//            ((JClassType) declaredType).setSuperClass(null);//cant do this, need to just prevent ordinal() etc from being called on Enum
-            JType actualType;
+            final JType actualType;
             if (declaredType.jsEnumHasCustomValue()) {
                 JField value = declaredType.getFields().stream().filter(f -> f.getName().equals("value")).findFirst().get();
                 actualType = value.getType();
             } else {
-                actualType = JPrimitiveType.DOUBLE;
+                // expose the ordinal itself
+                actualType = JPrimitiveType.INT;
             }
             declaredType.setJsEnumCustomValueType(actualType);
-
-//            JType valueType = declaredType.getJsEnumCustomValueType();
-//            List<JField> fields = declaredType.getFields();
-//            for (int i = fields.size() - 1; i >= 0; i--) {
-//                JField field = fields.get(i);
-//                if (field.isStatic()) {
-//                    declaredType.removeField(i);
-//                    // disposition should be compile time constant if non-native
-//                    JField replacement = new JField(field.getSourceInfo(), field.getName(), declaredType, valueType, true, JField.Disposition.NONE);
-//                    System.out.println(field);
-//                    replacementFields.put(field, replacement);
-//                    declaredType.addField(replacement);
-//                    System.out.println(replacement);
-//                }
-//            }
 
             List<JMethod> methods = declaredType.getMethods();
             for (int i = methods.size() - 1; i >= 0; i--) {
@@ -148,68 +129,61 @@ public class RewriteJsEnums {
 
                 // copied/modified from MakeCallsStatic
                 JAbstractMethodBody movedBody = method.getBody();
-//                System.out.println(method);
-//                System.out.println(movedBody);
                 replacement.setBody(movedBody);
-//                System.out.println(replacement);
 
                 RewriteMethodBody rewriter = new RewriteMethodBody(thisParam, varMap);
                 rewriter.accept(movedBody);
-//                System.out.println(replacement);
 
                 replacementMethods.put(method, replacement);
                 declaredType.addMethod(replacement);
             }
         }
-        AutoboxUtils autobox = new AutoboxUtils(program);
 
         new JModVisitor() {
             /**
              * Rewrite .value to be the value itself, and rewrite instances to be the real fields.
              */
-//            @Override
-//            public void endVisit(JFieldRef x, Context ctx) {
-//                if (!x.getField().getEnclosingType().isJsEnum()) {
-//                    super.endVisit(x, ctx);
-//                    return;
-//                }
-//
-//                if (!x.getField().isStatic()) {
-//                    if (x.getField().getName().equals("value")) {
-//                        // someenumexpr.value is replaced with just someenumexpr
-//                        ctx.replaceMe(x.getInstance());
-//                    } else {
-//                        //invalid! no other non-static fields allowed!
-//                    }
-//                } else {
-//                    // EnumType.FOO to be replaced with the new EnumType.FOO that was just added
-//
-//                    JField replacementField = replacementFields.get(x.getField());
-//                    if (replacementField == null) {
-//                        System.out.println(x);
-//                        throw new InternalCompilerException("Missing replacement field for JsEnum instance");
-//                    }
-//                    ctx.replaceMe(new JFieldRef(x.getSourceInfo(), null, replacementField, x.getEnclosingType()));
-//                }
-//
-//            }
+            @Override
+            public void endVisit(JFieldRef x, Context ctx) {
+                JDeclaredType enumType = x.getField().getEnclosingType();
+                if (!enumType.isJsEnum()) {
+                    super.endVisit(x, ctx);
+                    return;
+                }
 
-            // Find and remove assignment calls to our enum fields
+                if (!x.getField().isStatic()) {
+                    if (x.getField().getName().equals("value")) {
+                        // someenumexpr.value is replaced with just someenumexpr
+                        ctx.replaceMe(uncheckedCast(x.getSourceInfo(), x.getInstance(), enumType.getJsEnumCustomValueType(), program));
+                    } else {
+                        //invalid! no other non-static fields allowed!
+                        throw new IllegalStateException("Unexpected field in JsEnum: " + x.getField());
+                    }
+                }
+
+            }
+
+            /**
+             * Find and rewrite initializers to assign the real value
+             */
             @Override
             public boolean visit(JDeclarationStatement x, Context ctx) {
                 if (x.getVariableRef().getTarget() instanceof JEnumField) {
                     JEnumField enumField = (JEnumField) x.getVariableRef().getTarget();
                     JEnumType enumType = enumField.getEnclosingType();
                     if (enumType.isJsEnum()) {
-//                        ctx.removeMe();
+                        if (enumType.isJsNative()) {
+                            // native enums must already have values, so just remove the initializer entirely
+                            ctx.removeMe();
+                            return false;
+                        }
                         JExpression value;
                         if (enumType.jsEnumHasCustomValue()) {
-                            // constructor value must be provided
-                            value = ((JMethodCall) x.getInitializer()).getArgs().get(0);
+                            // constructor value must be provided - args are "name", "ordinal", then the ctor arg, our value
+                            value = ((JMethodCall) x.getInitializer()).getArgs().get(2);
                         } else {
+                            // with no custom value, use the ordinal
                             value = JDoubleLiteral.get(enumField.ordinal());
-//                            value = autobox.box(JDoubleLiteral.get(enumField.ordinal()), JPrimitiveType.DOUBLE);
-//                            value = new JCastOperation(x.getSourceInfo(), program.getFromTypeMap(JPrimitiveType.DOUBLE.getWrapperTypeName()), JDoubleLiteral.get(enumField.ordinal()));
                         }
                         JExpression cast = uncheckedCast(x.getSourceInfo(), value, enumType, program);
                         ctx.replaceMe(new JDeclarationStatement(x.getSourceInfo(), x.getVariableRef(), cast));
@@ -250,13 +224,15 @@ public class RewriteJsEnums {
                     super.endVisit(x, ctx);
                     return;
                 }
+                JDeclaredType enumType = (JDeclaredType) x.getInstance().getType();
 
                 if (x.getTarget().getName().equals("ordinal") && x.getTarget().getParams().isEmpty()) {
                     // cast the enum to int since ordinal() must return int
-                    ctx.replaceMe(uncheckedCast(x.getSourceInfo(), x.getInstance(), JPrimitiveType.INT, program));
+                    //TODO int is wrong, need to check enum's js type
+                    ctx.replaceMe(uncheckedCast(x.getSourceInfo(), x.getInstance(), enumType.getJsEnumCustomValueType(), program));
                 } else if (x.getTarget().getName().equals("compareTo") && x.getTarget().getParams().size() == 1) {
                     // for some enums, we can implement Comparable
-                } else if (x.getTarget().getName().equals("equals") && x.getTarget().getParams().size() == 1) {
+                } else if (x.getTarget().getEnclosingType().equals(program.getIndexedType("Enum"))) {
                     // for now try to ignore this, see if super can help us out
                     super.endVisit(x, ctx);
                     return;
@@ -316,20 +292,44 @@ public class RewriteJsEnums {
             //only String is possible here
             classType = (JClassType) type;
             primitiveType = null;
+            return result;//new JCastOperation(sourceInfo, classType, result);
         } else if (type instanceof JPrimitiveType) {
-            primitiveType = (JPrimitiveType) type;
-            classType = (JClassType) program.getFromTypeMap("java.lang.Double");
+            if (type == JPrimitiveType.BOOLEAN) {
+//                classType = (JClassType) program.getFromTypeMap("java.lang.Boolean");
+                JMethod unbox = program.getIndexedMethod("Boolean.booleanValue");
+                return new JMethodCall(sourceInfo, result, unbox);
+
+            } else {
+                primitiveType = (JPrimitiveType) type;
+                assert primitiveType != JPrimitiveType.LONG && primitiveType != JPrimitiveType.VOID;
+                classType = (JClassType) program.getFromTypeMap("java.lang.Double");
+
+//                result = new JCastOperation(sourceInfo, classType, result);
+
+                JMethod unbox = null;
+                try {
+                    unbox = classType.getMethods().stream().filter(m -> m.getName().equals(primitiveType.getName() + "Value")).findFirst().get();
+                } catch (NoSuchElementException e) {
+                    e.printStackTrace();
+                }
+                return new JMethodCall(sourceInfo, result, unbox);
+            }
         } else {
             throw new IllegalStateException("Unexpected type " + type);
         }
-        if (classType != null) {
-            result = new JCastOperation(sourceInfo, classType, result);
-        }
-        if (primitiveType != null) {
-            JMethod unbox = classType.getMethods().stream().filter(m -> m.getName().equals(primitiveType.getName() + "Value")).findFirst().get();
-            result = new JMethodCall(sourceInfo, result, unbox);
-        }
-
-        return result;
+//        if (classType != null) {
+//            result = new JCastOperation(sourceInfo, classType, result);
+//        }
+//        if (primitiveType != null) {
+//            JMethod unbox = null;
+//            try {
+//                unbox = classType.getMethods().stream().filter(m -> m.getName().equals(primitiveType.getName() + "Value")).findFirst().get();
+//            } catch (NoSuchElementException e) {
+//                e.printStackTrace();
+//            }
+//            result = new JMethodCall(sourceInfo, result, unbox);
+//        }
+//
+//        return result;
     }
 }
