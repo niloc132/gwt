@@ -2099,11 +2099,11 @@ public class Java8Test extends GWTTestCase {
     assertEquals("#2", lambda.foo("2"));
   }
 
-  static class C { public static String append(String str) { return "#" + str; } }
+  static class StaticClass { public static String append(String str) { return "#" + str; } }
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void testIntersectionCastMethodReference() {
 
-    Object instance = (I1 & I2<String>) C::append;
+    Object instance = (I1 & I2<String>) StaticClass::append;
 
     assertTrue(instance instanceof I1);
     assertTrue(instance instanceof I2);
