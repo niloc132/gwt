@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * Tests for java.util.Optional Java 10 API emulation.
+ */
 public class OptionalTest extends EmulTestBase {
   public void testOrElseThrow() {
     try {

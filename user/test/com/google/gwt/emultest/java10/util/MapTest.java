@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static com.google.gwt.emultest.java9.util.MapTest.assertIsImmutableMapOf;
 
+/**
+ * Tests for java.util.Map Java 10 API emulation.
+ */
 public class MapTest extends EmulTestBase {
   public void testCopyOf() {
     assertIsImmutableMapOf(Map.copyOf(Map.of("a", 1)), "a");

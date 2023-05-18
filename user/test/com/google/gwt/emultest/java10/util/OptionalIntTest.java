@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.NoSuchElementException;
 import java.util.OptionalInt;
 
+/**
+ * Tests for java.util.OptionalInt Java 10 API emulation.
+ */
 public class OptionalIntTest extends EmulTestBase {
   public void testOrElseThrow() {
     try {

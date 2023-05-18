@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.NoSuchElementException;
 import java.util.OptionalDouble;
 
+/**
+ * Tests for java.util.OptionalDouble Java 10 API emulation.
+ */
 public class OptionalDoubleTest extends EmulTestBase {
   public void testOrElseThrow() {
     try {

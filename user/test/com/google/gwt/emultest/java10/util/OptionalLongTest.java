@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.NoSuchElementException;
 import java.util.OptionalLong;
 
+/**
+ * Tests for java.util.OptionalLong Java 10 API emulation.
+ */
 public class OptionalLongTest extends EmulTestBase {
   public void testOrElseThrow() {
     try {

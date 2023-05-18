@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
+/**
+ * Tests for java.util.OptionalLong Java 9 API emulation.
+ */
 public class OptionalLongTest extends EmulTestBase {
   public void testIfPresentOrElse() {
     int[] called = {0};
@@ -34,7 +37,6 @@ public class OptionalLongTest extends EmulTestBase {
     OptionalLong.empty().ifPresentOrElse(ignore -> {
       fail("Should not call present action");
     }, () -> called[0]++);
-
   }
 
   public void testStream() {
@@ -50,6 +52,5 @@ public class OptionalLongTest extends EmulTestBase {
             OptionalLong.of(1000)
         ).flatMapToLong(OptionalLong::stream).toArray()
     );
-
   }
 }

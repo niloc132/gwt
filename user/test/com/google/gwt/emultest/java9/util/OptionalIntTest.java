@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.OptionalInt;
 import java.util.stream.Stream;
 
+/**
+ * Tests for java.util.OptionalInt Java 9 API emulation.
+ */
 public class OptionalIntTest extends EmulTestBase {
   public void testIfPresentOrElse() {
     int[] called = {0};
@@ -34,7 +37,6 @@ public class OptionalIntTest extends EmulTestBase {
     OptionalInt.empty().ifPresentOrElse(ignore -> {
       fail("Should not call present action");
     }, () -> called[0]++);
-
   }
 
   public void testStream() {
@@ -50,6 +52,5 @@ public class OptionalIntTest extends EmulTestBase {
             OptionalInt.of(1000)
         ).flatMapToInt(OptionalInt::stream).toArray()
     );
-
   }
 }

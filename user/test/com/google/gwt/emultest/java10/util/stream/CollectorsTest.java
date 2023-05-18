@@ -15,6 +15,11 @@
  */
 package com.google.gwt.emultest.java10.util.stream;
 
+import static com.google.gwt.emultest.java8.util.stream.CollectorsTest.applyItems;
+import static java.util.stream.Collectors.toUnmodifiableList;
+import static java.util.stream.Collectors.toUnmodifiableMap;
+import static java.util.stream.Collectors.toUnmodifiableSet;
+
 import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.Collection;
@@ -25,24 +30,22 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static com.google.gwt.emultest.java8.util.stream.CollectorsTest.applyItems;
-import static java.util.stream.Collectors.toUnmodifiableList;
-import static java.util.stream.Collectors.toUnmodifiableMap;
-import static java.util.stream.Collectors.toUnmodifiableSet;
-
+/**
+ * Tests for java.util.stream.Collectors Java 10 API emulation.
+ */
 public class CollectorsTest extends EmulTestBase {
   private static <T> boolean unmodifiableCollection(Collection<T> c, T existingSample, T newSample) {
     try {
       c.remove(existingSample);
       return false;
     } catch (Exception ignore) {
-      //expected
+      // expected
     }
     try {
       c.add(newSample);
       return false;
     } catch (Exception ignore) {
-      //expected
+      // expected
     }
     Iterator<T> itr = c.iterator();
     itr.next();
@@ -50,7 +53,7 @@ public class CollectorsTest extends EmulTestBase {
       itr.remove();
       return false;
     } catch (Exception e) {
-      //expected
+      // expected
     }
     return true;
   }
@@ -82,7 +85,7 @@ public class CollectorsTest extends EmulTestBase {
   }
 
   public void testToUnmodifiableMap() {
-    //verify simple cases copy all  values and are unmodifiable
+    // verify simple cases copy all  values and are unmodifiable
     applyItems(Map.of("a", 0, "b", 1), toUnmodifiableMap(Function.identity(),
         k -> k.charAt(0) - 'a'), "a", "b", (a, b) -> {
       if (!a.equals(b)) {
@@ -104,7 +107,7 @@ public class CollectorsTest extends EmulTestBase {
     applyItems(Map.of("a", 2), toUnmodifiableMap(Function.identity(), ignore -> 1, Integer::sum),
         "a", "a");
 
-    //verify nulls blow up for both keys and values
+    // verify nulls blow up for both keys and values
     try {
       Stream.of("a").collect(toUnmodifiableMap(obj -> null, Function.identity()));
       fail("Expected NPE");
@@ -117,8 +120,6 @@ public class CollectorsTest extends EmulTestBase {
     } catch (Exception ignore) {
       // expected
     }
-
-
   }
 
   private <K, V> boolean unmodifiableMap(Map<K, V> a, K existingKey, V existingValue, K newKey,

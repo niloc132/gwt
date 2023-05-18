@@ -28,6 +28,9 @@ import static java.util.stream.Collectors.filtering;
 import static java.util.stream.Collectors.flatMapping;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Tests for java.util.stream.Collectors Java 9 API emulation.
+ */
 public class CollectorsTest extends EmulTestBase {
 
   public void testFlatMapping() {

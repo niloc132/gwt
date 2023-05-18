@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * Tests for java.util.Optional Java 9 API emulation.
+ */
 public class OptionalTest extends EmulTestBase {
   public void testIfPresentOrElse() {
     int[] called = {0};

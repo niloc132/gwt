@@ -15,14 +15,17 @@
  */
 package com.google.gwt.emultest.java10.util;
 
+import static com.google.gwt.emultest.java9.util.SetTest.assertIsImmutableSetOf;
+
 import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.google.gwt.emultest.java9.util.SetTest.assertIsImmutableSetOf;
-
+/**
+ * Tests for java.util.Set Java 10 API emulation.
+ */
 public class SetTest extends EmulTestBase {
   public void testCopyOf() {
     assertIsImmutableSetOf(Set.copyOf(Set.of("a", "b")), "a", "b");

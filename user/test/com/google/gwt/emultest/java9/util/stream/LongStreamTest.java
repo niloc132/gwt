@@ -19,6 +19,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.stream.LongStream;
 
+/**
+ * Tests for java.util.stream.IntStream Java 9 API emulation.
+ */
 public class LongStreamTest extends EmulTestBase {
   public void testIterate() {
     assertEquals(

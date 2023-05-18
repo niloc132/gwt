@@ -15,14 +15,17 @@
  */
 package com.google.gwt.emultest.java10.util;
 
+import static com.google.gwt.emultest.java9.util.ListTest.assertIsImmutableListOf;
+
 import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.google.gwt.emultest.java9.util.ListTest.assertIsImmutableListOf;
-
+/**
+ * Tests for java.util.List Java 10 API emulation.
+ */
 public class ListTest extends EmulTestBase {
   public void testCopyOf() {
     assertIsImmutableListOf(List.copyOf(List.of("a", "b")), "a", "b");
@@ -50,6 +53,5 @@ public class ListTest extends EmulTestBase {
     } catch (NullPointerException ignore) {
       // expected
     }
-
   }
 }

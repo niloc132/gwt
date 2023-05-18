@@ -19,6 +19,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.stream.Stream;
 
+/**
+ * Tests for java.util.stream.Stream Java 9 API emulation.
+ */
 public class StreamTest extends EmulTestBase {
   public void testIterate() {
     assertEquals(

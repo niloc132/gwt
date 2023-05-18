@@ -19,6 +19,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.stream.DoubleStream;
 
+/**
+ * Tests for java.util.stream.DoubleStream Java 9 API emulation.
+ */
 public class DoubleStreamTest extends EmulTestBase {
   public void testIterate() {
     assertEquals(

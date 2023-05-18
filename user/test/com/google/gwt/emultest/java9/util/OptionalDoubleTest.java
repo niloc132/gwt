@@ -20,6 +20,9 @@ import com.google.gwt.emultest.java.util.EmulTestBase;
 import java.util.OptionalDouble;
 import java.util.stream.Stream;
 
+/**
+ * Tests for java.util.OptionalDouble Java 9 API emulation.
+ */
 public class OptionalDoubleTest extends EmulTestBase {
   public void testIfPresentOrElse() {
     int[] called = {0};
@@ -34,7 +37,6 @@ public class OptionalDoubleTest extends EmulTestBase {
     OptionalDouble.empty().ifPresentOrElse(ignore -> {
       fail("Should not call present action");
     }, () -> called[0]++);
-
   }
 
   public void testStream() {
@@ -50,6 +52,5 @@ public class OptionalDoubleTest extends EmulTestBase {
             OptionalDouble.of(1000.0)
         ).flatMapToDouble(OptionalDouble::stream).toArray()
     );
-
   }
 }
