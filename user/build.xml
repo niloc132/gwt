@@ -215,6 +215,7 @@
                  -Xep:DoNotCall:OFF
                  -Xep:BadAnnotationImplementation:OFF
                  -Xep:DuplicateMapKeys:OFF
+                 -Xep:OptionalOfRedundantMethod:OFF
                ">
       <classpath>
         <pathelement location="${javac.junit.out}"/>
