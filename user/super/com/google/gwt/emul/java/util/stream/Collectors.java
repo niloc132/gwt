@@ -338,8 +338,8 @@ public final class Collectors {
   }
 
   public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
-    return collectingAndThen(mapping(Objects::requireNonNull, toList()),
-        Collections::unmodifiableList);
+    Collector<T, ?, List<T>> mapping = mapping(Objects::requireNonNull, toList());
+    return collectingAndThen(mapping, Collections::unmodifiableList);
   }
 
   public static <T, K, U> Collector<T, ?, Map<K, U>> toMap(
@@ -408,7 +408,8 @@ public final class Collectors {
   }
 
   public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
-    return collectingAndThen(mapping(Objects::requireNonNull, toSet()), Collections::unmodifiableSet);
+    Collector<T, ?, Set<T>> mapping = mapping(Objects::requireNonNull, toSet());
+    return collectingAndThen(mapping, Collections::unmodifiableSet);
   }
 
   private static <T, D, A> D streamAndCollect(Collector<? super T, A, D> downstream, List<T> list) {

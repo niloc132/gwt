@@ -30,8 +30,9 @@ public class SetTest extends EmulTestBase {
 
     HashSet<String> hashSet = new HashSet<>();
     hashSet.add("a");
+    hashSet.add("b");
     Set<String> copy = Set.copyOf(hashSet);
-    assertIsImmutableSetOf(copy, "a");
+    assertIsImmutableSetOf(copy, "a", "b");
 
     // verify that mutating the original has no effect on the copy
     hashSet.add("c");
@@ -50,13 +51,7 @@ public class SetTest extends EmulTestBase {
       // expected
     }
 
-    // ensure that duplicate values result in IAE
-    try {
-      Set.copyOf(Arrays.asList("a", "a"));
-      fail("Expected IllegalArgumentException from duplicated items in collection passed to " +
-          "copyOf");
-    } catch (IllegalArgumentException ignore) {
-      // expected
-    }
+    // ensure that duplicate values result in smaller output
+    assertIsImmutableSetOf(Set.copyOf(Arrays.asList("a", "a")), "a");
   }
 }

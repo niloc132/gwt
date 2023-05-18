@@ -29,7 +29,7 @@ public class OptionalDoubleTest extends EmulTestBase {
       // expected
     }
 
-    double value = OptionalDouble.of(10).orElseThrow();
-    assertEquals(10, value);
+    double value = OptionalDouble.of(10.0).orElseThrow();
+    assertEquals(10.0, value);
   }
 }
