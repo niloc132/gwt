@@ -24,7 +24,7 @@ public class OptionalLongTest extends EmulTestBase {
   public void testIfPresentOrElse() {
     int[] called = {0};
     OptionalLong.of(10).ifPresentOrElse(value -> {
-      assertEquals(10.0, value);
+      assertEquals(10, value);
       called[0]++;
     }, () -> {
       fail("should not call empty action");
