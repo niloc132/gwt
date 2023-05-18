@@ -15,8 +15,6 @@
  */
 package com.google.gwt.emultest.java9.util;
 
-import static com.google.gwt.emultest.java9.util.SetTest.assertNPE;
-
 import com.google.gwt.emultest.java.util.EmulTestBase;
 
 import java.util.Iterator;

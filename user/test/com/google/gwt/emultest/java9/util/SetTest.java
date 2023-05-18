@@ -159,22 +159,4 @@ public class SetTest extends EmulTestBase {
     }
     fail("Failed to find '" + value + "' in " + Arrays.toString(contents));
   }
-
-  public static void assertNPE(String methodName, Runnable runnable) {
-    try {
-      runnable.run();
-      fail("Expected NPE from calling " + methodName);
-    } catch (NullPointerException ignored) {
-      // expected
-    }
-  }
-
-  public static void assertIAE(String methodName, Runnable runnable) {
-    try {
-      runnable.run();
-      fail("Expected IAE from calling " + methodName);
-    } catch (IllegalArgumentException ignored) {
-      // expected
-    }
-  }
 }
