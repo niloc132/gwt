@@ -78,6 +78,18 @@
             <version>4.0.2</version>
         </dependency>
 
+        <!-- StackTraceDeobfuscator.java -->
+        <dependency>
+            <groupId>com.google.gwt.external</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
+
+        <!-- JsonSplittable.java, JsonLogRecordServerUtil.java, FieldSerializerCreator.java, StringQuoter.java, JsonLogRecordThrowable.java -->
+        <dependency>
+            <groupId>com.google.gwt.external</groupId>
+            <artifactId>json-android-rebased</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.google.gwt.external</groupId>
             <artifactId>streamhtmlparser-jsilver</artifactId>
