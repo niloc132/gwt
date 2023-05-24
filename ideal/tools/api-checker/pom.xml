@@ -24,6 +24,10 @@
             <artifactId>compiler</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.gwt.external</groupId>
+            <artifactId>ant-zipscanner</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
