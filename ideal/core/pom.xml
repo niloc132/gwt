@@ -11,7 +11,7 @@
     </parent>
     <artifactId>gwt-core</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <packaging>gwt-lib</packaging>
 
     <dependencies>
 <!--        <dependency>
@@ -27,4 +27,24 @@
             &lt;!&ndash; this is built into the compiler, but should not be directly added by users &ndash;&gt;
         </dependency>-->
     </dependencies>
+
+<!--    <build>-->
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>src/main/java</directory>-->
+<!--            </resource>-->
+<!--        </resources>-->
+<!--    </build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <configuration>
+                    <skipModule>true</skipModule>
+                    <skipModuleMetadata>true</skipModuleMetadata>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
