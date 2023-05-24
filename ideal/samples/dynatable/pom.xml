@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>samples</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>dynatable</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- GWT Maven Plugin-->
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <moduleName>com.google.gwt.sample.dynatable.DynaTable</moduleName>
+                    <moduleShortName>DynaTable</moduleShortName>
+                    <failOnError>true</failOnError>
+                    <sourceLevel>1.8</sourceLevel>
+                    <startupUrls>
+                        <startupUrl>DynaTable.html</startupUrl>
+                    </startupUrls>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
