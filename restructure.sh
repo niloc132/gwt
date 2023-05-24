@@ -480,6 +480,17 @@ popd
 
 
 #  samples
+git rm samples/dynatable/build.xml
+mkdir -p ideal/samples/dynatable/src/main/java
+move samples/dynatable/src/com ideal/samples/dynatable/src/main/java/
+mkdir -p ideal/samples/dynatable/src/main/webapp
+# inlined "move" to avoid renaming afterwards
+cp -r samples/dynatable/war/* ideal/samples/dynatable/src/main/webapp
+git rm -rf samples/dynatable/war/
+git add ideal/samples/dynatable/src/main/webapp
+
+
+move samples/dynatablerf/src ideal/samples/dynatablerf/
 
 
 #  uberjars for non-maven use
