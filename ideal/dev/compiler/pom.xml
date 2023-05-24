@@ -49,9 +49,8 @@
 
         <!-- for ZipScanner, used by various ModuleDef classes -->
         <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant</artifactId>
-            <version>1.6.5</version>
+            <groupId>com.google.gwt.external</groupId>
+            <artifactId>ant-zipscanner</artifactId>
         </dependency>
 
         <!-- for @Nullable -->
