@@ -20,15 +20,6 @@ pushd ideal/external
 mvn install
 popd
 
-#  jsinterop
-# Set of annotations to mark types as mappable to JavaScript
-mkdir -p ideal/jsinterop/src/main/java/jsinterop/annotations
-move user/src/jsinterop/annotations ideal/jsinterop/src/main/java/jsinterop/annotations
-
-pushd ideal/jsinterop
-mvn clean install
-popd
-
 
 #  javaemul
 # These utils and compiler hints are for internal use only, and are used in the lang project
