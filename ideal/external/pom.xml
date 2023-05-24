@@ -137,6 +137,20 @@
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>ant-zipscanner</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${pathToToolsFromHere}/apache/ant-zipscanner/ant-zipscanner-1.6.5-1-rebased.jar</file>
+                            <groupId>com.google.gwt.external</groupId>
+                            <artifactId>ant-zipscanner</artifactId>
+                            <version>1.6.5-1</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
