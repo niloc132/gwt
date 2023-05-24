@@ -80,5 +80,6 @@
         <module>dev</module>
         <module>tools</module>
         <module>user</module>
+        <module>requestfactory</module>
     </modules>
 </project>

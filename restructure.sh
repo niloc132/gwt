@@ -451,18 +451,18 @@ move user/src/com/google/gwt/user/tools ideal/i18n-creator/src/main/java/com/goo
 # requestfactory apt
 
 mkdir -p ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/client ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/RequestFactory.gwt.xml ideal/user/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/gwt ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/RequestFactory.gwt.xml ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
 
 mkdir -p ideal/requestfactory/shared/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/shared ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/shared ideal/requestfactory/shared/src/main/java/com/google/web/bindery/requestfactory/
 
 mkdir -p ideal/requestfactory/apt/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/apt ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/apt ideal/requestfactory/apt/src/main/java/com/google/web/bindery/requestfactory/
 
 mkdir -p ideal/requestfactory/server/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/server ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/vm ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/server ideal/requestfactory/server/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/vm ideal/requestfactory/server/src/main/java/com/google/web/bindery/requestfactory/
 
 #  user
 #
