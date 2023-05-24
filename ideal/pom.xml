@@ -65,7 +65,6 @@
 
     <modules>
         <module>external</module>
-        <module>jsinterop</module>
         <module>javaemul</module>
         <module>core</module>
         <module>lang</module>
