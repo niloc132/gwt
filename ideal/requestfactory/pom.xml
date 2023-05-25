@@ -14,6 +14,13 @@
     <packaging>pom</packaging>
 
     <dependencies>
+        <!-- RfValidator uses Name.BinaryName -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Generator and API -->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -26,6 +33,30 @@
             <artifactId>gwt-user</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- rf jar extractor -->
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-util</artifactId>
+            <version>9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-commons</artifactId>
+            <version>9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <!-- TODO provide an assembly to build the three downstream jars -->
