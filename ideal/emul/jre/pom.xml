@@ -11,6 +11,18 @@
     </parent>
     <artifactId>emul-jre</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>gwt-lib</packaging>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <configuration>
+                    <skipModule>true</skipModule>
+                    <skipModuleMetadata>true</skipModuleMetadata>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
