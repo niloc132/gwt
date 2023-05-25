@@ -54,6 +54,12 @@
             </dependency>
             <dependency>
                 <groupId>com.google.gwt.external</groupId>
+                <artifactId>org.eclipse.jdt.adapter</artifactId>
+                <version>3.17.0.v20190306-2240</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.gwt.external</groupId>
                 <artifactId>protobuf-java</artifactId>
                 <version>2.5.0</version>
             </dependency>
