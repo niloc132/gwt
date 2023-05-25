@@ -109,5 +109,6 @@
         <module>tools</module>
         <module>user</module>
         <module>requestfactory</module>
+        <module>samples</module>
     </modules>
 </project>
