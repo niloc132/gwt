@@ -68,6 +68,20 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>jdt-adapter</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${pathToToolsFromHere}/eclipse/jdtCompilerAdapter_3.17.0.v20190306-2240.jar</file>
+                            <groupId>com.google.gwt.external</groupId>
+                            <artifactId>org.eclipse.jdt.adapter</artifactId>
+                            <version>3.17.0.v20190306-2240</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>protobuf-java</id>
                         <phase>package</phase>
                         <goals>
