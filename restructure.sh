@@ -450,9 +450,9 @@ move user/src/com/google/gwt/user/tools ideal/i18n-creator/src/main/java/com/goo
 # requestfactory server
 # requestfactory apt
 
-mkdir -p ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/gwt ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
-move user/src/com/google/web/bindery/requestfactory/RequestFactory.gwt.xml ideal/requestfactory/client/src/main/java/com/google/web/bindery/requestfactory/
+mkdir -p ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/gwt ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
+move user/src/com/google/web/bindery/requestfactory/RequestFactory.gwt.xml ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 
 mkdir -p ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 move user/src/com/google/web/bindery/requestfactory/shared ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
