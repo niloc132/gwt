@@ -65,6 +65,10 @@
             <groupId>com.google.gwt.external</groupId>
             <artifactId>org.eclipse.jdt.core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.gwt.external</groupId>
+            <artifactId>org.eclipse.jdt.adapter</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.ow2.asm</groupId>
