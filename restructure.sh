@@ -472,6 +472,8 @@ mkdir -p ideal/user/src/main/java/
 move user/src/com ideal/user/src/main/java/
 move user/src/javax ideal/user/src/main/java/
 move user/src/org ideal/user/src/main/java/
+mkdir -p ideal/user/src/main/super/
+move user/super ideal/user/src/main/
 
 pushd ideal/user
 mvn clean install
