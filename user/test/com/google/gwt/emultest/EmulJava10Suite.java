@@ -15,6 +15,9 @@
  */
 package com.google.gwt.emultest;
 
+import com.google.gwt.emultest.java10.util.ListTest;
+import com.google.gwt.emultest.java10.util.MapTest;
+import com.google.gwt.emultest.java10.util.SetTest;
 import com.google.gwt.emultest.java10.util.stream.CollectorsTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -23,7 +26,10 @@ import org.junit.runners.Suite.SuiteClasses;
 /** Test JRE emulations. */
 @RunWith(Suite.class)
 @SuiteClasses({
-        CollectorsTest.class
+        CollectorsTest.class,
+        ListTest.class,
+        MapTest.class,
+        SetTest.class,
 })
 public class EmulJava10Suite {
 }
