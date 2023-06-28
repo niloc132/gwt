@@ -94,13 +94,13 @@ popd
 #  lang
 # Classes required to build and run the compiler, but not available to the user
 # Normally these need not be compiled to bytecode, but ArrayHelper is used by core.
-mkdir -p ideal/lang/src/main/super/com/google/gwt/dev/
+mkdir -p ideal/lang/src/main/java/com/google/gwt/dev/
 mkdir -p ideal/lang/src/main/java/com/google/gwt/{core,lang}/
 mkdir -p ideal/lang/src/main/java/com/google/gwt/core/client/impl/
 # many of these types require core's JavaScriptObject
 
 move dev/core/super/com/google/gwt/dev/jjs \
-ideal/lang/src/main/super/com/google/gwt/dev/
+ideal/lang/src/main/java/com/google/gwt/dev/
 move dev/core/super/com/google/gwt/lang \
 ideal/lang/src/main/java/com/google/gwt/
 move dev/core/super/com/google/gwt/core \
