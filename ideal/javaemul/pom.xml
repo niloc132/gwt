@@ -40,8 +40,8 @@
                 <artifactId>gwt-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <moduleName>com.google.gwt.emul.Emulation</moduleName>
-                    <relocateSuperSource>true</relocateSuperSource>
+                    <skipModuleMetadata>true</skipModuleMetadata>
+                    <skipModule>true</skipModule>
                 </configuration>
             </plugin>
             <plugin>
