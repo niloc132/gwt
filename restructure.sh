@@ -23,9 +23,9 @@ popd
 
 #  javaemul
 # These utils and compiler hints are for internal use only, and are used in the lang project
-mkdir -p ideal/javaemul/src/main/java/javaemul/
+mkdir -p ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 move user/super/com/google/gwt/emul/javaemul/internal \
-     ideal/javaemul/src/main/java/javaemul/
+     ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 
 pushd ideal/javaemul
 mvn clean install
