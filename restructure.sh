@@ -231,6 +231,8 @@ popd
 
 
 #  built-in linkers for output that don't depend on the compiler (i.e. no soyc?)
+
+# Move java
 mkdir -p ideal/linkers/src/main/java/com/google/gwt/core/ext/linker/impl
 
 ORIGIN=dev/core/src
@@ -402,6 +404,9 @@ movejava com/google/gwt/dev/shell/SessionData.java
 # Dependencies, which must be present in core, lang:
 #  * com.google.gwt.dev.jjs.ast.JProgram#buildInitialTypeNamesToIndex (includes CODEGEN_TYPES_SET)
 #  * com.google.gwt.dev.jjs.ast.JProgram#IMMORTAL_CODEGEN_TYPES_SET
+
+mkdir -p ideal/dev/compiler/src/main/resources/com/google/gwt/dev/js
+move dev/core/src/com/google/gwt/dev/js/globals ideal/dev/compiler/src/main/resources/com/google/gwt/dev/js/
 
 mkdir -p ideal/dev/compiler/src/main/java/com/google/gwt/
 move dev/core/src/com/google/gwt/core ideal/dev/compiler/src/main/java/com/google/gwt/
