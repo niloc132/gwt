@@ -41,8 +41,7 @@
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
                 <configuration>
-                    <skipModule>true</skipModule>
-                    <skipModuleMetadata>true</skipModuleMetadata>
+                    <moduleName>com.google.gwt.core.Core</moduleName>
                 </configuration>
             </plugin>
         </plugins>
