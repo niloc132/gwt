@@ -26,6 +26,13 @@
             <scope>provided</scope>
             &lt;!&ndash; this is built into the compiler, but should not be directly added by users &ndash;&gt;
         </dependency>-->
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>javaemul</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 <!--    <build>-->
