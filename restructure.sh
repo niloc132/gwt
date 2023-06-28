@@ -266,10 +266,10 @@ popd
 # Java Language emulation, basics required to compile at all
 # JRE emulation, support for applications that depend on greater aspects of Java
 
-mkdir -p ideal/emul/base/src/main/super/java/{io,lang,util}
+mkdir -p ideal/emul/base/src/main/java/com/google/gwt/emul/java/{io,lang,util}
 
 ORIGIN=user/super/com/google/gwt/emul
-TARGET=ideal/emul/base/src/main/super
+TARGET=ideal/emul/base/src/main/java/com/google/gwt/emul
 
 movejava java/io/Serializable.java
 movejava java/lang/Object.java
@@ -296,9 +296,9 @@ pushd ideal/emul/base
 mvn clean install
 popd
 
-mkdir -p ideal/emul/jre/src/main/super/
+mkdir -p ideal/emul/jre/src/main/java/com/google/gwt/emul
 
-move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/super/
+move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/java/com/google/gwt/emul/
 
 pushd ideal/emul/jre
 mvn clean install
