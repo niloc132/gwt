@@ -64,6 +64,7 @@ movejava com/google/gwt/core/client/impl/OnSuccessExecutor.java
 movejava com/google/gwt/core/client/Duration.java
 movejava com/google/gwt/core/client/JavaScriptException.java
 movejava com/google/gwt/core/client/impl/JavaScriptExceptionBase.java
+movejava com/google/gwt/core/client/impl/SuperDevModeLogger.java
 #movejava com/google/gwt/core/client/impl/StackTraceCreator.java #Depends on lang's ArrayHelper, moved to lang
 movejava com/google/gwt/core/client/impl/SchedulerImpl.java
 
@@ -74,6 +75,8 @@ movejava com/google/gwt/core/client/JsDate.java
 movejava com/google/gwt/core/shared/impl/JsLogger.java
 
 movejava com/google/gwt/core/client/prefetch/PrefetchableResource.java
+
+git mv user/src/com/google/gwt/core/Core.gwt.xml ideal/core/src/main/module.gwt.xml
 
 
 ORIGIN=dev/core/super
