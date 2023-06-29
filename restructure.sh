@@ -487,6 +487,9 @@ pushd ideal/user
 mvn clean install
 popd
 
+#  requestfactory
+
+
 
 #  integration tests
 
@@ -501,9 +504,21 @@ cp -r samples/dynatable/war/* ideal/samples/dynatable/src/main/webapp
 git rm -rf samples/dynatable/war/
 git add ideal/samples/dynatable/src/main/webapp
 
-
 move samples/dynatablerf/src ideal/samples/dynatablerf/
+#git rm samples/dynatablerf/build.xml
+#git rm samples/dynatablerf/pom.xml
+#git rm samples/dynatablerf/README-MAVEN.txt
+#mkdir -p ideal/samples/dynatablerf/src/main/java
+#move samples/dynatablerf/src ideal/samples/dynatablerf/
 
+git rm samples/hello/build.xml
+mkdir -p ideal/samples/hello/src/main/java
+move samples/hello/src/com ideal/samples/hello/src/main/java/
+mkdir -p ideal/samples/hello/src/main/webapp
+# inlined "move" to avoid renaming afterwards
+cp -r samples/hello/war/* ideal/samples/hello/src/main/webapp
+git rm -rf samples/hello/war/
+git add ideal/samples/hello/src/main/webapp
 
 #  uberjars for non-maven use
 
