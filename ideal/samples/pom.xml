@@ -27,8 +27,8 @@
 
     <modules>
         <module>dynatable</module>
-        <module>dynatablerf</module>
-<!--        <module>hello</module>-->
+<!--        <module>dynatablerf</module>-->
+        <module>hello</module>
 <!--        <module>json</module>-->
 <!--        <module>mail</module>-->
 <!--        <module>mobilewebapp</module>-->
