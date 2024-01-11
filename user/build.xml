@@ -116,6 +116,8 @@
               -Xep:FallThrough:OFF
               -Xep:ReturnValueIgnored:OFF
               -Xep:EqualsIncompatibleType:OFF
+              -Xep:BoxedPrimitiveEquality:OFF
+              -Xep:DoubleBraceInitialization:OFF
             ">
       <src path="super/com/google/gwt/emul/javaemul/internal" />
       <classpath>
@@ -254,6 +256,8 @@
               -Xep:FallThrough:OFF
               -Xep:ReturnValueIgnored:OFF
               -Xep:EqualsIncompatibleType:OFF
+              -Xep:BoxedPrimitiveEquality:OFF
+              -Xep:DoubleBraceInitialization:OFF
             ">
         <src path="${project.build}/no-servlet-src" />
         <src path="super/com/google/gwt/emul/javaemul/internal" />

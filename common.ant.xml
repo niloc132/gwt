@@ -66,11 +66,9 @@
   <property name="javac.nowarn" value="true"/>
 
   <!-- javac and errorprone instructions from https://errorprone.info/docs/installation#ant -->
-  <property name="errorprone.javac.jar" location="${gwt.tools.lib}/errorprone/javac-9+181-r4173-1.jar"/>
   <path id="errorprone.processorpath.ref">
-    <pathelement location="${gwt.tools.lib}/errorprone/error_prone_core-2.9.0-with-dependencies.jar"/>
-    <pathelement location="${gwt.tools.lib}/errorprone/jFormatString-3.0.0.jar"/>
-    <pathelement location="${gwt.tools.lib}/errorprone/dataflow-errorprone-3.15.0.jar"/>
+    <pathelement location="${gwt.tools.lib}/errorprone/error_prone_core-2.23.0-with-dependencies.jar"/>
+    <pathelement location="${gwt.tools.lib}/errorprone/dataflow-errorprone-3.34.0-eisop1.jar"/>
   </path>
 
   <property name="junit.out" location="${project.build}/test"/>
