@@ -34,8 +34,7 @@
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
                 <configuration>
-                    <skipModule>true</skipModule>
-                    <skipModuleMetadata>true</skipModuleMetadata>
+                    <moduleName>com.google.gwt.emul.Emulation</moduleName>
                 </configuration>
             </plugin>
         </plugins>
