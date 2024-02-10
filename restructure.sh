@@ -37,8 +37,8 @@ popd
 # build and run the compiler (aside from JavaScriptObject)
 mkdir -p ideal/core/src/main/java/com/google/gwt/core/client/{impl,prefetch} \
          ideal/core/src/main/java/com/google/gwt/core/shared/impl
-#move user/src/com/google/gwt/core/client/EntryPoint.java \
-#   ideal/core/src/main/java/com/google/gwt/core/client/EntryPoint.java # technically _not_ required!
+move user/src/com/google/gwt/core/client/EntryPoint.java \
+   ideal/core/src/main/java/com/google/gwt/core/client/EntryPoint.java # technically _not_ required!
 
 # Direct dependencies from compiler
 ORIGIN=user/src
