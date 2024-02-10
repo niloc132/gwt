@@ -83,6 +83,10 @@ git mv user/src/com/google/gwt/core/CompilerParameters.gwt.xml \
        user/src/com/google/gwt/core/CrossSiteIframeLinker.gwt.xml \
        user/src/com/google/gwt/core/XSLinker.gwt.xml \
        ideal/core/src/main/java/com/google/gwt/core/
+
+# Hack to deal with legacy logging names
+mkdir ideal/core/src/main/java/com/google/gwt/logging
+git mv user/src/com/google/gwt/logging/LogImpl.gwt.xml ideal/core/src/main/java/com/google/gwt/logging/
 git mv user/src/com/google/gwt/core/Core.gwt.xml ideal/core/src/main/module.gwt.xml
 
 
