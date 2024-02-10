@@ -76,6 +76,13 @@ movejava com/google/gwt/core/shared/impl/JsLogger.java
 
 movejava com/google/gwt/core/client/prefetch/PrefetchableResource.java
 
+git mv user/src/com/google/gwt/core/CompilerParameters.gwt.xml \
+       user/src/com/google/gwt/core/CoreWithUserAgent.gwt.xml \
+       user/src/com/google/gwt/core/StackTrace.gwt.xml \
+       user/src/com/google/gwt/core/AsyncFragmentLoader.gwt.xml \
+       user/src/com/google/gwt/core/CrossSiteIframeLinker.gwt.xml \
+       user/src/com/google/gwt/core/XSLinker.gwt.xml \
+       ideal/core/src/main/java/com/google/gwt/core/
 git mv user/src/com/google/gwt/core/Core.gwt.xml ideal/core/src/main/module.gwt.xml
 
 
