@@ -301,6 +301,9 @@ movejava java/lang/Float.java
 movejava java/lang/Double.java
 movejava java/lang/Throwable.java
 
+git mv user/super/com/google/gwt/emul/Preconditions.gwt.xml ideal/emul/base/src/main/java/com/google/gwt/emul/
+git mv user/super/com/google/gwt/emul/Emulation.gwt.xml ideal/emul/base/src/main/module.gwt.xml
+
 pushd ideal/emul/base
 mvn clean install
 popd
