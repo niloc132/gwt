@@ -14,22 +14,14 @@
     <packaging>gwt-lib</packaging>
 
     <dependencies>
-<!--        <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>gwt-lang</artifactId>
+            <artifactId>javaemul</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>lang</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-            &lt;!&ndash; this is built into the compiler, but should not be directly added by users &ndash;&gt;
-        </dependency>-->
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>javaemul</artifactId>
+            <artifactId>emul-jre</artifactId>
             <version>${project.version}</version>
         </dependency>
 
