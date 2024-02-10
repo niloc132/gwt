@@ -76,6 +76,16 @@ movejava com/google/gwt/core/shared/impl/JsLogger.java
 
 movejava com/google/gwt/core/client/prefetch/PrefetchableResource.java
 
+movejava com/google/gwt/core/client/impl/ScriptTagLoadingStrategy.java
+
+movejava com/google/gwt/core/client/impl/LoadingStrategyBase.java
+
+movejava com/google/gwt/core/client/Callback.java
+
+movejava com/google/gwt/core/client/ScriptInjector.java
+
+movejava com/google/gwt/core/client/CodeDownloadException.java
+
 git mv user/src/com/google/gwt/core/CompilerParameters.gwt.xml \
        user/src/com/google/gwt/core/CoreWithUserAgent.gwt.xml \
        user/src/com/google/gwt/core/StackTrace.gwt.xml \
