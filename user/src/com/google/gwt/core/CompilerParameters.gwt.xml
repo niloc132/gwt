@@ -143,6 +143,12 @@
   <extend-configuration-property name="js.embedded.properties" value="user.agent"/>
 
   <define-configuration-property name="compiler.clinit.preload" is-multi-valued="true" />
+  <extend-configuration-property name="compiler.clinit.preload" value="java.lang.Object" />
   <extend-configuration-property name="compiler.clinit.preload"
                                  value="com.google.gwt.core.client.impl.StackTraceCreator" />
+  <extend-configuration-property name="compiler.clinit.preload" value="java.lang.Number" />
+  <extend-configuration-property name="compiler.clinit.preload" value="java.lang.Double" />
+  <extend-configuration-property name="compiler.clinit.preload" value="java.lang.Boolean" />
+  <extend-configuration-property name="compiler.clinit.preload" value="java.lang.CharSequence" />
+  <extend-configuration-property name="compiler.clinit.preload" value="java.lang.String" />
 </module>

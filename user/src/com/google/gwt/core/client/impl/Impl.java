@@ -23,15 +23,13 @@ import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
- * Private implementation class for GWT core. This API is should not be
+ * Private implementation class for GWT core. This API should not be
  * considered public or stable.
  */
 public final class Impl {
 
   static {
-    if (GWT.isScript() && StackTraceCreator.collector != null) {
-      // Just enforces loading of StackTraceCreator early on, nothing else to do here...
-    }
+    // Empty, but StackTraceCreator should be initialized before this if it will be used
   }
 
   private static final int WATCHDOG_ENTRY_DEPTH_CHECK_INTERVAL_MS = 2000;

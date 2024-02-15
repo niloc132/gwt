@@ -57,10 +57,13 @@ import com.google.gwt.dev.jjs.ast.JCastOperation;
 import com.google.gwt.dev.jjs.ast.JClassLiteral;
 import com.google.gwt.dev.jjs.ast.JClassType;
 import com.google.gwt.dev.jjs.ast.JDeclaredType;
+import com.google.gwt.dev.jjs.ast.JFieldRef;
 import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodBody;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
+import com.google.gwt.dev.jjs.ast.JNewInstance;
 import com.google.gwt.dev.jjs.ast.JProgram;
+import com.google.gwt.dev.jjs.ast.JStatement;
 import com.google.gwt.dev.jjs.ast.JTypeOracle.StandardTypes;
 import com.google.gwt.dev.jjs.ast.JVisitor;
 import com.google.gwt.dev.jjs.impl.ArrayNormalizer;
@@ -1409,7 +1412,8 @@ public final class JavaToJavaScriptCompiler {
     unifyAst.exec();
 
     if (entryMethodHolderTypeName != null) {
-      // Generate preemptive calls to clinits if requested, now that we have access to properties
+      // Generate preemptive calls to clinits if requested, now that we have access to properties.
+      // This might be too early, check if there are later normalizations we need to be aware of
       synthesizeEagerClinits(unifyAst, rpo.getGeneratorContext().getPropertyOracle(), entryMethodHolderTypeName);
     }
 
@@ -1417,6 +1421,7 @@ public final class JavaToJavaScriptCompiler {
   }
 
   private void synthesizeEagerClinits(UnifyAst unifyAst, PropertyOracle propertyOracle, String entryMethodHolderTypeName) throws UnableToCompleteException {
+    TreeLogger logger = this.logger.branch(TreeLogger.Type.TRACE, "Initializing eager clinits");
     // TODO make a constant somewhere
     String propertyName = "compiler.clinit.preload";
 
@@ -1444,6 +1449,7 @@ public final class JavaToJavaScriptCompiler {
 
     SourceInfo origin = eagerClinitsBlock.getSourceInfo().makeChild();
 
+    Set<JDeclaredType> alreadyInitialized = Sets.newHashSet();
     for (String eagerClinitTypeName : eagerClinitTypeNames) {
       JDeclaredType eagerClinitType = unifyAst.findType(eagerClinitTypeName, unifyAst
           .getSourceNameBasedTypeLocator());
@@ -1453,18 +1459,57 @@ public final class JavaToJavaScriptCompiler {
             "run its class initializer, please fix configuration property " + propertyName);
         throw new UnableToCompleteException();
       }
+      alreadyInitialized.add(eagerClinitType);
 
-      // TODO walk the method and visit its possible calls, ensure they perform no clinits of
-      // their own
-
+      TreeLogger l = logger.branch(TreeLogger.Type.TRACE, eagerClinitTypeName);
       JMethod clinitMethod = eagerClinitType.getClinitMethod();
-      JMethodCall clinitCall = new JMethodCall(origin, null, clinitMethod);
-      eagerClinitsBlock.addStmt(clinitCall.makeStatement());
+      JMethodBody clinitBody = (JMethodBody) clinitMethod.getBody();
 
-      // TODO copy clinit contents into new method and call _that_ instead
+      // Walk the method and visit its possible calls, ensure they perform no clinits of their own.
+      // If a transitive clinit is noticed, log and throw an exception, so that the user can fix
+      // their initialization order issue. Don't count any clinit calls to this class.
+      new JVisitor() {
+        @Override
+        public void endVisit(JMethodCall x, Context ctx) {
+          if (x.getTarget().isStatic() && !alreadyInitialized.contains(x.getTarget().getEnclosingType())) {
+            l.log(TreeLogger.Type.ERROR, "Type " + x.getTarget().getEnclosingType() + " was not already initialized");
+            throw new InternalCompilerException(x, "Cannot initialize " + eagerClinitType + " before " + x.getTarget().getEnclosingType(), null);
+          }
 
-      // TODO remove contents of actual clinit so that it optimizes out
-      // (the point of this patch in the first place)
+          // This is messy, do we look at all possible implementations? Technically we only need to worry about classes
+          // that are actually constructed with "new" (see below)...
+          for (JMethod overridingMethod : x.getTarget().getOverridingMethods()) {
+            accept(overridingMethod);
+          }
+
+          super.endVisit(x, ctx);
+        }
+
+        @Override
+        public void endVisit(JNewInstance x, Context ctx) {
+          if (x.getType() instanceof JDeclaredType && !alreadyInitialized.contains(x.getType())) {
+            l.log(TreeLogger.Type.ERROR, "Type " + x.getType() + " was not already initialized");
+            throw new InternalCompilerException(x, "Cannot initialize " + eagerClinitType + " before " + x.getType(), null);
+          }
+          accept(x.getTarget());
+          super.endVisit(x, ctx);
+        }
+
+        @Override
+        public void endVisit(JFieldRef x, Context ctx) {
+          if (x.getField().isStatic() && !alreadyInitialized.contains(x.getField().getEnclosingType())) {
+            l.log(TreeLogger.Type.ERROR, "Type " + x.getField().getEnclosingType() + " was not already initialized");
+            throw new InternalCompilerException(x, "Cannot initialize " + eagerClinitType + " before " + x.getField().getEnclosingType(), null);
+          }
+
+          super.endVisit(x, ctx);
+        }
+      }.accept(clinitBody);
+
+      // Inline the clinit's contents, and remove them from the method
+      JStatement[] statements = clinitBody.getStatements().toArray(new JStatement[0]);
+      eagerClinitsBlock.addStmt(new JBlock(clinitBody.getSourceInfo(), statements));
+      clinitMethod.setBody(new JMethodBody(clinitBody.getSourceInfo()));
     }
   }
 
