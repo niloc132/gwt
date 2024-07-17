@@ -1136,25 +1136,25 @@ public class GwtAstBuilder {
 
           // (Foo) $instanceof_1
           JVariableRef variableRef = jDeclarationStatement.getVariableRef();
-          JCastOperation jCastOperation =
-              new JCastOperation(info, variableRef.getType(), local.createRef(info));
+          JUnsafeTypeCoercion uncheckedCast =
+              new JUnsafeTypeCoercion(info, variableRef.getType(), local.createRef(info));
 
           // foo = (Foo) $instanceof_1
           JBinaryOperation assignOperation =
               new JBinaryOperation(info, variableRef.getType(), JBinaryOperator.ASG, variableRef,
-                  jCastOperation);
+                  uncheckedCast);
 
           // null != (foo = (Foo) $instanceof_1)
           JBinaryOperation nullCheckOperation =
               new JBinaryOperation(info, JPrimitiveType.BOOLEAN, JBinaryOperator.NEQ,
                   JNullLiteral.INSTANCE, assignOperation);
 
-          // $instanceof_1 = o
+          // $instanceof_1 = <expr>
           JBinaryOperation assignLocalOperation =
               new JBinaryOperation(info, expressionType, JBinaryOperator.ASG, local.createRef(info),
                   expr);
 
-          // (($instanceof_1 = o) instanceof Foo && null != (foo = (Foo) $instanceof_1))
+          // (($instanceof_1 = <expr>) instanceof Foo && null != (foo = (Foo) $instanceof_1))
           JBinaryOperation rewrittenSwitch =
               new JBinaryOperation(info, JPrimitiveType.BOOLEAN, JBinaryOperator.AND,
                   new JInstanceOf(info, testType, assignLocalOperation), nullCheckOperation);
