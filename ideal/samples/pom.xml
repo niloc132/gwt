@@ -29,10 +29,10 @@
         <module>dynatable</module>
 <!--        <module>dynatablerf</module>-->
         <module>hello</module>
-<!--        <module>json</module>-->
-<!--        <module>mail</module>-->
+        <module>json</module>
+        <module>mail</module>
 <!--        <module>mobilewebapp</module>-->
-<!--        <module>showcase</module>-->
+        <module>showcase</module>
 <!--        <module>validation</module>-->
     </modules>
 </project>
