@@ -528,6 +528,7 @@ cp -r samples/dynatable/war/* ideal/samples/dynatable/src/main/webapp
 git rm -rf samples/dynatable/war/
 git add ideal/samples/dynatable/src/main/webapp
 
+# dynatablerf is unfinished as requestfactory is unfinished
 move samples/dynatablerf/src ideal/samples/dynatablerf/
 #git rm samples/dynatablerf/build.xml
 #git rm samples/dynatablerf/pom.xml
@@ -543,6 +544,38 @@ mkdir -p ideal/samples/hello/src/main/webapp
 cp -r samples/hello/war/* ideal/samples/hello/src/main/webapp
 git rm -rf samples/hello/war/
 git add ideal/samples/hello/src/main/webapp
+
+git rm samples/json/build.xml
+mkdir -p ideal/samples/json/src/main/java
+move samples/json/src/com ideal/samples/json/src/main/java/
+mkdir -p ideal/samples/json/src/main/webapp
+# inlined "move" to avoid renaming afterwards
+cp -r samples/json/war/* ideal/samples/json/src/main/webapp
+git rm -rf samples/json/war/
+git add ideal/samples/json/src/main/webapp
+
+git rm samples/mail/build.xml
+mkdir -p ideal/samples/mail/src/main/java
+move samples/mail/src/com ideal/samples/mail/src/main/java/
+mkdir -p ideal/samples/mail/src/main/webapp
+# inlined "move" to avoid renaming afterwards
+cp -r samples/mail/war/* ideal/samples/mail/src/main/webapp
+git rm -rf samples/mail/war/
+git add ideal/samples/mail/src/main/webapp
+
+# TODO mobilewebapp
+
+git rm samples/showcase/build.xml
+mkdir -p ideal/samples/showcase/src/main/java
+move samples/showcase/src/com ideal/samples/showcase/src/main/java/
+mkdir -p ideal/samples/showcase/src/main/webapp
+# inlined "move" to avoid renaming afterwards
+cp -r samples/showcase/war/* ideal/samples/showcase/src/main/webapp
+git rm -rf samples/showcase/war/
+git add ideal/samples/showcase/src/main/webapp
+
+# TODO validation
+
 
 #  uberjars for non-maven use
 
