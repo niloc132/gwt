@@ -26,16 +26,30 @@
                 <version>2.4</version>
                 <executions>
                     <execution>
+                        <id>guava-failureaccess</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${pathToToolsFromHere}/guava/guava-33.0/failureaccess-1.0.2-rebased.jar</file>
+                            <groupId>org.gwtproject.external</groupId>
+                            <artifactId>com.google.guava.failureaccess</artifactId>
+                            <version>1.0.2</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>guava</id>
                         <phase>package</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${pathToToolsFromHere}/guava/guava-19.0/guava-19.0-rebased.jar</file>
+                            <file>${pathToToolsFromHere}/guava/guava-33.0/guava-33.0.0-jre-rebased.jar</file>
                             <groupId>org.gwtproject.external</groupId>
                             <artifactId>com.google.guava.guava</artifactId>
-                            <version>19.0</version>
+                            <version>33.0.0</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -46,10 +60,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${pathToToolsFromHere}/jscomp/20160315/sourcemap-rebased.jar</file>
+                            <file>${pathToToolsFromHere}/jscomp/20231112/sourcemap-rebased.jar</file>
                             <groupId>org.gwtproject.external</groupId>
                             <artifactId>jscomp-sourcemap</artifactId>
-                            <version>20160315</version>
+                            <version>20231112</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -60,10 +74,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${pathToToolsFromHere}/eclipse/org.eclipse.jdt.core_3.17.0.v20190306-2240.jar</file>
+                            <file>${pathToToolsFromHere}/eclipse/org.eclipse.jdt.core_3.32.0.v20221108-1853.jar</file>
                             <groupId>org.gwtproject.external</groupId>
                             <artifactId>org.eclipse.jdt.core</artifactId>
-                            <version>3.17.0.v20190306-2240</version>
+                            <version>3.32.0.v20221108-1853</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -74,10 +88,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${pathToToolsFromHere}/eclipse/jdtCompilerAdapter_3.17.0.v20190306-2240.jar</file>
+                            <file>${pathToToolsFromHere}/eclipse/jdtCompilerAdapter_3.32.0.v20221108-1853.jar</file>
                             <groupId>org.gwtproject.external</groupId>
                             <artifactId>org.eclipse.jdt.adapter</artifactId>
-                            <version>3.17.0.v20190306-2240</version>
+                            <version>3.32.0.v20221108-1853</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>

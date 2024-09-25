@@ -40,22 +40,27 @@
             <dependency>
                 <groupId>org.gwtproject.external</groupId>
                 <artifactId>com.google.guava.guava</artifactId>
-                <version>19.0</version>
+                <version>33.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.gwtproject.external</groupId>
+                <artifactId>com.google.guava.failureaccess</artifactId>
+                <version>1.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.external</groupId>
                 <artifactId>jscomp-sourcemap</artifactId>
-                <version>20160315</version>
+                <version>20231112</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.external</groupId>
                 <artifactId>org.eclipse.jdt.core</artifactId>
-                <version>3.17.0.v20190306-2240</version>
+                <version>3.32.0.v20221108-1853</version>
             </dependency>
             <dependency>
                 <groupId>org.gwtproject.external</groupId>
                 <artifactId>org.eclipse.jdt.adapter</artifactId>
-                <version>3.17.0.v20190306-2240</version>
+                <version>3.32.0.v20221108-1853</version>
             </dependency>
 
             <dependency>
@@ -81,17 +86,17 @@
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
-                <version>9.2</version>
+                <version>9.6</version>
             </dependency>
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm-util</artifactId>
-                <version>9.2</version>
+                <version>9.6</version>
             </dependency>
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm-commons</artifactId>
-                <version>9.2</version>
+                <version>9.6</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

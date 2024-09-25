@@ -26,6 +26,10 @@
         </dependency>
         <dependency>
             <groupId>org.gwtproject.external</groupId>
+            <artifactId>com.google.guava.failureaccess</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.external</groupId>
             <artifactId>jscomp-sourcemap</artifactId>
         </dependency>
     </dependencies>
