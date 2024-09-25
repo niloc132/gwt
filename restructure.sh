@@ -580,11 +580,12 @@ git add ideal/samples/showcase/src/main/webapp
 #  uberjars for non-maven use
 
 # Clean up old layout
-#git rm build.xml common.ant.xml platforms.ant.xml
-#git rm -r elemental
+git rm build.xml common.ant.xml platforms.ant.xml
 
 
 # last, build the whole thing to make sure it is sane
 pushd ideal
 mvn clean install
 popd
+
+#git ci -m '...'
