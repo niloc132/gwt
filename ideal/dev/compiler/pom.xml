@@ -61,19 +61,10 @@
         </dependency>
 
         <!-- contains the actual java AST builder that we lean on -->
-<!--        <dependency>-->
-<!--            <groupId>org.gwtproject.external</groupId>-->
-<!--            <artifactId>org.eclipse.jdt.core</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.eclipse.jdt</groupId>
             <artifactId>org.eclipse.jdt.core</artifactId>
-            <version>3.32.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.gwtproject.external</groupId>-->
-<!--            <artifactId>org.eclipse.jdt.adapter</artifactId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.ow2.asm</groupId>

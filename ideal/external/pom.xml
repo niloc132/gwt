@@ -68,34 +68,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>jdt</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <file>${pathToToolsFromHere}/eclipse/org.eclipse.jdt.core_3.32.0.v20221108-1853.jar</file>
-                            <groupId>org.gwtproject.external</groupId>
-                            <artifactId>org.eclipse.jdt.core</artifactId>
-                            <version>3.32.0.v20221108-1853</version>
-                            <packaging>jar</packaging>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>jdt-adapter</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <configuration>
-                            <file>${pathToToolsFromHere}/eclipse/jdtCompilerAdapter_3.32.0.v20221108-1853.jar</file>
-                            <groupId>org.gwtproject.external</groupId>
-                            <artifactId>org.eclipse.jdt.adapter</artifactId>
-                            <version>3.32.0.v20221108-1853</version>
-                            <packaging>jar</packaging>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>protobuf-java</id>
                         <phase>package</phase>
                         <goals>
