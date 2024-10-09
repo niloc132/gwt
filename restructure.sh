@@ -402,6 +402,7 @@ movejava com/google/gwt/dev/shell/ServerObjectsTable.java
 movejava com/google/gwt/dev/shell/ShellJavaScriptHost.java
 movejava com/google/gwt/dev/shell/ShellMainWindow.java
 movejava com/google/gwt/dev/shell/ShellModuleSpaceHost.java
+movejava com/google/gwt/dev/shell/StaticResourceServer.java
 movejava com/google/gwt/dev/shell/SuperDevListener.java
 movejava com/google/gwt/dev/shell/SyntheticClassMember.java
 movejava com/google/gwt/dev/shell/WrapLayout.java
