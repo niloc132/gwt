@@ -49,6 +49,7 @@ import com.google.gwt.dev.js.ast.JsFunction;
 import com.google.gwt.dev.js.ast.JsModVisitor;
 import com.google.gwt.dev.js.ast.JsProgram;
 import com.google.gwt.dev.js.ast.JsScope;
+import com.google.gwt.dev.resource.Resource;
 import com.google.gwt.dev.resource.ResourceOracle;
 import com.google.gwt.dev.util.DefaultTextOutput;
 import com.google.gwt.dev.util.OutputFileSet;
@@ -555,5 +556,15 @@ public class StandardLinkerContext extends Linker implements LinkerContext {
         throw new UnableToCompleteException();
       }
     }
+  }
+
+  @Override
+  public boolean shouldEmbedSourceMapContents() {
+    return getModule().shouldEmbedSourceMapContents();
+  }
+
+  @Override
+  public Resource findSourceFile(String sourceFileName) {
+    return getModule().findSourceFile(sourceFileName);
   }
 }

@@ -17,6 +17,7 @@ package com.google.gwt.core.ext;
 
 import com.google.gwt.core.ext.linker.ConfigurationProperty;
 import com.google.gwt.core.ext.linker.SelectionProperty;
+import com.google.gwt.dev.resource.Resource;
 
 import java.util.SortedSet;
 
@@ -77,4 +78,14 @@ public interface LinkerContext {
    */
   String optimizeJavaScript(TreeLogger logger, String jsProgram)
       throws UnableToCompleteException;
+
+  /**
+   * Temporarily delegated to ModuleDef.
+   */
+  boolean shouldEmbedSourceMapContents();
+
+  /**
+   * Temporarily delegated to ModuleDef.
+   */
+  Resource findSourceFile(String sourceFileName);
 }
