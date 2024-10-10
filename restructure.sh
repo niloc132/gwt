@@ -145,7 +145,7 @@ ORIGIN=dev/core/src
 TARGET=ideal/util/src/main/java
 
 move dev/core/src/com/google/gwt/dev/util/collect \
-     ideal/util/src/main/java/com/google/gwt/dev/
+     ideal/util/src/main/java/com/google/gwt/dev/util/
 
 movejava com/google/gwt/dev/util/Util.java #depends on TreeLogger, UnableToCompleteException,
 # speedtracer...
@@ -170,6 +170,14 @@ movejava com/google/gwt/dev/util/TextOutput.java
 movejava com/google/gwt/dev/About.java
 movejava com/google/gwt/dev/About.properties
 movejava com/google/gwt/dev/GwtVersion.java
+
+ORIGIN=dev/core/test
+TARGET=ideal/util/src/test/java
+movejava com/google/gwt/dev/util/collect/*
+movejava com/google/gwt/dev/util/UtilityTest.java
+movejava com/google/gwt/utils/tools/shared/JavaScriptStringTest.java
+movejava com/google/gwt/dev/AboutTest.java
+movejava com/google/gwt/dev/GwtVersionTest.java
 
 pushd ideal/util
 mvn clean install
@@ -242,8 +250,10 @@ movejava com/google/gwt/dev/util/Pair.java
 movejava com/google/gwt/core/ext/linker/CompilationResult.java
 movejava com/google/gwt/core/ext/linker/LinkerOrder.java
 
-
-
+ORIGIN=dev/core/test
+TARGET=ideal/ext/src/test/java
+movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
+movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 
 
 pushd ideal/ext
@@ -270,15 +280,16 @@ movejava com/google/gwt/core/ext/linker/impl/PermutationsUtil.java
 
 # deliberately not included, soyc lives in compiler for now?
 #movejava com/google/gwt/core/ext/linker/impl/ModuleMetricsArtifact.java
-# restore symbolmaps/soyc for now
+# restore soyc for now
 TARGET=dev/core/src
 ORIGIN=ideal/linkers/src/main/java
 mkdir -p dev/core/src/com/google/gwt/core/linker/
 movejava com/google/gwt/core/linker/SoycReportLinker.java
-#movejava com/google/gwt/core/linker/SymbolMapsLinker.java
-#workaround until move/movejava actually mvs
-#rm ideal/linkers/src/main/java/com/google/gwt/core/linker/SoycReportLinker.java
-#rm ideal/linkers/src/main/java/com/google/gwt/core/linker/SymbolMapsLinker.java
+
+# TODO linkers tests?
+mkdir -p ideal/linkers/src/test/java
+TARGET=dev/core/tests
+ORIGIN=ideal/linkers/src/test/java
 
 pushd ideal/linkers
 mvn clean install
@@ -333,6 +344,16 @@ popd
 pushd ideal/emul
 mvn clean install
 popd
+
+#  codeserver
+mkdir -p ideal/dev/codeserver/src/{main,test}/java/com/google/gwt/dev/codeserver
+ORIGIN=dev/codeserver/src
+TARGET=ideal/dev/codeserver/src/main/java
+movejava com/google/gwt/dev/codeserver/*
+
+ORIGIN=dev/codeserver/javatests
+TARGET=ideal/dev/codeserver/src/test/java
+movejava com/google/gwt/dev/codeserver/*
 
 
 # dev mode
@@ -413,9 +434,7 @@ move dev/core/src/com/google/gwt/dev/shell/*.png \
 move dev/core/src/com/google/gwt/dev/shell/*.gif \
      ideal/dev/devmode/src/main/java/com/google/gwt/dev/shell/
 
-# Move all of codeserver TODO maybe its own jar? though it is almost only used as part of devmode
-move dev/codeserver/java/com/google/gwt/dev/codeserver ideal/dev/devmode/src/main/java/com/google/gwt/dev/
-
+#TODO can we move this down to junit3?
 # Junit classes for devmode-htmlunit interaction
 TARGET=ideal/dev/junit3/src/main/java
 mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt/dev/shell/
@@ -423,6 +442,12 @@ movejava com/google/gwt/dev/shell/HostedModePluginObject.java
 movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
 movejava com/google/gwt/dev/shell/JavaObject.java
 movejava com/google/gwt/dev/shell/SessionData.java
+
+ORIGIN=dev/core/test
+TARGET=ideal/dev/devmode/src/test/java
+movejava com/google/gwt/dev/shell
+movejava com/google/gwt/dev/shell/remoteui
+
 
 #  compiler
 # Java to JavaScript Compiler

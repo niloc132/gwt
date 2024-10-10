@@ -17,29 +17,27 @@
 
 ### Building the GWT SDK:
 
- - In order to build GWT, `java` and `ant` are required in your system.
+ - In order to build GWT, `java` and `maven` are required in your system.
 
  - You need the [GWT tools repository](https://github.com/gwtproject/tools/)
    checked out and up-to-date. By default it is expected to be found at `../tools`.
-   You can override the default location using the GWT_TOOLS environment variable
-   or passing `-Dgwt.tools=` argument to ant.
+   You can override the default location using maven property `gwt.tools` by 
+   passing `-Dgwt.tools=` argument to Maven.
 
  - To create the SDK distribution files run:
 
-   `$ ant clean dist-dev`
+   `$ mvn package`
 
-   Then you will get all `.jar` files in the folder `build/lib` and
+   Then you will get all `.jar` files in the folder `dist/target/jars/` and
    the redistributable file will be: `build/dist/gwt-0.0.0.zip`
 
    if you want to specify a different version number run:
 
-   `$ ant clean dist-dev -Dgwt.version=x.x.x`
+   `$ mvn package -Drevision=x.x.x`
 
  - To compile everything including examples you have to run
 
-   `$ ant clean dist`
-   
- - To create maven artifacts (after building .jar using ant), use [following guide](./maven/README.txt).
+   `$ mvn package`
 
 ### How to verify GWT code conventions:
 
@@ -50,7 +48,7 @@
    everything including tests, to check APIs, and to verify code style.
    It shouldn't take longer than 3-4 minutes.
 
-   `$ ant compile.tests apicheck checkstyle`
+   `$ mvn testCompile checkstyle:checkstyle`
 
 ### How to run GWT tests
 
@@ -60,16 +58,15 @@
 
    In a _Unix_ like platform you can use the `export` command:
 
-   `$ export TZ=America/Los_Angeles ANT_OPTS=-Dfile.encoding=UTF-8`
+   `$ export TZ=America/Los_Angeles`
 
    But in _Windows™_ you have to set the time-zone in your control panel, and
    the environment variables using the command `set`.
 
- - Finally you can run all test suites with the following command, but be
-   prepared because it could take hours, and probably it would fail because
-   of timeouts, etc.
+ - Finally, you can run all test suites with the following command, but be
+   prepared because it could take hours:
 
-   `$ ant test`
+   `$ mvn verify`
 
  - Thus, you might want to run only certain tests so as you can
    focus on checking the modifications you are working on.
@@ -122,23 +119,23 @@
 
  - Run all tests in dev
 
-   `$ ( cd dev && ant test ; cd .. )`
+   `$ ( cd dev && mvn test ; cd .. )`
 
     _Note: that the last `cd ..' is only needed in Windows._
 
  - There is another option to do the same but without changing to the
-   module folder. We have to specify the module as the ant task, and
-   the task as a target argument.
+   module folder. We have to specify the module on which to invoke goals 
 
-   `$ ant dev -Dtarget=test`
+   `$ mvn test -am -pl dev`
 
  - Run all tests in codeserver
 
-   `$ ( cd dev/codeserver && ant test )`
+   `$ ( cd dev/codeserver && mvn test )`
 
     or
 
-   `$ ant codeserver -Dtarget=test -Dtest.dev.disable=true`
+<!-- TODO are we going to have a separate codeserver project? -->
+   `$ mvn test -am -pl dev/codeserver`
 
     _Note: that we disable dev tests because code server depends on dev
     and we don`t want to run its tests._
