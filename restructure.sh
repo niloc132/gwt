@@ -172,12 +172,13 @@ movejava com/google/gwt/dev/About.properties
 movejava com/google/gwt/dev/GwtVersion.java
 
 mkdir -p ideal/util/src/test/java/com/google/gwt/dev/util/collect
-mkdir -p ideal/util/src/test/java/com/google/gwt/utils/tools/shared
+mkdir -p ideal/util/src/test/java/com/google/gwt/util/tools/shared
 ORIGIN=dev/core/test
 TARGET=ideal/util/src/test/java
-movejava com/google/gwt/dev/util/collect/*
+move dev/core/test/com/google/gwt/dev/util/collect \
+    ideal/util/src/test/java/com/google/gwt/dev/util
 movejava com/google/gwt/dev/util/UtilityTest.java
-movejava com/google/gwt/utils/tools/shared/JavaScriptStringTest.java
+movejava com/google/gwt/util/tools/shared/JavaScriptStringTest.java
 movejava com/google/gwt/dev/AboutTest.java
 movejava com/google/gwt/dev/GwtVersionTest.java
 
@@ -351,11 +352,13 @@ popd
 mkdir -p ideal/dev/codeserver/src/{main,test}/java/com/google/gwt/dev/codeserver
 ORIGIN=dev/codeserver/src
 TARGET=ideal/dev/codeserver/src/main/java
-movejava com/google/gwt/dev/codeserver/*
+move dev/codeserver/src/com/google/gwt/dev/codeserver \
+    ideal/dev/codeserver/src/main/java/com/google/gwt/dev/
 
 ORIGIN=dev/codeserver/javatests
 TARGET=ideal/dev/codeserver/src/test/java
-movejava com/google/gwt/dev/codeserver/*
+move dev/codeserver/javatests/com/google/gwt/dev/codeserver \
+    ideal/dev/codeserver/src/test/java/com/google/gwt/dev/
 
 
 # dev mode
