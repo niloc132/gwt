@@ -8,23 +8,11 @@
         <artifactId>gwt</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>dev</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>dist</artifactId>
+    <name>SDK zip</name>
     <packaging>pom</packaging>
-    <name>gwt-dev-parent</name>
-    <description>
-        None of these jars should be directly depended on by a project, but
-        only used in ide/build tools, etc.
-    </description>
 
-    <properties>
-        <jetty.version>9.4.44.v20210927</jetty.version>
-    </properties>
-
-    <modules>
-        <module>compiler</module>
-        <module>devmode</module>
-        <module>junit3</module>
-    </modules>
-
+    <build>
+        <!-- TODO -->
+    </build>
 </project>
