@@ -9,13 +9,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>external</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>external tools</name>
     <packaging>pom</packaging>
 
     <properties>
-        <tools>../tools</tools>
-        <pathToToolsFromHere>../../${tools}/lib</pathToToolsFromHere>
+        <gwt.tools>../tools</gwt.tools>
+        <pathToToolsFromHere>../../${gwt.tools}/lib</pathToToolsFromHere>
     </properties>
 
     <build>
