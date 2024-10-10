@@ -93,6 +93,17 @@
                 <artifactId>asm-commons</artifactId>
                 <version>9.6</version>
             </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <classifier>sources</classifier>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
