@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eux
 
 move () {
    cp -r $1 $2
