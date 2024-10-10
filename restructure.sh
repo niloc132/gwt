@@ -177,6 +177,8 @@ ORIGIN=dev/core/test
 TARGET=ideal/util/src/test/java
 move dev/core/test/com/google/gwt/dev/util/collect \
     ideal/util/src/test/java/com/google/gwt/dev/util
+move dev/core/test/org/ \
+    ideal/util/src/test/java
 movejava com/google/gwt/dev/util/UtilityTest.java
 movejava com/google/gwt/util/tools/shared/JavaScriptStringTest.java
 movejava com/google/gwt/dev/AboutTest.java
