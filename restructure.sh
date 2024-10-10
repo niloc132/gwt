@@ -171,6 +171,8 @@ movejava com/google/gwt/dev/About.java
 movejava com/google/gwt/dev/About.properties
 movejava com/google/gwt/dev/GwtVersion.java
 
+mkdir -p ideal/util/src/test/java/com/google/gwt/dev/util/collect
+mkdir -p ideal/util/src/test/java/com/google/gwt/utils/tools/shared
 ORIGIN=dev/core/test
 TARGET=ideal/util/src/test/java
 movejava com/google/gwt/dev/util/collect/*
