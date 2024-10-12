@@ -180,7 +180,7 @@ move dev/core/test/com/google/gwt/dev/util/collect \
 move dev/core/test/org/ \
     ideal/util/src/test/java
 movejava com/google/gwt/dev/util/UtilityTest.java
-movejava com/google/gwt/util/tools/shared/JavaScriptStringTest.java
+#movejava com/google/gwt/util/tools/shared/JavaScriptStringTest.java
 movejava com/google/gwt/dev/AboutTest.java
 movejava com/google/gwt/dev/GwtVersionTest.java
 
