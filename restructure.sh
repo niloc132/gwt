@@ -184,6 +184,10 @@ movejava com/google/gwt/dev/util/UtilityTest.java
 movejava com/google/gwt/dev/AboutTest.java
 movejava com/google/gwt/dev/GwtVersionTest.java
 
+mkdir -p ideal/util/src/test/resources/com/google/gwt/dev/util/
+move dev/core/test/com/google/gwt/dev/util/unicodeTest.txt \
+    ideal/util/src/test/resources/com/google/gwt/dev/util/unicodeTest.txt
+
 pushd ideal/util
 mvn clean install
 popd
