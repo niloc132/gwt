@@ -259,6 +259,7 @@ movejava com/google/gwt/dev/util/Pair.java
 movejava com/google/gwt/core/ext/linker/CompilationResult.java
 movejava com/google/gwt/core/ext/linker/LinkerOrder.java
 
+mkdir -p ideal/ext/src/test/java/com/google/gwt/core/ext/linker
 ORIGIN=dev/core/test
 TARGET=ideal/ext/src/test/java
 movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
