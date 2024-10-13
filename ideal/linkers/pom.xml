@@ -23,6 +23,15 @@
             <artifactId>util</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.gwtproject.external</groupId>
+            <artifactId>com.google.guava.guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.gwtproject.external</groupId>
+            <artifactId>jscomp-sourcemap</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <resources>
