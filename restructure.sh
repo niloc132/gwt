@@ -259,12 +259,6 @@ movejava com/google/gwt/dev/util/Pair.java
 movejava com/google/gwt/core/ext/linker/CompilationResult.java
 movejava com/google/gwt/core/ext/linker/LinkerOrder.java
 
-mkdir -p ideal/ext/src/test/java/com/google/gwt/core/ext/linker
-ORIGIN=dev/core/test
-TARGET=ideal/ext/src/test/java
-movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
-movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
-
 
 pushd ideal/ext
 mvn clean install
@@ -475,6 +469,14 @@ move dev/core/src/com/google/gwt/core ideal/dev/compiler/src/main/java/com/googl
 move dev/core/src/com/google/gwt/dev ideal/dev/compiler/src/main/java/com/google/gwt/
 move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/google/gwt/
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
+
+
+mkdir -p ideal/dev/core/src/test/java/com/google/gwt/core/ext/linker
+ORIGIN=dev/core/test
+TARGET=ideal/dev/core/src/test/java
+# linker tests need to be here to get StandardLinkerContext and friends
+movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
+movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 
 
 #  test tools (junit)
