@@ -453,9 +453,9 @@ movejava com/google/gwt/dev/shell/SessionData.java
 #TARGET=ideal/dev/devmode/src/test/java
 mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,remoteui}/
 move dev/core/test/com/google/gwt/dev/shell \
-     ideal/dev/devmode/src/test/java/com/google/gwt/dev/
+     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
 move dev/core/test/com/google/gwt/dev/remoteui \
-     ideal/dev/devmode/src/test/java/com/google/gwt/dev/
+     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
 
 
 #  compiler
