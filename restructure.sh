@@ -464,15 +464,15 @@ move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/googl
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
 
 
-mkdir -p ideal/dev/core/src/test/java/com/google/gwt/core/ext/linker
+mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/ext/linker
 ORIGIN=dev/core/test
-TARGET=ideal/dev/core/src/test/java
+TARGET=ideal/dev/compiler/src/test/java
 # linker tests need to be here to get StandardLinkerContext and friends
 movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
 movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 
 
-pushd ideal/dev/core
+pushd ideal/dev/compiler
 mvn clean install
 popd
 
