@@ -351,13 +351,13 @@ popd
 
 #  codeserver
 mkdir -p ideal/dev/codeserver/src/{main,test}/java/com/google/gwt/dev/codeserver
-ORIGIN=dev/codeserver/src
-TARGET=ideal/dev/codeserver/src/main/java
-move dev/codeserver/src/com/google/gwt/dev/codeserver \
+#ORIGIN=dev/codeserver/java
+#TARGET=ideal/dev/codeserver/src/main/java
+move dev/codeserver/java/com/google/gwt/dev/codeserver \
     ideal/dev/codeserver/src/main/java/com/google/gwt/dev/
 
-ORIGIN=dev/codeserver/javatests
-TARGET=ideal/dev/codeserver/src/test/java
+#ORIGIN=dev/codeserver/javatests
+#TARGET=ideal/dev/codeserver/src/test/java
 move dev/codeserver/javatests/com/google/gwt/dev/codeserver \
     ideal/dev/codeserver/src/test/java/com/google/gwt/dev/
 
