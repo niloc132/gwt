@@ -440,6 +440,13 @@ move dev/core/src/com/google/gwt/dev/shell/*.png \
 move dev/core/src/com/google/gwt/dev/shell/*.gif \
      ideal/dev/devmode/src/main/java/com/google/gwt/dev/shell/
 
+# Junit classes for devmode-htmlunit interaction, move these out of the way before moving the rest
+TARGET=ideal/dev/junit3/src/main/java
+mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt/dev/shell/
+movejava com/google/gwt/dev/shell/HostedModePluginObject.java
+movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
+movejava com/google/gwt/dev/shell/JavaObject.java
+movejava com/google/gwt/dev/shell/SessionData.java
 
 #  compiler
 # Java to JavaScript Compiler
@@ -465,7 +472,7 @@ movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
 movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 
 
-pushd ideal/dev
+pushd ideal/dev/core
 mvn clean install
 popd
 
@@ -533,16 +540,6 @@ popd
 
 #  test tools (junit)
 
-# Junit classes for devmode-htmlunit interaction
-TARGET=ideal/dev/junit3/src/main/java
-mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt/dev/shell/
-movejava com/google/gwt/dev/shell/HostedModePluginObject.java
-movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
-movejava com/google/gwt/dev/shell/JavaObject.java
-movejava com/google/gwt/dev/shell/SessionData.java
-
-#ORIGIN=dev/core/test
-#TARGET=ideal/dev/devmode/src/test/java
 mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,remoteui}/
 move dev/core/test/com/google/gwt/dev/shell \
      ideal/dev/junit3/src/test/java/com/google/gwt/dev/
