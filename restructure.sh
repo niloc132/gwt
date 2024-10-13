@@ -440,23 +440,6 @@ move dev/core/src/com/google/gwt/dev/shell/*.png \
 move dev/core/src/com/google/gwt/dev/shell/*.gif \
      ideal/dev/devmode/src/main/java/com/google/gwt/dev/shell/
 
-#TODO can we move this down to junit3?
-# Junit classes for devmode-htmlunit interaction
-TARGET=ideal/dev/junit3/src/main/java
-mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt/dev/shell/
-movejava com/google/gwt/dev/shell/HostedModePluginObject.java
-movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
-movejava com/google/gwt/dev/shell/JavaObject.java
-movejava com/google/gwt/dev/shell/SessionData.java
-
-#ORIGIN=dev/core/test
-#TARGET=ideal/dev/devmode/src/test/java
-mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,remoteui}/
-move dev/core/test/com/google/gwt/dev/shell \
-     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
-#move dev/core/test/com/google/gwt/dev/remoteui \
-#     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
-
 
 #  compiler
 # Java to JavaScript Compiler
@@ -481,12 +464,6 @@ TARGET=ideal/dev/core/src/test/java
 movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
 movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 
-
-#  test tools (junit)
-# TODO split this again, so that the API is in one jar, and the running magic in another?
-# TODO this also depends on a lot of user stuff: safehtml, rpc, etc
-mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt
-move user/src/com/google/gwt/junit ideal/dev/junit3/src/main/java/com/google/gwt/
 
 pushd ideal/dev
 mvn clean install
@@ -551,6 +528,33 @@ mkdir -p ideal/user/src/main/super/
 move user/super ideal/user/src/main/
 
 pushd ideal/user
+mvn clean install
+popd
+
+#  test tools (junit)
+
+# Junit classes for devmode-htmlunit interaction
+TARGET=ideal/dev/junit3/src/main/java
+mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt/dev/shell/
+movejava com/google/gwt/dev/shell/HostedModePluginObject.java
+movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
+movejava com/google/gwt/dev/shell/JavaObject.java
+movejava com/google/gwt/dev/shell/SessionData.java
+
+#ORIGIN=dev/core/test
+#TARGET=ideal/dev/devmode/src/test/java
+mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,remoteui}/
+move dev/core/test/com/google/gwt/dev/shell \
+     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
+#move dev/core/test/com/google/gwt/dev/remoteui \
+#     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
+
+# TODO split this again, so that the API is in one jar, and the running magic in another?
+# TODO this also depends on a lot of user stuff: safehtml, rpc, etc
+mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt
+move user/src/com/google/gwt/junit ideal/dev/junit3/src/main/java/com/google/gwt/
+
+pushd ideal/dev/junit3
 mvn clean install
 popd
 
