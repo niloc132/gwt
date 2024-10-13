@@ -449,10 +449,13 @@ movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
 movejava com/google/gwt/dev/shell/JavaObject.java
 movejava com/google/gwt/dev/shell/SessionData.java
 
-ORIGIN=dev/core/test
-TARGET=ideal/dev/devmode/src/test/java
-movejava com/google/gwt/dev/shell
-movejava com/google/gwt/dev/shell/remoteui
+#ORIGIN=dev/core/test
+#TARGET=ideal/dev/devmode/src/test/java
+mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,remoteui}/
+move dev/core/test/com/google/gwt/dev/shell \
+     ideal/dev/devmode/src/test/java/com/google/gwt/dev/
+move dev/core/test/com/google/gwt/dev/remoteui \
+     ideal/dev/devmode/src/test/java/com/google/gwt/dev/
 
 
 #  compiler
