@@ -448,6 +448,18 @@ movejava com/google/gwt/dev/shell/HtmlUnitSessionHandler.java
 movejava com/google/gwt/dev/shell/JavaObject.java
 movejava com/google/gwt/dev/shell/SessionData.java
 
+# While we're at it, grab junit sources from user
+mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/shell/
+move dev/core/test/com/google/gwt/dev/shell \
+     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
+#move dev/core/test/com/google/gwt/dev/remoteui \
+#     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
+
+# TODO split this again, so that the API is in one jar, and the running magic in another?
+# TODO this also depends on a lot of user stuff: safehtml, rpc, etc
+mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt
+move user/src/com/google/gwt/junit ideal/dev/junit3/src/main/java/com/google/gwt/
+
 #  compiler
 # Java to JavaScript Compiler
 # Dependencies, which must be present in core, lang:
@@ -538,19 +550,7 @@ pushd ideal/user
 mvn clean install
 popd
 
-#  test tools (junit)
-
-mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,remoteui}/
-move dev/core/test/com/google/gwt/dev/shell \
-     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
-#move dev/core/test/com/google/gwt/dev/remoteui \
-#     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
-
-# TODO split this again, so that the API is in one jar, and the running magic in another?
-# TODO this also depends on a lot of user stuff: safehtml, rpc, etc
-mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt
-move user/src/com/google/gwt/junit ideal/dev/junit3/src/main/java/com/google/gwt/
-
+#  now that we have user built, build the junit sources
 pushd ideal/dev/junit3
 mvn clean install
 popd
