@@ -440,11 +440,12 @@ move dev/core/src/com/google/gwt/dev/shell/*.png \
 move dev/core/src/com/google/gwt/dev/shell/*.gif \
      ideal/dev/devmode/src/main/java/com/google/gwt/dev/shell/
 
-mkdir -p ideal/dev/devmode/src/test/java/com/google/gwt/dev/shell/
+mkdir -p ideal/dev/devmode/src/test/java/com/google/gwt/dev/{shell,util}/
 TARGET=ideal/dev/devmode/src/test/java
 move dev/core/test/com/google/gwt/dev/shell \
      ideal/dev/devmode/src/test/java/com/google/gwt/dev/
-
+move dev/core/test/com/google/gwt/dev/util/TemporaryBufferStream.java \
+     ideal/dev/junit3/src/test/java/com/google/gwt/dev/util/
 
 # Junit classes for devmode-htmlunit interaction, move these out of the way before moving the rest
 TARGET=ideal/dev/junit3/src/main/java
@@ -455,12 +456,6 @@ movejava com/google/gwt/dev/shell/JavaObject.java
 movejava com/google/gwt/dev/shell/SessionData.java
 
 # While we're at it, grab junit sources from user
-mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,util}/
-move dev/core/test/com/google/gwt/dev/shell \
-     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
-move dev/core/test/com/google/gwt/dev/util/TemporaryBufferStream.java \
-     ideal/dev/junit3/src/test/java/com/google/gwt/dev/util/
-
 # TODO split this again, so that the API is in one jar, and the running magic in another?
 # TODO this also depends on a lot of user stuff: safehtml, rpc, etc
 mkdir -p ideal/dev/junit3/src/main/java/com/google/gwt
