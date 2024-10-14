@@ -44,5 +44,12 @@
             <artifactId>websocket-client</artifactId>
             <version>${jetty.version}</version>
         </dependency>
+
+        <!-- This should technically be beta-1 -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium.client-drivers</groupId>
+            <artifactId>selenium-java-client-driver</artifactId>
+            <version>1.0-beta-2</version>
+        </dependency>
     </dependencies>
 </project>
