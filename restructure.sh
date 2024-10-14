@@ -449,11 +449,11 @@ movejava com/google/gwt/dev/shell/JavaObject.java
 movejava com/google/gwt/dev/shell/SessionData.java
 
 # While we're at it, grab junit sources from user
-mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/shell/
+mkdir -p ideal/dev/junit3/src/test/java/com/google/gwt/dev/{shell,util}/
 move dev/core/test/com/google/gwt/dev/shell \
      ideal/dev/junit3/src/test/java/com/google/gwt/dev/
-#move dev/core/test/com/google/gwt/dev/remoteui \
-#     ideal/dev/junit3/src/test/java/com/google/gwt/dev/
+move dev/core/test/com/google/gwt/dev/util/TemporaryBufferStream.java \
+     ideal/dev/junit3/src/test/java/com/google/gwt/dev/util/
 
 # TODO split this again, so that the API is in one jar, and the running magic in another?
 # TODO this also depends on a lot of user stuff: safehtml, rpc, etc
