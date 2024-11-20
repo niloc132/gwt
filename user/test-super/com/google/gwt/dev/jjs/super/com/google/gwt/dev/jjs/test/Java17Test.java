@@ -138,6 +138,14 @@ public class Java17Test extends GWTTestCase {
    */
   record RecordWithReferenceType(TopLevelRecord refType){}
 
+  record RecordWithCtors(String a, int b) {
+//    public RecordWithCtors {
+//    }
+    public RecordWithCtors(int a, int b) {
+      this(String.valueOf(a), b);
+    }
+  }
+
   public void testRecordClasses() {
     /**
      * Sample local record.
@@ -188,6 +196,11 @@ public class Java17Test extends GWTTestCase {
     assertFalse(sameA.hashCode() == different.hashCode());
 
     assertFalse(sameA.equals(null));
+
+    RecordWithCtors hasCtors = new RecordWithCtors(1, 2);
+    assertEquals("1", hasCtors.a());
+    assertEquals(2, hasCtors.b());
+    assertEquals(new RecordWithCtors("1", 2), hasCtors);
   }
 
   /**
