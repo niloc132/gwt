@@ -48,7 +48,7 @@ public final class ServerSerializationStreamWriter extends
    * array literals.
    */
   public static class LengthConstrainedArray {
-    public static final int MAXIMUM_ARRAY_LENGTH_DEFAULT = 1 << 15;
+    public static final int MAXIMUM_ARRAY_LENGTH_DEFAULT = Integer.MAX_VALUE;
     private static final String POSTLUDE = "])";
     private static final String PRELUDE = "].concat([";
 
@@ -346,7 +346,7 @@ public final class ServerSerializationStreamWriter extends
    * that limits string node lengths to 64KB.
    */
   private static final int MAX_STRING_NODE_LENGTH =
-      Integer.getInteger("gwt.rpc.maxStringNodeLength", 0xFFFF);
+      Integer.getInteger("gwt.rpc.maxStringNodeLength", Integer.MAX_VALUE);
 
   static {
     /*
