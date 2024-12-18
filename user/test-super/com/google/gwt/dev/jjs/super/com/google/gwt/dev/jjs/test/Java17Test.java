@@ -153,7 +153,10 @@ public class Java17Test extends GWTTestCase {
     assertTrue(new InnerRecord() instanceof Comparable);
 
     assertFalse(new InnerRecord().toString().contains("Hello"));
-    assertTrue(new InnerRecord().toString().startsWith("InnerRecord"));
+    if (!getClass().getSimpleName().startsWith("Class$")) {
+      // Skip this test with class metadata enabled, since the class name won't match
+      assertTrue(new InnerRecord().toString().startsWith("InnerRecord"));
+    }
     assertEquals(0, new InnerRecord().hashCode());
     assertEquals(new InnerRecord(), new InnerRecord());
 
