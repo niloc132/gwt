@@ -142,6 +142,13 @@
   <extend-configuration-property name="js.embedded.properties" value="locale"/>
   <extend-configuration-property name="js.embedded.properties" value="user.agent"/>
 
+  <!--
+    Specifies classes to preload as part of compilation. This ensures that these classes
+    will not be initialized on demand, but rather when the application first starts, and
+    means that their clinits will not appear in the rest of the program. Any item in the
+    list must appear after any classes it depends on. Applications can extend this list,
+    but must do so carefully - order is not guaranteed to be stable across releases.
+   -->
   <define-configuration-property name="compiler.clinit.preload" is-multi-valued="true" />
   <extend-configuration-property name="compiler.clinit.preload" value="java.lang.Object" />
   <extend-configuration-property name="compiler.clinit.preload"
