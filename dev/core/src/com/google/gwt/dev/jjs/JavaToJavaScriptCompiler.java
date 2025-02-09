@@ -1148,7 +1148,7 @@ public final class JavaToJavaScriptCompiler {
       ConfigurationProperties configurationProperties = new ConfigurationProperties(module);
       EnumNameObfuscator.exec(jprogram, logger, configurationProperties, options);
 
-      //TODO remove marked clinits here?
+      // TODO remove marked clinits here?
 
 
       // (3) Normalize the unresolved Java AST
@@ -1411,7 +1411,7 @@ public final class JavaToJavaScriptCompiler {
       jprogram.addEntryMethod(jprogram.getIndexedMethod(
           SourceName.getShortClassName(entryMethodHolderTypeName) + ".init"));
 
-      //TODO this isn't optional, but we have to hook it up at this point?
+      // TODO this isn't optional, but we have to hook it up at this point?
       jprogram.addEntryMethod(jprogram.getIndexedMethod(
           SourceName.getShortClassName(entryMethodHolderTypeName) + ".eagerClinits"));
     }
@@ -1431,7 +1431,7 @@ public final class JavaToJavaScriptCompiler {
   }
 
   private JMethod synthesizeEagerClinits(UnifyAst unifyAst, PropertyOracle propertyOracle, String entryMethodHolderTypeName) throws UnableToCompleteException {
-    TreeLogger logger = this.logger.branch(TreeLogger.Type.TRACE, "Initializing eager clinits");
+    TreeLogger log = this.logger.branch(TreeLogger.Type.TRACE, "Initializing eager clinits");
     // TODO make a constant somewhere
     String propertyName = "compiler.clinit.preload";
 
@@ -1439,7 +1439,7 @@ public final class JavaToJavaScriptCompiler {
     List<String> eagerClinitTypeNames;
     try {
       ConfigurationProperty property = propertyOracle.getConfigurationProperty(propertyName);
-      eagerClinitTypeNames = property == null ? Collections.<String>emptyList() : property
+      eagerClinitTypeNames = property == null ? Lists.newArrayList() : property
           .getValues();
       if (eagerClinitTypeNames.isEmpty()) {
         // property set to nothing, nothing to do
@@ -1464,13 +1464,13 @@ public final class JavaToJavaScriptCompiler {
           .getSourceNameBasedTypeLocator());
 
       if (eagerClinitType == null) {
-        logger.log(TreeLogger.ERROR, "Could not find type " + eagerClinitTypeName + " to eagerly " +
+        log.log(TreeLogger.ERROR, "Could not find type " + eagerClinitTypeName + " to eagerly " +
             "run its class initializer, please fix configuration property " + propertyName);
         throw new UnableToCompleteException();
       }
       alreadyInitialized.add(eagerClinitType);
 
-      TreeLogger l = logger.branch(TreeLogger.Type.TRACE, eagerClinitTypeName);
+      TreeLogger l = log.branch(TreeLogger.Type.TRACE, eagerClinitTypeName);
       JMethod clinitMethod = eagerClinitType.getClinitMethod();
       JMethodBody clinitBody = (JMethodBody) clinitMethod.getBody();
 

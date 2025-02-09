@@ -255,7 +255,7 @@ public class SourceMapTest extends TestCase {
           symbolData.incCounter();
           // Field declarations will work, but field accesses won't
           // Inlined class initializers won't work either
-          //TODO reconsider this if we stop inling and factor out to a new method
+          // TODO reconsider this if we stop inling and factor out to a new method
           if (!symbolData.isField() && !symbolData.getMemberName().equals("eagerClinits")) {
             assertEquals(symbolData.getSourceUri(), sourceName);
             if (symbolData.isClass()) {

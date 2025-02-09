@@ -392,11 +392,6 @@ public class JProgram extends JNode implements ArrayTypeCreator {
       immortalCodeGenTypes.add((JClassType) type);
     }
 
-
-    //if (type is not supposed to be clinited) {
-    //  type.setClinitTarget(null);
-    //}
-
     if (!typeNamesToIndex.contains(name)) {
       return;
     }
