@@ -50,7 +50,6 @@ public class EntryMethodHolderGenerator extends Generator {
       out.println("  }");
 
       out.println("  public static final void init() {");
-      out.println("    eagerClinits();");
       out.println("    // to be synthesized later");
       out.println("  }");
       out.println("}");

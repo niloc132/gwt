@@ -826,6 +826,7 @@ public class UnifyAst {
   public void exec() throws UnableToCompleteException {
     // Trace execution from entry points and resolve references.
     List<String> entryMethodNames = Lists.newArrayList();
+    // prepend the clinits before the entrypoints?
     for (JMethod entryMethod : program.getEntryMethods()) {
       flowInto(entryMethod);
       entryMethodNames.add(entryMethod.getJsniSignature(true, true));

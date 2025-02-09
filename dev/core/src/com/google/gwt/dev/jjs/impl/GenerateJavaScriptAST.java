@@ -2685,7 +2685,7 @@ public class GenerateJavaScriptAST {
 
   /**
    * Return false if the method needs to be generated. Some methods do not need any output,
-   * in particular abstract methods and static intializers that are never called.
+   * in particular abstract methods and static initializers that are never called.
    */
   private static boolean doesNotHaveConcreteImplementation(JMethod method) {
     return method.isAbstract()

@@ -565,7 +565,7 @@ public abstract class JDeclaredType extends JReferenceType
   /**
    * Called to set this class's trivial initializer to point to a superclass.
    */
-  void setClinitTarget(JDeclaredType newClinitTarget) {
+  public void setClinitTarget(JDeclaredType newClinitTarget) {
     if (clinitTarget == newClinitTarget) {
       return;
     }

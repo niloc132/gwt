@@ -58,6 +58,7 @@ import com.google.gwt.dev.jjs.ast.JClassLiteral;
 import com.google.gwt.dev.jjs.ast.JClassType;
 import com.google.gwt.dev.jjs.ast.JDeclaredType;
 import com.google.gwt.dev.jjs.ast.JFieldRef;
+import com.google.gwt.dev.jjs.ast.JLocal;
 import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodBody;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
@@ -1406,21 +1407,30 @@ public final class JavaToJavaScriptCompiler {
 
       // Only register the init method in the EntryMethodHolder class as an entry method, if there
       // is an EntryMethodHolder class.
+      // In theory, we could call this method for our clinits?
       jprogram.addEntryMethod(jprogram.getIndexedMethod(
           SourceName.getShortClassName(entryMethodHolderTypeName) + ".init"));
+
+      //TODO this isn't optional, but we have to hook it up at this point?
+      jprogram.addEntryMethod(jprogram.getIndexedMethod(
+          SourceName.getShortClassName(entryMethodHolderTypeName) + ".eagerClinits"));
     }
     unifyAst.exec();
 
     if (entryMethodHolderTypeName != null) {
       // Generate preemptive calls to clinits if requested, now that we have access to properties.
       // This might be too early, check if there are later normalizations we need to be aware of
-      synthesizeEagerClinits(unifyAst, rpo.getGeneratorContext().getPropertyOracle(), entryMethodHolderTypeName);
+      JMethod eagerClinits = synthesizeEagerClinits(unifyAst, rpo.getGeneratorContext().getPropertyOracle(), entryMethodHolderTypeName);
+
+//      if (eagerClinits != null) {
+//        jprogram.addEntryMethod(eagerClinits);
+//      }
     }
 
     event.end();
   }
 
-  private void synthesizeEagerClinits(UnifyAst unifyAst, PropertyOracle propertyOracle, String entryMethodHolderTypeName) throws UnableToCompleteException {
+  private JMethod synthesizeEagerClinits(UnifyAst unifyAst, PropertyOracle propertyOracle, String entryMethodHolderTypeName) throws UnableToCompleteException {
     TreeLogger logger = this.logger.branch(TreeLogger.Type.TRACE, "Initializing eager clinits");
     // TODO make a constant somewhere
     String propertyName = "compiler.clinit.preload";
@@ -1433,11 +1443,11 @@ public final class JavaToJavaScriptCompiler {
           .getValues();
       if (eagerClinitTypeNames.isEmpty()) {
         // property set to nothing, nothing to do
-        return;
+        return null;
       }
     } catch (BadPropertyValueException e) {
       // property wasn't declared, nothing to do
-      return;
+      return null;
     }
 
     JDeclaredType entryMethodHolderType =
@@ -1445,9 +1455,8 @@ public final class JavaToJavaScriptCompiler {
 
     JMethod eagerClinitsMethod = entryMethodHolderType.findMethod("eagerClinits()V", false);
 
-    JBlock eagerClinitsBlock = ((JMethodBody) eagerClinitsMethod.getBody()).getBlock();
-
-    SourceInfo origin = eagerClinitsBlock.getSourceInfo().makeChild();
+    JMethodBody eagerClinitsBody = (JMethodBody) eagerClinitsMethod.getBody();
+    JBlock eagerClinitsBlock = eagerClinitsBody.getBlock();
 
     Set<JDeclaredType> alreadyInitialized = Sets.newHashSet();
     for (String eagerClinitTypeName : eagerClinitTypeNames) {
@@ -1504,13 +1513,28 @@ public final class JavaToJavaScriptCompiler {
 
           super.endVisit(x, ctx);
         }
+
+        @Override
+        public void endVisit(JLocal x, Context ctx) {
+          // re-home any locals to the replacement method
+
+          super.endVisit(x, ctx);
+        }
       }.accept(clinitBody);
 
       // Inline the clinit's contents, and remove them from the method
       JStatement[] statements = clinitBody.getStatements().toArray(new JStatement[0]);
       eagerClinitsBlock.addStmt(new JBlock(clinitBody.getSourceInfo(), statements));
+      for (int i = clinitBody.getLocals().size() - 1; i >= 0; i--) {
+        JLocal local = clinitBody.getLocals().get(i);
+        clinitBody.removeLocal(i);
+        eagerClinitsBody.addLocal(local);
+      }
       clinitMethod.setBody(new JMethodBody(clinitBody.getSourceInfo()));
+      eagerClinitType.setClinitTarget(null);
     }
+
+    return eagerClinitsMethod;
   }
 
   private void optimizeJavaToFixedPoint() throws InterruptedException {
@@ -1593,7 +1617,7 @@ public final class JavaToJavaScriptCompiler {
   private OptimizerStats optimizeJavaOneTime(String passName, int numNodes,
       OptimizerContext optimizerCtx) {
     Event optimizeEvent = SpeedTracerLogger.start(CompilerEventType.OPTIMIZE, "phase", "loop");
-    // Clinits might have become empty become empty.
+    // Clinits might have become empty.
     jprogram.typeOracle.recomputeAfterOptimizations(jprogram.getDeclaredTypes());
     OptimizerStats stats = new OptimizerStats(passName);
     JavaAstVerifier.assertProgramIsConsistent(jprogram);
