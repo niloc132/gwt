@@ -15,6 +15,8 @@
  */
 package com.google.gwt.dev.javac.testing.impl;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.gwt.dev.resource.Resource;
 
 import java.io.ByteArrayInputStream;
