@@ -292,6 +292,7 @@ public final class Util {
    * @return The base name for the specified class.
    * @deprecated No direct replacement, consider inlining this method.
    */
+  @Deprecated
   public static String getClassName(String className) {
     return className.substring(className.lastIndexOf('.') + 1);
   }
@@ -314,6 +315,7 @@ public final class Util {
    * @return The package name for the specified class, empty string if default package.
    * @deprecated No direct replacement, consider inlining this method.
    */
+  @Deprecated
   public static String getPackageName(String qualifiedName) {
     int idx = qualifiedName.lastIndexOf('.');
     if (idx > 0) {
