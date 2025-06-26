@@ -332,6 +332,7 @@ public final class Util {
    *         IOException.
    * @deprecated No direct replacement, consider copying this method.
    */
+  @Deprecated
   public static long getResourceModifiedTime(URL url) {
     long lastModified = 0L;
     try {
