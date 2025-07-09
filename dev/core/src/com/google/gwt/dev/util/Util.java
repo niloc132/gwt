@@ -838,6 +838,7 @@ public final class Util {
    *
    * @deprecated No direct replacement, consider copying the method if required.
    */
+  @Deprecated
   public static void writeUtf8(StringBuilder builder, OutputStream out)
       throws IOException {
     // Rolling our own converter avoids the following:
