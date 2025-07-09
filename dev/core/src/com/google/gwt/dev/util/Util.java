@@ -197,7 +197,6 @@ public final class Util {
    * @deprecated No direct replacement, but consider using
    * {@link com.google.gwt.safehtml.shared.SafeHtmlUtils#htmlEscape(String)} for HTML escaping.
    */
-  @Deprecated
   public static String escapeXml(String unescaped) {
     StringBuilder builder = new StringBuilder();
     escapeXml(unescaped, 0, unescaped.length(), true, builder);
@@ -219,7 +218,6 @@ public final class Util {
    * @param builder a StringBuilder to be appended with the output.
    * @deprecated No direct replacement, but consider using
    */
-  @Deprecated
   public static void escapeXml(String code, int start, int end,
       boolean quoteApostrophe, StringBuilder builder) {
     int lastIndex = 0;
@@ -294,7 +292,6 @@ public final class Util {
    * @return The base name for the specified class.
    * @deprecated No direct replacement, consider inlining this method.
    */
-  @Deprecated
   public static String getClassName(String className) {
     return className.substring(className.lastIndexOf('.') + 1);
   }
@@ -317,7 +314,6 @@ public final class Util {
    * @return The package name for the specified class, empty string if default package.
    * @deprecated No direct replacement, consider inlining this method.
    */
-  @Deprecated
   public static String getPackageName(String qualifiedName) {
     int idx = qualifiedName.lastIndexOf('.');
     if (idx > 0) {
@@ -334,7 +330,6 @@ public final class Util {
    *         IOException.
    * @deprecated No direct replacement, consider copying this method.
    */
-  @Deprecated
   public static long getResourceModifiedTime(URL url) {
     long lastModified = 0L;
     try {
@@ -657,7 +652,6 @@ public final class Util {
    * @deprecated Consider {@link String#replaceAll(String, String)} with pattern
    * "^file:jar:[^!]+!/" to remove the prefix.
    */
-  @Deprecated
   public static String stripJarPathPrefix(String absolutePath) {
     if (absolutePath != null) {
       int bang = absolutePath.lastIndexOf('!');
@@ -841,7 +835,6 @@ public final class Util {
    *
    * @deprecated No direct replacement, consider copying the method if required.
    */
-  @Deprecated
   public static void writeUtf8(StringBuilder builder, OutputStream out)
       throws IOException {
     // Rolling our own converter avoids the following:
