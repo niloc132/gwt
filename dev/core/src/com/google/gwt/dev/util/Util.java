@@ -655,6 +655,7 @@ public final class Util {
    * @deprecated Consider {@link String#replaceAll(String, String)} with pattern
    * "^file:jar:[^!]+!/" to remove the prefix.
    */
+  @Deprecated
   public static String stripJarPathPrefix(String absolutePath) {
     if (absolutePath != null) {
       int bang = absolutePath.lastIndexOf('!');
