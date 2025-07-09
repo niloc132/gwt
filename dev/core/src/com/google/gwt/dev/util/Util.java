@@ -197,6 +197,7 @@ public final class Util {
    * @deprecated No direct replacement, but consider using
    * {@link com.google.gwt.safehtml.shared.SafeHtmlUtils#htmlEscape(String)} for HTML escaping.
    */
+  @Deprecated
   public static String escapeXml(String unescaped) {
     StringBuilder builder = new StringBuilder();
     escapeXml(unescaped, 0, unescaped.length(), true, builder);
@@ -218,6 +219,7 @@ public final class Util {
    * @param builder a StringBuilder to be appended with the output.
    * @deprecated No direct replacement, but consider using
    */
+  @Deprecated
   public static void escapeXml(String code, int start, int end,
       boolean quoteApostrophe, StringBuilder builder) {
     int lastIndex = 0;
