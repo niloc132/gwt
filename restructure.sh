@@ -147,11 +147,7 @@ TARGET=ideal/util/src/main/java
 move dev/core/src/com/google/gwt/dev/util/collect \
      ideal/util/src/main/java/com/google/gwt/dev/util/
 
-movejava com/google/gwt/dev/util/Util.java #depends on TreeLogger, UnableToCompleteException,
-# speedtracer...
-
 movejava com/google/gwt/dev/util/StringInterningObjectInputStream.java
-movejava com/google/gwt/util/tools/Utility.java
 move dev/core/src/com/google/gwt/util/tools/shared ideal/util/src/main/java/com/google/gwt/util/tools/
 
 #movejava com/google/gwt/core/ext/TreeLogger.java
@@ -179,7 +175,6 @@ move dev/core/test/com/google/gwt/dev/util/collect \
     ideal/util/src/test/java/com/google/gwt/dev/util
 move dev/core/test/org/ \
     ideal/util/src/test/java
-movejava com/google/gwt/dev/util/UtilityTest.java
 #movejava com/google/gwt/util/tools/shared/JavaScriptStringTest.java
 movejava com/google/gwt/dev/AboutTest.java
 movejava com/google/gwt/dev/GwtVersionTest.java
