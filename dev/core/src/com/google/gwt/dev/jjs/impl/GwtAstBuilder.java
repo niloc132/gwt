@@ -40,6 +40,7 @@ import com.google.gwt.dev.jjs.ast.JBreakStatement;
 import com.google.gwt.dev.jjs.ast.JCaseStatement;
 import com.google.gwt.dev.jjs.ast.JCastOperation;
 import com.google.gwt.dev.jjs.ast.JCharLiteral;
+
 import com.google.gwt.dev.jjs.ast.JClassLiteral;
 import com.google.gwt.dev.jjs.ast.JClassType;
 import com.google.gwt.dev.jjs.ast.JConditional;
@@ -1424,8 +1425,7 @@ public class GwtAstBuilder {
       if (functionalExpression.getRequiredBridges() != null) {
         for (MethodBinding methodBinding : functionalExpression.getRequiredBridges()) {
           // Create bridges.
-          createBridgeMethod(functionalExpressionImplementationClass, methodBinding,
-              functionalInterfaceAbstractMethod);
+          createBridgeMethod(functionalExpressionImplementationClass, methodBinding, functionalInterfaceAbstractMethod);
         }
       }
     }
