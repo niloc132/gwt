@@ -486,6 +486,10 @@ pushd ideal/dev/compiler
 mvn clean install
 popd
 
+pushd ideal/dev/devmode
+mvn clean install
+popd
+
 #  tools
 mkdir -p ideal/tools/api-checker/src/main/java/
 move tools/api-checker/src/com ideal/tools/api-checker/src/main/java/
