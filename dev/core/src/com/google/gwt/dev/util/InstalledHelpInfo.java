@@ -16,7 +16,6 @@
 package com.google.gwt.dev.util;
 
 import com.google.gwt.core.ext.TreeLogger.HelpInfo;
-import com.google.gwt.util.tools.Utility;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -30,7 +29,7 @@ public class InstalledHelpInfo extends HelpInfo {
 
   public InstalledHelpInfo(String htmlDocName) {
     try {
-      String installPath = Utility.getInstallPath();
+      String installPath = "";
       File file = new File(installPath, "doc");
       file = new File(file, "helpInfo");
       file = new File(file, htmlDocName);
