@@ -435,7 +435,7 @@ move dev/core/src/com/google/gwt/dev/shell/*.png \
 move dev/core/src/com/google/gwt/dev/shell/*.gif \
      ideal/dev/devmode/src/main/java/com/google/gwt/dev/shell/
 
-mkdir -p ideal/dev/devmode/src/test/java/com/google/gwt/dev/{shell,util}/
+mkdir -p ideal/dev/devmode/src/test/java/com/google/gwt/dev/{shell,util,cfg}/
 TARGET=ideal/dev/devmode/src/test/java
 move dev/core/test/com/google/gwt/dev/shell \
      ideal/dev/devmode/src/test/java/com/google/gwt/dev/
@@ -443,6 +443,8 @@ move dev/core/test/com/google/gwt/dev/util/TemporaryBufferStream.java \
      ideal/dev/devmode/src/test/java/com/google/gwt/dev/util/
 move dev/core/test/com/google/gwt/dev/HostedModeOptionsMock.java \
      ideal/dev/devmode/src/test/java/com/google/gwt/dev/
+move dev/core/test/com/google/gwt/dev/cfg/MockModuleDef.java \
+     ideal/dev/devmode/src/test/java/com/google/gwt/dev/cfg/
 
 # Junit classes for devmode-htmlunit interaction, move these out of the way before moving the rest
 TARGET=ideal/dev/junit3/src/main/java
