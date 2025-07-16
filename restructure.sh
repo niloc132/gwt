@@ -253,7 +253,7 @@ movejava com/google/gwt/dev/util/Pair.java
 # no? just copy what seems to be a published API
 movejava com/google/gwt/core/ext/linker/CompilationResult.java
 movejava com/google/gwt/core/ext/linker/LinkerOrder.java
-
+movejava com/google/gwt/core/ext/linker/LinkerUtils.java
 
 pushd ideal/ext
 mvn clean install
