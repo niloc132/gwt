@@ -285,10 +285,7 @@ ORIGIN=ideal/linkers/src/main/java
 mkdir -p dev/core/src/com/google/gwt/core/linker/
 movejava com/google/gwt/core/linker/SoycReportLinker.java
 
-# TODO linkers tests?
-mkdir -p ideal/linkers/src/test/java
-TARGET=dev/core/tests
-ORIGIN=ideal/linkers/src/test/java
+# Presently all linker tests must be run in the compiler project
 
 pushd ideal/linkers
 mvn clean install
@@ -476,13 +473,17 @@ move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/googl
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
 
 
-mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/ext/linker
+mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/ext/linker/impl
 ORIGIN=dev/core/test
 TARGET=ideal/dev/compiler/src/test/java
 # linker tests need to be here to get StandardLinkerContext and friends
 movejava com/google/gwt/core/ext/linker/ArtifactSetTest.java
 movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
-
+movejava com/google/gwt/core/ext/linker/impl/StandardStatementRangesTest.java
+movejava com/google/gwt/core/ext/linker/impl/StatementRangesBuilderTest.java
+movejava com/google/gwt/core/ext/linker/impl/StatementRangesExtractorTest.java
+movejava com/google/gwt/core/ext/linker/SourceMapTest.java
+movejava com/google/gwt/core/ext/linker/SymbolMapTest.java
 
 pushd ideal/dev/compiler
 mvn clean install
