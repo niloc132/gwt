@@ -494,7 +494,11 @@ popd
 
 #  tools
 mkdir -p ideal/tools/api-checker/src/main/java/
+mkdir -p ideal/tools/api-checker/src/main/resources/
+mkdir -p ideal/tools/api-checker/src/test/java/
 move tools/api-checker/src/com ideal/tools/api-checker/src/main/java/
+move tools/api-checker/test/com ideal/tools/api-checker/src/test/java/
+move tools/api-checker/config/*.conf ideal/tools/api-checker/src/main/resources/
 
 mkdir -p ideal/tools/cldr-import/src/main/java/
 mkdir -p ideal/tools/cldr-import/src/test/java/
