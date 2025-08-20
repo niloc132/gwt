@@ -509,16 +509,11 @@ mvn clean install
 popd
 
 
-# i18n-creator - TODO no pom yet, just a place to get these out of user
+# cli-tools
 #
-mkdir -p ideal/i18n-creator/src/main/java/com/google/gwt/i18n
-move user/src/com/google/gwt/i18n/tools ideal/i18n-creator/src/main/java/com/google/gwt/i18n/
-
-# webapp-creator - TODO no pom yet, just a place to get these out of user
-# TODO also, there are some classes that compiler owns that we don't have, and we have to share with the i18n-creator
-#
-mkdir -p ideal/i18n-creator/src/main/java/com/google/gwt/user/
-move user/src/com/google/gwt/user/tools ideal/i18n-creator/src/main/java/com/google/gwt/user/
+mkdir -p ideal/cli-tools/src/main/java/com/google/gwt/{i18n,user}/
+move user/src/com/google/gwt/i18n/tools ideal/cli-tools/src/main/java/com/google/gwt/i18n/
+move user/src/com/google/gwt/user/tools ideal/cli-tools/src/main/java/com/google/gwt/user/
 
 # requestfactory client
 # requestfactory shared

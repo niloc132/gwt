@@ -121,5 +121,6 @@
         <module>user</module>
         <module>requestfactory</module>
         <module>samples</module>
+        <module>cli-tools</module>
     </modules>
 </project>

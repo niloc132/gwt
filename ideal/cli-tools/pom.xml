@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.gwtproject</groupId>
+        <artifactId>gwt</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>cli-tools</artifactId>
+    <description>
+        Legacy command line tools for creating and interacting with GWT projects.
+    </description>
+
+    <dependencies>
+        <!-- Command line argument parsing -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- DevMode class literal -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>devmode</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- Constants/Messages/etc interfaces -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
