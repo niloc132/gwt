@@ -23,9 +23,9 @@
     <modules>
         <module>api-checker</module>
 
-        <!-- TODO these depend on gwt-i18n, which probably means user itself -->
-        <!--<module>cldr-import</module>-->
-        <!--<module>datetimefmtcreator</module>-->
+        <!-- TODO restore this project once we have a functional dependency for UOption -->
+<!--        <module>cldr-import</module>-->
+        <module>datetimefmtcreator</module>
     </modules>
 
 </project>
