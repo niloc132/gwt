@@ -623,7 +623,7 @@ git add ideal/samples/showcase/src/main/webapp
 #  uberjars for non-maven use
 
 # Clean up old layout
-git rm build.xml common.ant.xml platforms.ant.xml
+git rm build.xml common.ant.xml platforms.ant.xml requestfactory/build.xml servlet/build.xml dev/codeserver/BUILD dev/codeserver/build.xml
 
 
 # last, build the whole thing to make sure it is sane
