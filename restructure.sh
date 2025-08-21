@@ -465,6 +465,8 @@ move user/src/com/google/gwt/junit ideal/dev/junit3/src/main/java/com/google/gwt
 
 mkdir -p ideal/dev/compiler/src/main/resources/com/google/gwt/dev/js
 move dev/core/src/com/google/gwt/dev/js/globals ideal/dev/compiler/src/main/resources/com/google/gwt/dev/js/
+mkdir -p ideal/dev/compiler/src/main/resources/com/google/gwt/soyc/
+move dev/core/src/com/google/gwt/soyc/resources ideal/dev/compiler/src/main/resources/com/google/gwt/soyc/
 
 mkdir -p ideal/dev/compiler/src/main/java/com/google/gwt/
 move dev/core/src/com/google/gwt/core ideal/dev/compiler/src/main/java/com/google/gwt/
@@ -482,8 +484,6 @@ movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 movejava com/google/gwt/core/ext/linker/impl/StandardStatementRangesTest.java
 movejava com/google/gwt/core/ext/linker/impl/StatementRangesBuilderTest.java
 movejava com/google/gwt/core/ext/linker/impl/StatementRangesExtractorTest.java
-movejava com/google/gwt/core/ext/linker/SourceMapTest.java
-movejava com/google/gwt/core/ext/linker/SymbolMapTest.java
 
 pushd ideal/dev/compiler
 mvn clean install
@@ -624,6 +624,16 @@ git add ideal/samples/showcase/src/main/webapp
 
 # TODO validation
 
+# Now that samples are moved, we can do more compiler integration tests
+ORIGIN=dev/core/test
+TARGET=ideal/dev/integration-tests/src/test/java
+mkdir -p ideal/dev/integration-tests/src/test/java/com/google/gwt/core/ext/linker/
+movejava com/google/gwt/core/ext/linker/SourceMapTest.java
+movejava com/google/gwt/core/ext/linker/SymbolMapTest.java
+
+pushd ideal/dev/integration-tests
+mvn clean install
+popd
 
 #  uberjars for non-maven use
 

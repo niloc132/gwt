@@ -25,6 +25,7 @@
         <module>compiler</module>
         <module>devmode</module>
         <module>junit3</module>
+        <module>integration-tests</module>
     </modules>
 
 </project>
