@@ -15,6 +15,7 @@
  */
 package com.google.gwt.dev.shell;
 
+import com.google.gwt.core.ext.FailErrorLogger;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.dev.shell.BrowserChannel.CheckVersionsMessage;
 import com.google.gwt.dev.shell.BrowserChannel.LoadModuleMessage;
