@@ -19,6 +19,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gwt.core.ext.FailErrorLogger;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.JClassType;
@@ -29,7 +30,6 @@ import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.core.ext.typeinfo.TypeOracleException;
 import com.google.gwt.dev.javac.TypeOracleTestingUtils;
 import com.google.gwt.dev.javac.testing.impl.MockJavaResource;
-import com.google.gwt.dev.shell.FailErrorLogger;
 import com.google.gwt.i18n.rebind.AbstractResource.ResourceList;
 import com.google.gwt.i18n.server.GwtLocaleFactoryImpl;
 import com.google.gwt.i18n.shared.GwtLocale;

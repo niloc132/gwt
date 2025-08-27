@@ -15,6 +15,7 @@
  */
 package org.hibernate.jsr303.tck.util;
 
+import com.google.gwt.core.ext.FailErrorLogger;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.linker.ArtifactSet;
@@ -22,7 +23,6 @@ import com.google.gwt.dev.CompilerContext;
 import com.google.gwt.dev.cfg.ModuleDef;
 import com.google.gwt.dev.cfg.ModuleDefLoader;
 import com.google.gwt.dev.javac.StandardGeneratorContext;
-import com.google.gwt.dev.shell.FailErrorLogger;
 import com.google.gwt.dev.util.UnitTestTreeLogger;
 import com.google.gwt.dev.util.log.CompositeTreeLogger;
 import com.google.gwt.dev.util.log.PrintWriterTreeLogger;

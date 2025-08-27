@@ -18,6 +18,7 @@ package com.google.gwt.uibinder.rebind;
 import static com.google.gwt.uibinder.rebind.TypeOracleUtils.hasCompatibleConstructor;
 import static com.google.gwt.uibinder.rebind.TypeOracleUtils.typeIsCompatible;
 
+import com.google.gwt.core.ext.FailErrorLogger;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.typeinfo.JArrayType;
 import com.google.gwt.core.ext.typeinfo.JClassType;
@@ -30,7 +31,6 @@ import com.google.gwt.dev.javac.CompilationStateBuilder;
 import com.google.gwt.dev.javac.testing.impl.JavaResourceBase;
 import com.google.gwt.dev.javac.testing.impl.MockJavaResource;
 import com.google.gwt.dev.resource.Resource;
-import com.google.gwt.dev.shell.FailErrorLogger;
 
 import junit.framework.TestCase;
 
