@@ -15,13 +15,13 @@
  */
 package com.google.gwt.core.ext.linker.impl;
 
+import com.google.gwt.core.ext.FailErrorLogger;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.linker.ConfigurationProperty;
 import com.google.gwt.core.ext.linker.PropertyProviderGenerator;
 import com.google.gwt.dev.cfg.BindingProperty;
 import com.google.gwt.dev.cfg.PropertyProvider;
-import com.google.gwt.dev.shell.FailErrorLogger;
 
 import junit.framework.TestCase;
 
