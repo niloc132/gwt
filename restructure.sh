@@ -175,7 +175,6 @@ move dev/core/test/com/google/gwt/dev/util/collect \
     ideal/util/src/test/java/com/google/gwt/dev/util
 move dev/core/test/org/ \
     ideal/util/src/test/java
-#movejava com/google/gwt/util/tools/shared/JavaScriptStringTest.java
 movejava com/google/gwt/dev/AboutTest.java
 movejava com/google/gwt/dev/GwtVersionTest.java
 
@@ -475,6 +474,7 @@ move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/googl
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
 
 
+mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/soyc
 mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/ext/linker/impl
 ORIGIN=dev/core/test
 TARGET=ideal/dev/compiler/src/test/java
@@ -484,6 +484,11 @@ movejava com/google/gwt/core/ext/linker/TypeIndexedSetTest.java
 movejava com/google/gwt/core/ext/linker/impl/StandardStatementRangesTest.java
 movejava com/google/gwt/core/ext/linker/impl/StatementRangesBuilderTest.java
 movejava com/google/gwt/core/ext/linker/impl/StatementRangesExtractorTest.java
+
+move dev/core/test/com/google/gwt/util \
+     ideal/dev/compiler/src/test/java/com/google/gwt/
+move dev/core/test/com/google/gwt/core \
+     ideal/dev/compiler/src/test/java/com/google/gwt/
 
 pushd ideal/dev/compiler
 mvn clean install
