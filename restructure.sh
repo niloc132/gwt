@@ -474,6 +474,14 @@ move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/googl
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
 
 
+# First move some integration tests to their own project
+ORIGIN=dev/core/test
+TARGET=ideal/dev/integration-tests/src/test/java
+mkdir -p ideal/dev/integration-tests/src/test/java/com/google/gwt/core/ext/linker/
+movejava com/google/gwt/core/ext/linker/SourceMapTest.java
+movejava com/google/gwt/core/ext/linker/SymbolMapTest.java
+
+# Most of the rest can live in the compiler's unit test dir
 mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/soyc
 mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/ext/linker/impl
 ORIGIN=dev/core/test
@@ -629,12 +637,7 @@ git add ideal/samples/showcase/src/main/webapp
 
 # TODO validation
 
-# Now that samples are moved, we can do more compiler integration tests
-ORIGIN=dev/core/test
-TARGET=ideal/dev/integration-tests/src/test/java
-mkdir -p ideal/dev/integration-tests/src/test/java/com/google/gwt/core/ext/linker/
-movejava com/google/gwt/core/ext/linker/SourceMapTest.java
-movejava com/google/gwt/core/ext/linker/SymbolMapTest.java
+# Now that samples are moved, we can run the integration tests
 
 pushd ideal/dev/integration-tests
 mvn clean install
