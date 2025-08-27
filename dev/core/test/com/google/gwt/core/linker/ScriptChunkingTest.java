@@ -24,6 +24,7 @@ import com.google.gwt.core.ext.linker.StatementRanges;
 import com.google.gwt.core.ext.linker.impl.SelectionScriptLinker;
 import com.google.gwt.core.ext.linker.impl.StandardStatementRanges;
 
+import com.google.gwt.dev.resource.Resource;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -116,6 +117,16 @@ public class ScriptChunkingTest extends TestCase {
     public String optimizeJavaScript(TreeLogger logger, String jsProgram)
         throws UnableToCompleteException {
       return "";
+    }
+
+    @Override
+    public boolean shouldEmbedSourceMapContents() {
+      return false;
+    }
+
+    @Override
+    public Resource findSourceFile(String sourceFileName) {
+      return null;
     }
   }
 
