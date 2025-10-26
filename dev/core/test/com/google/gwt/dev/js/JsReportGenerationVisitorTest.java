@@ -136,8 +136,7 @@ public class JsReportGenerationVisitorTest extends TestCase {
     compact = true;
     includeInlinedRanges = true;
     program = parseJs("function f() { return 42; }");
-    checkMappings("function f(){return 42}\n",
-        "function f(){return 42}",
+    checkMappings("function f(){return 42}",
         "return 42",
         "42"
     );

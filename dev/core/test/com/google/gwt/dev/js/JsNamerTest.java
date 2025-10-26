@@ -60,27 +60,27 @@ public class JsNamerTest extends TestCase {
   }
 
   public void testBannedIdent() throws Exception {
-    assertEquals("function foo_0(){return 42}\n",
+    assertEquals("function foo_0(){return 42}",
         rename("function foo() { return 42; }"));
-    assertEquals("function bar_0(){return 42}\n",
+    assertEquals("function bar_0(){return 42}",
         rename("function bar() { return 42; }"));
-    assertEquals("function baz_0(){return 42}\n",
+    assertEquals("function baz_0(){return 42}",
         rename("function baz() { return 42; }"));
   }
 
   public void testBannedSuffix() throws Exception {
-    assertEquals("function fooLogger_0(){return 42}\n",
+    assertEquals("function fooLogger_0(){return 42}",
         rename("function fooLogger() { return 42; }"));
-    assertEquals("function foologger_0(){return 42}\n",
+    assertEquals("function foologger_0(){return 42}",
         rename("function foologger() { return 42; }"));
-    assertEquals("function fooLOGGER_0(){return 42}\n",
+    assertEquals("function fooLOGGER_0(){return 42}",
         rename("function fooLOGGER() { return 42; }"));
   }
 
   public void testNoBlacklist() throws Exception {
     props.blacklist = null;
     props.blacklistSuffixes = null;
-    assertEquals("function fooLogger(){return 42}\n",
+    assertEquals("function fooLogger(){return 42}",
         rename("function fooLogger() { return 42; }"));
   }
 
@@ -93,8 +93,8 @@ public class JsNamerTest extends TestCase {
     program.getScope().findExistingName("f2").setShortIdent("thing");
 
     assertEquals(
-        "function thing(){return 1}\n" +
-        "function thing_0(){return 2}\n",
+        "function thing(){return 1}" +
+        "function thing_0(){return 2}",
         rename(program));
   }
 
@@ -108,7 +108,7 @@ public class JsNamerTest extends TestCase {
     program.getScope().findExistingName("f1").setShortIdent("thing");
     program.getScope().getChildren().get(0).findExistingName("f2").setShortIdent("thing");
 
-    assertEquals("function thing_0(){function thing(){return 2}\nreturn 1}\n",
+    assertEquals("function thing_0(){function thing(){return 2}return 1}",
         rename(program));
   }
 
@@ -130,15 +130,15 @@ public class JsNamerTest extends TestCase {
     statements.add(new JsInvocation(sourceInfo, new JsNameRef(sourceInfo, name)).makeStmt());
 
     // Verify that the illegal "-" character is translated.
-    assertEquals("function package_info(){}\npackage_info();",
+    assertEquals("function package_info(){}package_info();",
         rename(jsProgram, JsOutputOption.PRETTY, false));
-    assertEquals("function package_info(){}\npackage_info();",
+    assertEquals("function package_info(){}package_info();",
         rename(jsProgram, JsOutputOption.DETAILED, false));
   }
 
   public void testRejectsReservedSuffix() throws Exception {
     // Regular renaming runs fine.
-    assertEquals("function foo_0_g$(){return 42}\n",
+    assertEquals("function foo_0_g$(){return 42}",
         rename(parseJs("function foo() { return 42; }"), JsOutputOption.PRETTY, true));
 
     // Renaming with the reserved suffix is rejected.

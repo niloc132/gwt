@@ -61,17 +61,17 @@ public class JsDuplicateFunctionRemoverTest extends OptimizerTestBase {
 
   public void testDontRemoveCtors() throws Exception {
     // As fieldref qualifier
-    assertEquals("function a(){}\n;function b(){}\nb.prototype={};a();b();",
+    assertEquals("function a(){};function b(){}b.prototype={};a();b();",
         optimize("function a(){};function b(){} b.prototype={}; a(); b();"));
     // As parameter
     assertEquals(
-        "function defineClass(a,b){}\n;function a(){}\n;function b(){}\ndefineClass(a,b);a();b();",
+        "function defineClass(a,b){};function a(){};function b(){}defineClass(a,b);a();b();",
         optimize("function defineClass(a,b){};function a(){};function b(){}"
             + " defineClass(a,b); a(); b();"));
   }
 
   public void testRemoveDuplicates() throws Exception {
-    assertEquals("function a(){}\n;a();a();",
+    assertEquals("function a(){};a();a();",
         optimize("function a(){};function b(){} a(); b();"));
   }
 
@@ -87,7 +87,7 @@ public class JsDuplicateFunctionRemoverTest extends OptimizerTestBase {
 
     String firstName = new MockNameGenerator().getFreshName();
     assertEquals("_.method1=" + firstName + ";_.method2=" + firstName +
-        ";_.method1();_.method2();function " + firstName + "(){}\n",
+        ";_.method1();_.method2();function " + firstName + "(){}",
         optimize(program, JsSymbolResolver.class, JsDuplicateFunctionRemoverProxy.class));
   }
 

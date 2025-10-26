@@ -93,7 +93,7 @@ public class JsNamespaceChooserTest extends TestCase {
 
   public void testSkipNonJavaFunction() throws Exception {
     program = parseJs("function f() {} f();");
-    checkResult("function f(){}\nf();");
+    checkResult("function f(){}f();");
     checkNamespaceEquals(null, "f");
   }
 
