@@ -41,7 +41,6 @@ import com.google.gwt.dev.js.ast.JsPrefixOperation;
 import com.google.gwt.dev.js.ast.JsProgram;
 import com.google.gwt.dev.js.ast.JsStatement;
 import com.google.gwt.dev.js.ast.JsStringLiteral;
-import com.google.gwt.dev.js.ast.JsUnaryOperation;
 import com.google.gwt.dev.js.ast.JsUnaryOperator;
 import com.google.gwt.dev.js.ast.JsValueLiteral;
 import com.google.gwt.dev.js.ast.JsVars;
@@ -275,6 +274,35 @@ public class JsStaticEval {
               JsBinaryOperator.OR, condExpr, elseExpr);
           ctx.replaceMe(accept(binOp));
         }
+      } else if (thenExpr instanceof JsBooleanLiteral) {
+        // "Boxed" booleans get in the way of Simplifier handling some boolean literals, but those
+        // are gone by the time we get here, so we can try again for a few simplifications.
+        // See Simplifier#simplifyConditional.
+        JsBooleanLiteral thenLit = (JsBooleanLiteral) thenExpr;
+        JsBinaryOperation binOp;
+        if (thenLit.getValue()) {
+          // (cond ? true : else)  ==>  cond || else
+          binOp = new JsBinaryOperation(x.getSourceInfo(),
+              JsBinaryOperator.OR, condExpr, elseExpr);
+        } else {
+          // (cond ? false : else)  ==>  !cond && else
+          binOp = new JsBinaryOperation(x.getSourceInfo(),
+              JsBinaryOperator.AND, negate(x.getSourceInfo(), condExpr), elseExpr);
+        }
+        ctx.replaceMe(accept(binOp));
+      } else if (elseExpr instanceof JsBooleanLiteral) {
+        JsBooleanLiteral elseLit = (JsBooleanLiteral) elseExpr;
+        JsBinaryOperation binOp;
+        if (elseLit.getValue()) {
+          // (cond ? then : true)  ==>  !cond || then
+          binOp = new JsBinaryOperation(x.getSourceInfo(),
+              JsBinaryOperator.OR, negate(x.getSourceInfo(), condExpr), thenExpr);
+        } else {
+          // (cond ? then : false)  ==>  cond && then
+          binOp = new JsBinaryOperation(x.getSourceInfo(),
+              JsBinaryOperator.AND, condExpr, thenExpr);
+        }
+        ctx.replaceMe(accept(binOp));
       }
     }
 
@@ -381,9 +409,9 @@ public class JsStaticEval {
         ctx.replaceMe(accept(op.makeStmt()));
       } else if (thenIsEmpty && !elseIsEmpty) {
         // Convert "if (a()) {} else {stuff}" => "if (!a()) {stuff}".
-        JsUnaryOperation negatedOperation = new JsPrefixOperation(
-            x.getSourceInfo(), JsUnaryOperator.NOT, x.getIfExpr());
-        JsIf newIf = new JsIf(x.getSourceInfo(), negatedOperation, elseStmt,
+        JsIf newIf = new JsIf(x.getSourceInfo(),
+            negate(x.getSourceInfo(), x.getIfExpr()),
+            elseStmt,
             null);
         ctx.replaceMe(accept(newIf));
       } else if (elseIsEmpty && thenExpr != null) {
@@ -588,6 +616,10 @@ public class JsStaticEval {
         return false;
       }
     }
+  }
+
+  private static JsPrefixOperation negate(SourceInfo sourceInfo, JsExpression expr) {
+    return new JsPrefixOperation(sourceInfo, JsUnaryOperator.NOT, expr);
   }
 
   private static final String NAME = JsStaticEval.class.getSimpleName();
