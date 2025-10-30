@@ -208,6 +208,15 @@ public abstract class JDeclaredType extends JReferenceType
       // Target has no clinit (common case).
       return false;
     }
+    /*
+     * The clinit for the source of the reference must already have run, so if
+     * it's the same as this one, there it must have already run. One example is
+     * a reference from a subclass to something in a superclass.
+     */
+    if (this.getClinitTarget() == targetType.getClinitTarget()) {
+      return false;
+    }
+
     JDeclaredType outer = this;
     // Once we hit a static class, the rest are static all the way up to top, give up.
     // In theory, we could also handle private static nested classes here too, but the
@@ -220,12 +229,7 @@ public abstract class JDeclaredType extends JReferenceType
       }
       outer = outer.enclosingType;
     }
-    /*
-     * The clinit for the source of the reference must already have run, so if
-     * it's the same as this one, there it must have already run. One example is
-     * a reference from a subclass to something in a superclass.
-     */
-    return this.getClinitTarget() != targetType.getClinitTarget();
+    return true;
   }
 
   /**
