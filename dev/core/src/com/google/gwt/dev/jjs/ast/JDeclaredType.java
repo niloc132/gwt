@@ -194,6 +194,9 @@ public abstract class JDeclaredType extends JReferenceType
    * <li><code>this</code> is a subclass of <code>targetType</code>, because my
    * clinit would have already run this <code>targetType</code>'s clinit; see
    * JLS 12.4</li>
+   * <li><code>this</code> is a non-static inner class of <code>targetType</code>,
+   * because an outer instance of <code>targetType</code> must already exist and
+   * have had its clinit run. This includes lambdas and anonymous classes.</li>
    * </ol>
    */
   public boolean checkClinitTo(JDeclaredType targetType) {
@@ -204,6 +207,18 @@ public abstract class JDeclaredType extends JReferenceType
     if (targetType == null || !targetType.hasClinit()) {
       // Target has no clinit (common case).
       return false;
+    }
+    JDeclaredType outer = this;
+    // Once we hit a static class, the rest are static all the way up to top, give up.
+    // In theory, we could also handle private static nested classes here too, but the
+    // use of JSNI could let external callers instantiate them without going through
+    // the outer class.
+    while (outer.getClassDisposition() != NestedClassDisposition.STATIC && outer.getClassDisposition() != NestedClassDisposition.TOP_LEVEL) {
+      if (outer == targetType) {
+        // Outer is target type, so already has been initialized, avoid clinit call.
+        return false;
+      }
+      outer = outer.enclosingType;
     }
     /*
      * The clinit for the source of the reference must already have run, so if
