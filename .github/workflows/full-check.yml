@@ -24,8 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ '11' ] #[ '17', '21', '22' ]
-        java-distribution: [ 'temurin' ] #, 'sapmachine' ]
+        java-version: [ '11', '17', '21', '22' ]
     steps:
       - name: Checkout GWT itself into one directory
         uses: actions/checkout@v6
@@ -41,7 +40,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: ${{ matrix.java-distribution }}
+          distribution: 'temurin'
 
       - name: Build, style/api checks, test, produce docs
         run: |
@@ -70,18 +69,19 @@ jobs:
         uses: actions/upload-artifact@v5
         if: always()
         with:
-          name: checkstyle-reports-${{ matrix.java-version }}-${{ matrix.java-distribution }}
+          name: checkstyle-reports-java${{ matrix.java-version }}
           path: 'gwt/build/out/**/checkstyle*.xml'
       - name: Upload test xml files for manual review in its own artifact
         uses: actions/upload-artifact@v5
         if: always()
         with:
+          name: junit-reports-java${{ matrix.java-version }}
           path: 'gwt/build/out/**/test/**/reports/TEST-*.xml'
 
       - name: On success, upload the release zip
         uses: actions/upload-artifact@v5
         with:
-          name: gwt-${{ matrix.java-version }}-${{ matrix.java-distribution }}
+          name: gwt-java${{ matrix.java-version }}
           path: 'gwt/build/dist/gwt-*.zip'
 
       - name: Set up sonatype credentials
@@ -90,7 +90,7 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' && github.repository_owner == 'gwtproject' && matrix.java-version == '21' }}
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: ${{ matrix.java-distribution }}
+          distribution: 'temurin'
           # Define the ID for the server to put in settings.xml, and the env vars that will contain the secrets
           server-id: sonatype-snapshots
           server-username: SONATYPE_USERNAME
