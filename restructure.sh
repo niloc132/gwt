@@ -342,6 +342,7 @@ popd
 
 #  codeserver
 mkdir -p ideal/dev/codeserver/src/{main,test}/java/com/google/gwt/dev/codeserver
+mkdir -p ideal/dev/codeserver/src/test/resources/com/google/gwt/dev/codeserver/
 #ORIGIN=dev/codeserver/java
 #TARGET=ideal/dev/codeserver/src/main/java
 move dev/codeserver/java/com/google/gwt/dev/codeserver \
@@ -349,6 +350,8 @@ move dev/codeserver/java/com/google/gwt/dev/codeserver \
 
 #ORIGIN=dev/codeserver/javatests
 #TARGET=ideal/dev/codeserver/src/test/java
+move dev/codeserver/javatests/com/google/gwt/dev/codeserver/CodeServerTest.gwt.xml \
+    ideal/dev/codeserver/src/test/resources/com/google/gwt/dev/codeserver/
 move dev/codeserver/javatests/com/google/gwt/dev/codeserver \
     ideal/dev/codeserver/src/test/java/com/google/gwt/dev/
 

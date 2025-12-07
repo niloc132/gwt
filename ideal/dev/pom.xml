@@ -24,6 +24,7 @@
     <modules>
         <module>compiler</module>
         <module>devmode</module>
+        <module>codeserver</module>
         <module>junit3</module>
         <module>integration-tests</module>
     </modules>
