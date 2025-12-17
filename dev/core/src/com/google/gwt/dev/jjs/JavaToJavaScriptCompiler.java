@@ -1492,10 +1492,11 @@ public final class JavaToJavaScriptCompiler {
   private OptimizerStats optimizeJavaOneTime(String passName, int numNodes,
       OptimizerContext optimizerCtx) {
     Event optimizeEvent = SpeedTracerLogger.start(CompilerEventType.OPTIMIZE, "phase", "loop");
-    // Clinits might have become empty become empty.
+    // Clinits might have become empty.
     jprogram.typeOracle.recomputeAfterOptimizations(jprogram.getDeclaredTypes());
     OptimizerStats stats = new OptimizerStats(passName);
     JavaAstVerifier.assertProgramIsConsistent(jprogram);
+    SideEffectChecker.exec(jprogram, optimizerCtx);
     stats.add(Pruner.exec(jprogram, true, optimizerCtx).recordVisits(numNodes));
     stats.add(Finalizer.exec(jprogram, optimizerCtx).recordVisits(numNodes));
     stats.add(MakeCallsStatic.exec(jprogram, options.shouldAddRuntimeChecks(), optimizerCtx)
