@@ -64,39 +64,43 @@ public class SideEffectChecker {
       if (x.isAssignment()) {
         // if the lhs is a local/param, we can ignore
         JExpression lhs = x.getLhs();
-        if (lhs instanceof JParameterRef || lhs instanceof JLocalRef) {
-          return true;
-        }
-        // If the assignment is to a field, we need to check what holds the field
-        if (lhs instanceof JFieldRef) {
-          JFieldRef f = (JFieldRef) lhs;
-          // assigning to a static field is always a side effect
-          if (f.getField().isStatic()) {
-            updateResult(Result.MODIFIES_GLOBAL_STATE);
-            return false;
-          }
-          if (f.getInstance() instanceof JParameterRef p && p.getParameter().isFinal()) {
-            // Assigning to a field of a final param is considered modifying the parameter.
-            // Technically a side effect, but might be okay for the caller (e.g. setters which
-            // have been made static).
-            modifiedParameters.set(method.getParams().indexOf(p.getParameter()));
-            updateResult(Result.MODIFIES_PARAMETERS);
-            return true;
-          } else if (f.getInstance() instanceof JLocalRef l && l.getLocal().isFinal()) {
-            if (l.getLocal().getInitializer() instanceof JMethodCall m && m.getTarget().isConstructor()) {
-              // either the ctor is permitted, or the whole method isn't permitted
-              return true;
-            }
-          }
-          // Other fields are considered unsafe at this time
+        return validateAssignment(lhs);
+      }
+      return true;
+    }
+
+    private boolean validateAssignment(JExpression expr) {
+      if (expr instanceof JParameterRef || expr instanceof JLocalRef) {
+        return true;
+      }
+      // If the assignment is to a field, we need to check what holds the field
+      if (expr instanceof JFieldRef) {
+        JFieldRef f = (JFieldRef) expr;
+        // assigning to a static field is always a side effect
+        if (f.getField().isStatic()) {
           updateResult(Result.MODIFIES_GLOBAL_STATE);
           return false;
         }
-        // other assignments are considered unsafe at this time
+        if (f.getInstance() instanceof JParameterRef p && p.getParameter().isFinal()) {
+          // Assigning to a field of a final param is considered modifying the parameter.
+          // Technically a side effect, but might be okay for the caller (e.g. setters which
+          // have been made static).
+          modifiedParameters.set(method.getParams().indexOf(p.getParameter()));
+          updateResult(Result.MODIFIES_PARAMETERS);
+          return true;
+        } else if (f.getInstance() instanceof JLocalRef l && l.getLocal().isFinal()) {
+          if (l.getLocal().getInitializer() instanceof JMethodCall m && m.getTarget().isConstructor()) {
+            // either the ctor is permitted, or the whole method isn't permitted
+            return true;
+          }
+        }
+        // Other fields are considered unsafe at this time
         updateResult(Result.MODIFIES_GLOBAL_STATE);
         return false;
       }
-      return true;
+      // other assignments are considered unsafe at this time
+      updateResult(Result.MODIFIES_GLOBAL_STATE);
+      return false;
     }
 
 
@@ -120,16 +124,12 @@ public class SideEffectChecker {
 
     @Override
     public boolean visit(JPostfixOperation x, Context ctx) {
-      // TODO treat this like an assignment
-      updateResult(Result.MODIFIES_GLOBAL_STATE);
-      return false;
+      return validateAssignment(x.getArg());
     }
 
     @Override
     public boolean visit(JPrefixOperation x, Context ctx) {
-      // TODO treat this like an assignment
-      updateResult(Result.MODIFIES_GLOBAL_STATE);
-      return false;
+      return validateAssignment(x.getArg());
     }
 
     @Override
@@ -256,6 +256,9 @@ public class SideEffectChecker {
             break;
           }
           if (calleeResults.result() == MethodSideEffects.Result.MODIFIES_PARAMETERS) {
+            // TODO check if any modified params correspond to vars that are safe for us to modify
+            // TODO also move this check into an earlier phase if possible, so we can propagate this
+            //      state to callers
             result = false;
             break;
           }
