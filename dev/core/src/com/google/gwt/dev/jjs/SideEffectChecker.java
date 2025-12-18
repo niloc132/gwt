@@ -9,6 +9,7 @@ import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
 import com.google.gwt.dev.jjs.ast.JParameterRef;
 import com.google.gwt.dev.jjs.ast.JProgram;
+import com.google.gwt.dev.jjs.ast.JThrowStatement;
 import com.google.gwt.dev.jjs.ast.JVisitor;
 import com.google.gwt.dev.jjs.impl.OptimizerContext;
 
@@ -39,14 +40,14 @@ import java.util.Set;
  * enables pruning unused results built over several method calls like collections, StringBuilders,
  * etc. Not all use cases will work every time, and some may require multiple optimizations passes.
  * <p>
- * At this time, immutable is not considered, and "pure functions" have no special handling.
+ * At this time, immutability is not considered, and "pure functions" have no special handling.
  */
 public class SideEffectChecker {
   private static final String NAME = SideEffectChecker.class.getSimpleName();
   private static class MethodSideEffects extends JVisitor {
     private final JMethod method;
     private final BitSet modifiedParameters;
-    private Result result;
+    private Result result = Result.PURE;
 
     private MethodSideEffects(JMethod method) {
       this.method = method;
@@ -62,6 +63,7 @@ public class SideEffectChecker {
         if (lhs instanceof JParameterRef || lhs instanceof JLocalRef) {
           return true;
         }
+        // If the assignment is to a field, we need to check what holds the field
         if (lhs instanceof JFieldRef) {
           JFieldRef f = (JFieldRef) lhs;
           // assigning to a static field is always a side effect
@@ -70,6 +72,10 @@ public class SideEffectChecker {
             return false;
           }
           if (f.getInstance() instanceof JParameterRef p && p.getParameter().isFinal()) {
+            // Assigning to a field of a final param is considered modifying the parameter.
+            // Technically a side effect, but might be okay for the caller (e.g. setters which
+            // have been made static).
+            modifiedParameters.set(method.getParams().indexOf(p.getParameter()));
             updateResult(Result.MODIFIES_PARAMETERS);
             return true;
           } else if (f.getInstance() instanceof JLocalRef l && l.getLocal().isFinal()) {
@@ -105,6 +111,12 @@ public class SideEffectChecker {
         updateResult(Result.MODIFIES_GLOBAL_STATE);
         return false;
       }
+    }
+
+    @Override
+    public boolean visit(JThrowStatement x, Context ctx) {
+      // At this time, this is considered a side effect to avoid pruning checks
+      return false;
     }
 
     public Result result() {
@@ -150,7 +162,7 @@ public class SideEffectChecker {
     new JVisitor() {
       @Override
       public boolean visit(JMethod x, Context ctx) {
-        if (x.isConstructor() || x.isStatic()) {
+        if (!alwaysConsideredToHaveSideEffects(x)) {
           // Analyze method body for side effects, record dependencies
           methodResults.put(x, new MethodSideEffects(x));
         }
@@ -158,40 +170,78 @@ public class SideEffectChecker {
       }
     }.accept(jprogram);
 
+    HashMap<JMethod, CheckStatus> results = new HashMap<>();
     for (JMethod method : methodResults.keySet()) {
-      if (!method.hasSideEffects()) {
-        continue;
+      if (checkNoSideEffects(method, methodResults, optimizerContext, results)) {
+//        System.out.println("Method " + method.toString() + " has no side effects");
+        method.setHasSideEffects(false);
+        optimizerContext.markModified(method);
       }
-      if (methodResults.get(method).result() == MethodSideEffects.Result.MODIFIES_GLOBAL_STATE) {
-        method.setHasSideEffects(true);
-        continue;
-      }
-      if (methodResults.get(method).result() == MethodSideEffects.Result.MODIFIES_PARAMETERS) {
-        method.setHasSideEffects(true);
-        continue;
-      }
-
-      boolean hasSideEffects = false;
-      for (JMethod callee : optimizerContext.getCallees(Set.of(method))) {
-        if (!callee.hasSideEffects()) {
-          continue;
-        }
-        if (methodResults.get(callee).result() == MethodSideEffects.Result.MODIFIES_GLOBAL_STATE) {
-          hasSideEffects = true;
-          break;
-        }
-        if (methodResults.get(callee).result() == MethodSideEffects.Result.MODIFIES_PARAMETERS) {
-          //TODO check the param, if it is a local and was assigned new something locally created, this
-          //     is allowed
-          hasSideEffects = true;
-          break;
-        }
-      }
-      method.setHasSideEffects(hasSideEffects);
-      optimizerContext.markModified(method);
     }
 
     optimizerContext.setLastStepFor(NAME, optimizerContext.getOptimizationStep());
     optimizerContext.incOptimizationStep();
+  }
+  enum CheckStatus { WORKING, NO_SIDE_EFFECTS, HAS_SIDE_EFFECTS }
+
+  /**
+   * Recursively check if a method has side effects, based on the per-method analysis results and
+   * the static functions and constructors it calls.
+   * @param method the method to check
+   * @param methodResults precomputed per-method results
+   * @param optimizerContext context to use to walk the call graph
+   * @param visitedMethods a mape to hold results
+   * @return true if the method definitely has no side effects, false if we either know it has side
+   * effects or can't be sure
+   */
+  private static boolean checkNoSideEffects(JMethod method, Map<JMethod, MethodSideEffects> methodResults,
+      OptimizerContext optimizerContext, Map<JMethod, CheckStatus> visitedMethods) {
+    if (visitedMethods.containsKey(method)) {
+      // Return false for WORKING to avoid cycles. In theory recursive methods could be side-effect free,
+      // but this approach can't handle that.
+      return visitedMethods.get(method) == CheckStatus.NO_SIDE_EFFECTS;
+    }
+    visitedMethods.put(method, CheckStatus.WORKING);
+    boolean result = true;
+    if (alwaysConsideredToHaveSideEffects(method)) {
+      result = false;
+    } else if (method.hasSideEffects()) {
+      MethodSideEffects ownResults = methodResults.get(method);
+      if (ownResults.result() == MethodSideEffects.Result.MODIFIES_GLOBAL_STATE) {
+        result = false;
+      } else if (ownResults.result() == MethodSideEffects.Result.MODIFIES_PARAMETERS) {
+        result = false;
+      } else {
+        for (JMethod callee : optimizerContext.getCallees(Set.of(method))) {
+          if (!callee.hasSideEffects()) {
+            continue;
+          }
+          if (alwaysConsideredToHaveSideEffects(callee)) {
+            result = false;
+            break;
+          }
+          MethodSideEffects calleeResults = methodResults.get(callee);
+          if (calleeResults.result() == MethodSideEffects.Result.MODIFIES_GLOBAL_STATE) {
+            result = false;
+            break;
+          }
+          if (calleeResults.result() == MethodSideEffects.Result.MODIFIES_PARAMETERS) {
+            result = false;
+            break;
+          }
+          if (!checkNoSideEffects(callee, methodResults, optimizerContext, visitedMethods)) {
+            result = false;
+            break;
+          }
+        }
+      }
+    }
+
+    visitedMethods.put(method, result ? CheckStatus.NO_SIDE_EFFECTS : CheckStatus.HAS_SIDE_EFFECTS);
+    return result;
+  }
+
+  private static boolean alwaysConsideredToHaveSideEffects(JMethod x) {
+    return x.isJsNative() || x.isJsniMethod() || JProgram.isClinit(x) || (!x.isConstructor() && !x.isStatic());
   }
 }
