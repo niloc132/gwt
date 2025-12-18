@@ -242,6 +242,7 @@ public class SideEffectChecker {
   }
 
   private static boolean alwaysConsideredToHaveSideEffects(JMethod x) {
-    return x.isJsNative() || x.isJsniMethod() || JProgram.isClinit(x) || (!x.isConstructor() && !x.isStatic());
+    //TODO for reasons, we can't yet allow constructors to have no side effects.
+    return x.isJsNative() || x.isJsniMethod() || JProgram.isClinit(x) || (/*!x.isConstructor() && */!x.isStatic());
   }
 }
