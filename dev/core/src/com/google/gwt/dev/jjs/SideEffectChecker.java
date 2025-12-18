@@ -2,12 +2,16 @@ package com.google.gwt.dev.jjs;
 
 import com.google.gwt.dev.jjs.ast.Context;
 import com.google.gwt.dev.jjs.ast.JBinaryOperation;
+import com.google.gwt.dev.jjs.ast.JDeclarationStatement;
 import com.google.gwt.dev.jjs.ast.JExpression;
+import com.google.gwt.dev.jjs.ast.JField;
 import com.google.gwt.dev.jjs.ast.JFieldRef;
 import com.google.gwt.dev.jjs.ast.JLocalRef;
 import com.google.gwt.dev.jjs.ast.JMethod;
 import com.google.gwt.dev.jjs.ast.JMethodCall;
 import com.google.gwt.dev.jjs.ast.JParameterRef;
+import com.google.gwt.dev.jjs.ast.JPostfixOperation;
+import com.google.gwt.dev.jjs.ast.JPrefixOperation;
 import com.google.gwt.dev.jjs.ast.JProgram;
 import com.google.gwt.dev.jjs.ast.JThrowStatement;
 import com.google.gwt.dev.jjs.ast.JVisitor;
@@ -95,11 +99,6 @@ public class SideEffectChecker {
       return true;
     }
 
-    private void updateResult(Result newResult) {
-      if (result == null || newResult.ordinal() > result.ordinal()) {
-        result = newResult;
-      }
-    }
 
     @Override
     public boolean visit(JMethodCall x, Context ctx) {
@@ -117,6 +116,37 @@ public class SideEffectChecker {
     public boolean visit(JThrowStatement x, Context ctx) {
       // At this time, this is considered a side effect to avoid pruning checks
       return false;
+    }
+
+    @Override
+    public boolean visit(JPostfixOperation x, Context ctx) {
+      // TODO treat this like an assignment
+      updateResult(Result.MODIFIES_GLOBAL_STATE);
+      return false;
+    }
+
+    @Override
+    public boolean visit(JPrefixOperation x, Context ctx) {
+      // TODO treat this like an assignment
+      updateResult(Result.MODIFIES_GLOBAL_STATE);
+      return false;
+    }
+
+    @Override
+    public boolean visit(JDeclarationStatement x, Context ctx) {
+      if (x.getVariableRef().getTarget() instanceof JField) {
+        // TODO if the initializer is for a field, we're in an instance initializer, treat it sort of like modified params
+        updateResult(Result.MODIFIES_GLOBAL_STATE);
+        return false;
+      }
+
+      return true;
+    }
+
+    private void updateResult(Result newResult) {
+      if (result == null || newResult.ordinal() > result.ordinal()) {
+        result = newResult;
+      }
     }
 
     public Result result() {
