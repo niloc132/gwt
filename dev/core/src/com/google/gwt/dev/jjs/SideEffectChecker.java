@@ -121,7 +121,7 @@ public class SideEffectChecker {
 
     @Override
     public boolean visit(JMethodCall x, Context ctx) {
-      if (x.getTarget().isStatic() || x.getTarget().isConstructor()) {
+      if (!alwaysConsideredToHaveSideEffects(x.getTarget())) {
         // Wait and see if this method was permitted or not
         return true;
       } else {
@@ -244,6 +244,7 @@ public class SideEffectChecker {
     if (visitedMethods.containsKey(method)) {
       // Return false for WORKING to avoid cycles. In theory recursive methods could be side-effect free,
       // but this approach can't handle that.
+      // TODO some kind of predicate system to allow self/mutually recursive methods
       return visitedMethods.get(method) == CheckStatus.NO_SIDE_EFFECTS;
     }
     visitedMethods.put(method, CheckStatus.WORKING);
@@ -290,6 +291,10 @@ public class SideEffectChecker {
   }
 
   private static boolean alwaysConsideredToHaveSideEffects(JMethod x) {
+    // If explicitly marked as "no side effects", believe it
+    if (!x.hasSideEffects()) {
+      return false;
+    }
     // TODO for reasons, we can't yet allow constructors to have no side effects.
     return x.isJsNative() || x.isJsniMethod() || JProgram.isClinit(x) || (/*!x.isConstructor() && */!x.isStatic());
   }
