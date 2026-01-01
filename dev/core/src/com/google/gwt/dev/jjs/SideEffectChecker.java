@@ -207,6 +207,10 @@ public class SideEffectChecker {
     new JVisitor() {
       @Override
       public boolean visit(JMethod x, Context ctx) {
+        if (!x.hasSideEffects()) {
+          // Already known to have no side effects
+          return false;
+        }
         if (!alwaysConsideredToHaveSideEffects(x)) {
           // Analyze method body for side effects, record dependencies
           methodResults.put(x, new MethodSideEffects(x));
