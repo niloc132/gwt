@@ -31,6 +31,7 @@ import com.google.gwt.dev.jjs.ast.JProgram;
 import com.google.gwt.dev.jjs.ast.JThrowStatement;
 import com.google.gwt.dev.jjs.ast.JVisitor;
 import com.google.gwt.dev.jjs.impl.OptimizerContext;
+import com.google.gwt.dev.jjs.impl.OptimizerStats;
 
 import java.util.BitSet;
 import java.util.HashMap;
@@ -200,40 +201,41 @@ public class SideEffectChecker {
     }
   }
   public static int exec(JProgram jprogram, OptimizerContext optimizerContext) {
-    Set<JMethod> modifiedMethods =
-        optimizerContext.getModifiedMethodsSince(optimizerContext.getLastStepFor(NAME));
+    try (OptimizerStats stats = OptimizerStats.optimization(NAME)) {
+      Set<JMethod> modifiedMethods =
+          optimizerContext.getModifiedMethodsSince(optimizerContext.getLastStepFor(NAME));
 
-    Map<JMethod, MethodSideEffects> methodResults = new HashMap<>();
-    new JVisitor() {
-      @Override
-      public boolean visit(JMethod x, Context ctx) {
-        if (!x.hasSideEffects()) {
-          // Already known to have no side effects
+      Map<JMethod, MethodSideEffects> methodResults = new HashMap<>();
+      new JVisitor() {
+        @Override
+        public boolean visit(JMethod x, Context ctx) {
+          if (!x.hasSideEffects()) {
+            // Already known to have no side effects
+            return false;
+          }
+          if (!alwaysConsideredToHaveSideEffects(x)) {
+            // Analyze method body for side effects, record dependencies
+            methodResults.put(x, new MethodSideEffects(x));
+          }
           return false;
         }
-        if (!alwaysConsideredToHaveSideEffects(x)) {
-          // Analyze method body for side effects, record dependencies
-          methodResults.put(x, new MethodSideEffects(x));
-        }
-        return false;
-      }
-    }.accept(jprogram);
+      }.accept(jprogram);
 
-    HashMap<JMethod, CheckStatus> results = new HashMap<>();
-    int changes = 0;
-    for (JMethod method : methodResults.keySet()) {
-      if (checkNoSideEffects(method, methodResults, optimizerContext, results)) {
+      HashMap<JMethod, CheckStatus> results = new HashMap<>();
+      for (JMethod method : methodResults.keySet()) {
+        if (checkNoSideEffects(method, methodResults, optimizerContext, results)) {
 //        System.out.println("Method " + method.toString() + " has no side effects");
-        method.setHasSideEffects(false);
-        changes++;
-        optimizerContext.markModified(method);
+          method.setHasSideEffects(false);
+          stats.recordModified(1);
+          optimizerContext.markModified(method);
+        }
       }
+
+      optimizerContext.setLastStepFor(NAME, optimizerContext.getOptimizationStep());
+      optimizerContext.incOptimizationStep();
+
+      return stats.getNumMods();
     }
-
-    optimizerContext.setLastStepFor(NAME, optimizerContext.getOptimizationStep());
-    optimizerContext.incOptimizationStep();
-
-    return changes;
   }
   enum CheckStatus { WORKING, NO_SIDE_EFFECTS, HAS_SIDE_EFFECTS }
 

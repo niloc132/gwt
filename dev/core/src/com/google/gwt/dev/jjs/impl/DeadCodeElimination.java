@@ -355,7 +355,12 @@ public class DeadCodeElimination {
     public void endVisit(JExpressionStatement x, Context ctx) {
       ignoringExpressionOutput.remove(x.getExpr());
       if (!x.getExpr().hasSideEffects()) {
-        removeMe(x, ctx);
+        // Special case for methods made static: don't remove the static call from the original
+        // instance methods so that we don't prune and recreate it
+        if (!(x.getExpr() instanceof JMethodCall c) ||
+            getCurrentMethod() != program.instanceMethodForStaticImpl(c.getTarget())) {
+          removeMe(x, ctx);
+        }
       }
     }
 
