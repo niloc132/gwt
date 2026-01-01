@@ -199,7 +199,7 @@ public class SideEffectChecker {
       MODIFIES_GLOBAL_STATE
     }
   }
-  public static void exec(JProgram jprogram, OptimizerContext optimizerContext) {
+  public static int exec(JProgram jprogram, OptimizerContext optimizerContext) {
     Set<JMethod> modifiedMethods =
         optimizerContext.getModifiedMethodsSince(optimizerContext.getLastStepFor(NAME));
 
@@ -220,16 +220,20 @@ public class SideEffectChecker {
     }.accept(jprogram);
 
     HashMap<JMethod, CheckStatus> results = new HashMap<>();
+    int changes = 0;
     for (JMethod method : methodResults.keySet()) {
       if (checkNoSideEffects(method, methodResults, optimizerContext, results)) {
 //        System.out.println("Method " + method.toString() + " has no side effects");
         method.setHasSideEffects(false);
+        changes++;
         optimizerContext.markModified(method);
       }
     }
 
     optimizerContext.setLastStepFor(NAME, optimizerContext.getOptimizationStep());
     optimizerContext.incOptimizationStep();
+
+    return changes;
   }
   enum CheckStatus { WORKING, NO_SIDE_EFFECTS, HAS_SIDE_EFFECTS }
 
