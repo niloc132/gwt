@@ -150,8 +150,9 @@ public class SideEffectChecker {
 
     @Override
     public boolean visit(JDeclarationStatement x, Context ctx) {
-      if (x.getVariableRef().getTarget() instanceof JField) {
-        // TODO if the initializer is for a field, we're in an instance initializer, treat it sort of like modified params
+      if (x.getVariableRef().getTarget() instanceof JField f && f.isStatic()) {
+        // For the purposes of the method graph, instance initializers are considered to not be side
+        // effects, but the method itself will not be marked as side-effect free.
         updateResult(Result.MODIFIES_GLOBAL_STATE);
         return false;
       }
@@ -297,6 +298,10 @@ public class SideEffectChecker {
     }
 
     visitedMethods.put(method, result ? CheckStatus.NO_SIDE_EFFECTS : CheckStatus.HAS_SIDE_EFFECTS);
+    // After building our graph node, we still treat instance initializers as having side effects
+    if (JProgram.isInit(method)) {
+      return false;
+    }
     return result;
   }
 
