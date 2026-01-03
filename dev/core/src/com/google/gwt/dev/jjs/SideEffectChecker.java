@@ -28,6 +28,7 @@ import com.google.gwt.dev.jjs.ast.JParameterRef;
 import com.google.gwt.dev.jjs.ast.JPostfixOperation;
 import com.google.gwt.dev.jjs.ast.JPrefixOperation;
 import com.google.gwt.dev.jjs.ast.JProgram;
+import com.google.gwt.dev.jjs.ast.JThisRef;
 import com.google.gwt.dev.jjs.ast.JThrowStatement;
 import com.google.gwt.dev.jjs.ast.JVisitor;
 import com.google.gwt.dev.jjs.impl.OptimizerContext;
@@ -96,6 +97,10 @@ public class SideEffectChecker {
         if (f.getField().isStatic()) {
           updateResult(Result.MODIFIES_GLOBAL_STATE);
           return false;
+        }
+        if (f.getInstance() instanceof JThisRef && method.isConstructor()) {
+          // Assigning to our own fields in a constructor is allowed, doesn't count as a side effect
+          return true;
         }
         if (f.getInstance() instanceof JParameterRef p && p.getParameter().isFinal()) {
           // Assigning to a field of a final param is considered modifying the parameter.
@@ -253,6 +258,9 @@ public class SideEffectChecker {
   private static boolean checkNoSideEffects(JMethod method, Map<JMethod, MethodSideEffects> methodResults,
       OptimizerContext optimizerContext, Map<JMethod, CheckStatus> visitedMethods) {
     if (visitedMethods.containsKey(method)) {
+      if (JProgram.isInit(method)) {
+        return false;
+      }
       // Return false for WORKING to avoid cycles. In theory recursive methods could be side-effect free,
       // but this approach can't handle that.
       // TODO some kind of predicate system to allow self/mutually recursive methods
@@ -311,6 +319,6 @@ public class SideEffectChecker {
       return false;
     }
     // TODO for reasons, we can't yet allow constructors to have no side effects.
-    return x.isJsNative() || x.isJsniMethod() || JProgram.isClinit(x) || (/*!x.isConstructor() && */!x.isStatic());
+    return x.isJsNative() || x.isJsniMethod() || JProgram.isClinit(x) || (!x.isConstructor() && !x.isStatic());
   }
 }
