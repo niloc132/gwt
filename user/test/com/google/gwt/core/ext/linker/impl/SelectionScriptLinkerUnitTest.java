@@ -26,6 +26,7 @@ import com.google.gwt.core.ext.linker.EmittedArtifact;
 import com.google.gwt.core.ext.linker.SelectionProperty;
 import com.google.gwt.core.ext.linker.Shardable;
 import com.google.gwt.core.ext.linker.StatementRanges;
+import com.google.gwt.dev.resource.Resource;
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 
 import junit.framework.TestCase;
@@ -75,6 +76,16 @@ public class SelectionScriptLinkerUnitTest extends TestCase {
     @Override
     public String optimizeJavaScript(TreeLogger logger, String jsProgram) {
       return jsProgram;
+    }
+
+    @Override
+    public boolean shouldEmbedSourceMapContents() {
+      return false;
+    }
+
+    @Override
+    public Resource findSourceFile(String sourceFileName) {
+      return null;
     }
   }
 
