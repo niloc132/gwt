@@ -25,6 +25,7 @@ import com.google.gwt.core.ext.linker.EmittedArtifact.Visibility;
 import com.google.gwt.core.ext.linker.SelectionProperty;
 import com.google.gwt.core.ext.linker.SyntheticArtifact;
 
+import com.google.gwt.dev.resource.Resource;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayInputStream;
@@ -116,6 +117,16 @@ public class PrecompressLinkerTest extends TestCase {
     @Override
     public String optimizeJavaScript(TreeLogger logger, String jsProgram) {
       return jsProgram;
+    }
+
+    @Override
+    public boolean shouldEmbedSourceMapContents() {
+      return false;
+    }
+
+    @Override
+    public Resource findSourceFile(String sourceFileName) {
+      return null;
     }
   }
 
