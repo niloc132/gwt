@@ -15,8 +15,6 @@
  */
 package com.google.web.bindery.requestfactory.server;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.gwt.dev.util.Name;
 import com.google.gwt.dev.util.Name.SourceOrBinaryName;
 import com.google.web.bindery.event.shared.SimpleEventBus;
