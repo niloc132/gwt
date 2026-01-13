@@ -138,7 +138,7 @@ popd
 
 #  utils
 # Classes required by most of the compiler, generators, linkers, command line tools...
-mkdir -p ideal/util/src/main/java/com/google/gwt/dev/util/log/speedtracer \
+mkdir -p ideal/util/src/main/java/com/google/gwt/dev/util/log/perf \
          ideal/util/src/main/java/com/google/gwt/util/tools/ \
          ideal/util/src/main/java/com/google/gwt/core/ext
 ORIGIN=dev/core/src
@@ -147,14 +147,14 @@ TARGET=ideal/util/src/main/java
 move dev/core/src/com/google/gwt/dev/util/collect \
      ideal/util/src/main/java/com/google/gwt/dev/util/
 
+move dev/core/src/com/google/gwt/dev/util/log/perf \
+     ideal/util/src/main/java/com/google/gwt/dev/util/log/
+
 movejava com/google/gwt/dev/util/StringInterningObjectInputStream.java
 move dev/core/src/com/google/gwt/util/tools/shared ideal/util/src/main/java/com/google/gwt/util/tools/
 
 #movejava com/google/gwt/core/ext/TreeLogger.java
 movejava com/google/gwt/core/ext/UnableToCompleteException.java
-#movejava com/google/gwt/dev/util/log/speedtracer/SpeedTracerEventType.java
-#movejava com/google/gwt/dev/util/log/speedtracer/CompilerEventType.java
-#movejava com/google/gwt/dev/util/log/speedtracer/SpeedTracerLogger.java
 movejava com/google/gwt/dev/util/StringInterner.java #depends on rebased guava19
 movejava com/google/gwt/dev/util/DefaultTextOutput.java
 movejava com/google/gwt/dev/util/AbstractTextOutput.java
