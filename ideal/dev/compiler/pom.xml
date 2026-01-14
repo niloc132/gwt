@@ -112,11 +112,32 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.js</include>
+                    <include>**/*.properties</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <testExcludes>
+                        <testExclude>**/testdata/**</testExclude>
+                    </testExcludes>
+                </configuration>
+            </plugin>
+
+        </plugins>
     </build>
 </project>
