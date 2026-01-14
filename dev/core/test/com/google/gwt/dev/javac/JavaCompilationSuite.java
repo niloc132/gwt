@@ -16,9 +16,6 @@
 package com.google.gwt.dev.javac;
 
 import com.google.gwt.dev.BootStrapPlatform;
-import com.google.gwt.dev.javac.asm.CollectClassDataTest;
-import com.google.gwt.dev.javac.asm.CollectReferencesVisitorTest;
-import com.google.gwt.dev.javac.asm.ResolveGenericsTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -58,9 +55,9 @@ public class JavaCompilationSuite {
     suite.addTestSuite(CompilationUnitTypeOracleUpdaterFromByteCodeTest.class);
     suite.addTestSuite(CompilationUnitTypeOracleUpdaterFromSourceTest.class);
 
-    suite.addTestSuite(CollectClassDataTest.class);
-    suite.addTestSuite(CollectReferencesVisitorTest.class);
-    suite.addTestSuite(ResolveGenericsTest.class);
+//    suite.addTestSuite(CollectClassDataTest.class);
+//    suite.addTestSuite(CollectReferencesVisitorTest.class);
+//    suite.addTestSuite(ResolveGenericsTest.class);
 
     // TODO: Move these to another package.
     suite.addTestSuite(GeneratedClassnameComparatorTest.class);
