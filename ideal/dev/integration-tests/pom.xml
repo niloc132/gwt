@@ -21,7 +21,21 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>compiler</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>gwt-user</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>junit3</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -40,7 +54,7 @@
     <build>
         <testResources>
             <testResource>
-                <directory>../../samples/hello/src/main/java/</directory>
+                <directory>src/test/java/</directory>
             </testResource>
         </testResources>
     </build>

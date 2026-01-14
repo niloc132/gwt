@@ -484,18 +484,29 @@ move dev/core/src/com/google/gwt/dev ideal/dev/compiler/src/main/java/com/google
 move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/google/gwt/
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
 
-mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/
-move dev/core/test/com/google/gwt/soyc \
-     ideal/dev/compiler/src/test/java/com/google/gwt/
-move dev/core/test/com/google/gwt/dev \
-     ideal/dev/compiler/src/test/java/com/google/gwt/
-
 # First move some integration tests to their own project
 ORIGIN=dev/core/test
 TARGET=ideal/dev/integration-tests/src/test/java
 mkdir -p ideal/dev/integration-tests/src/test/java/com/google/gwt/core/ext/linker/
 movejava com/google/gwt/core/ext/linker/SourceMapTest.java
 movejava com/google/gwt/core/ext/linker/SymbolMapTest.java
+mkdir -p ideal/dev/integration-tests/src/test/java/com/google/gwt/dev/
+movejava com/google/gwt/dev/CompilerTest.java
+movejava com/google/gwt/dev/SoycTest.java
+mkdir -p ideal/dev/integration-tests/src/test/java/com/google/gwt/dev/javac/asm
+movejava com/google/gwt/dev/javac/asm/CollectClassDataTest.java
+movejava com/google/gwt/dev/javac/asm/CollectReferencesVisitorTest.java
+movejava com/google/gwt/dev/javac/asm/ResolveGenericsTest.java
+movejava com/google/gwt/dev/javac/asm/AsmTestCase.java
+
+move dev/core/test/com/google/gwt/dev/javac/typemodel/ \
+     ideal/dev/integration-tests/src/test/java/com/google/gwt/dev/javac/
+
+mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/
+move dev/core/test/com/google/gwt/soyc \
+     ideal/dev/compiler/src/test/java/com/google/gwt/
+move dev/core/test/com/google/gwt/dev \
+     ideal/dev/compiler/src/test/java/com/google/gwt/
 
 # Most of the rest can live in the compiler's unit test dir
 mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/core/soyc
