@@ -441,8 +441,6 @@ move dev/core/test/com/google/gwt/dev/util/TemporaryBufferStream.java \
      ideal/dev/devmode/src/test/java/com/google/gwt/dev/util/
 move dev/core/test/com/google/gwt/dev/HostedModeOptionsMock.java \
      ideal/dev/devmode/src/test/java/com/google/gwt/dev/
-move dev/core/test/com/google/gwt/dev/cfg/MockModuleDef.java \
-     ideal/dev/devmode/src/test/java/com/google/gwt/dev/cfg/
 
 # Junit classes for devmode-htmlunit interaction, move these out of the way before moving the rest
 TARGET=ideal/dev/junit3/src/main/java
