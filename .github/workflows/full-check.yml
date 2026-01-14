@@ -42,72 +42,57 @@ jobs:
         with:
           java-version: ${{ matrix.java-version }}
           distribution: 'temurin'
-
-      - name: Build, style/api checks, test, produce docs
-        run: |
-          set -eux
-          cd gwt
-          java -version
-          ant -version
-          # Set env vars to ensure we get the build/test we expect
-          export \
-            TZ=America/Los_Angeles \
-            ANT_OPTS='-Dfile.encoding=UTF8 -Xmx2g' \
-            GWT_VERSION=HEAD-SNAPSHOT
-          # Run the ant tasks, disabling watchFileChanges to work around a github actions limitation
-          ant clean test dist doc \
-            -Dtest.jvmargs='-ea -Dgwt.watchFileChanges=false' \
-            -Dtest.web.htmlunit.disable=true \
-            -Dtest.nometa.htmlunit.disable=true \
-            -Dtest.emma.htmlunit.disable=true
-
-      - name: Report test results
-        uses: mikepenz/action-junit-report@d9f48fc87bc235f7e214acf696ca5abc0a986f16 #v6.4.2
-        if: always()
-        with:
-          report_paths: 'gwt/build/out/**/test/**/reports/TEST-*.xml'
-      - name: Upload checkstyle xml for manual review in its own artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
-        if: always()
-        with:
-          name: checkstyle-reports-java${{ matrix.java-version }}
-          path: 'gwt/build/out/**/checkstyle*.xml'
-      - name: Upload test xml files for manual review in its own artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
-        if: always()
-        with:
-          name: junit-reports-java${{ matrix.java-version }}
-          path: 'gwt/build/out/**/test/**/reports/TEST-*.xml'
-
-      - name: On success, upload the release zip
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
-        with:
-          name: gwt-java${{ matrix.java-version }}
-          path: 'gwt/build/dist/gwt-*.zip'
-
-      - name: Set up Sonatype credentials
-        # Using the same java version as above, set up a settings.xml file
-        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 #v5.7.0
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' && github.repository_owner == 'gwtproject' && matrix.java-version == '21' }}
-        with:
-          java-version: ${{ matrix.java-version }}
-          distribution: 'temurin'
-          # Define the ID for the server to put in settings.xml, and the env vars that will contain the secrets
-          server-id: sonatype-snapshots
-          server-username: SONATYPE_USERNAME
-          server-password: SONATYPE_PASSWORD
-
-      - name: Nightly builds should be deployed as snapshots to sonatype
-        if: ${{ github.event_name == 'push' && github.ref_name == 'main' && github.repository_owner == 'gwtproject' && matrix.java-version == '21' }}
-        env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        run: |
-          set -eux
-          # Set the version to deploy (it was also set in the build step above)
-          export GWT_VERSION=HEAD-SNAPSHOT
-          export GWT_MAVEN_REPO_URL=https://central.sonatype.com/repository/maven-snapshots/
-          export GWT_MAVEN_REPO_ID=sonatype-snapshots
-          cd gwt
-          # With no user input, run the push-gwtproject.sh script to deploy org.gwtproject artifacts
-          maven/push-gwtproject.sh < /dev/null
+      - name: Restructure the project to use maven
+        run: ./restructure.sh
+      - name: Build the project with Maven
+        run: mvn -f ideal/pom.xml clean install --batch-mode
+#      - name: Report test results
+#        uses: mikepenz/action-junit-report@d9f48fc87bc235f7e214acf696ca5abc0a986f16 #v6.4.2
+#        if: always()
+#        with:
+#          report_paths: '**/target/surefire-reports/TEST-*.xml'
+#      - name: Upload checkstyle xml for manual review in its own artifact
+#        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+#        if: always()
+#        with:
+#          name: checkstyle-reports-java${{ matrix.java-version }}
+#          path: 'gwt/build/out/**/checkstyle*.xml'
+#      - name: Upload test xml files for manual review in its own artifact
+#        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+#        if: always()
+#        with:
+#          name: junit-reports-java${{ matrix.java-version }}
+#          path: '**/target/surefire-reports/TEST-*.xml'
+#
+#      - name: On success, upload the release zip
+#        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
+#        with:
+#          name: gwt-java${{ matrix.java-version }}
+#          path: 'gwt/build/dist/gwt-*.zip'
+#
+#      - name: Set up Sonatype credentials
+#        # Using the same java version as above, set up a settings.xml file
+#        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 #v5.7.0
+#        if: ${{ github.event_name == 'push' && github.ref_name == 'main' && github.repository_owner == 'gwtproject' && matrix.java-version == '21' }}
+#        with:
+#          java-version: ${{ matrix.java-version }}
+#          distribution: 'temurin'
+#          # Define the ID for the server to put in settings.xml, and the env vars that will contain the secrets
+#          server-id: sonatype-snapshots
+#          server-username: SONATYPE_USERNAME
+#          server-password: SONATYPE_PASSWORD
+#
+#      - name: Nightly builds should be deployed as snapshots to sonatype
+#        if: ${{ github.event_name == 'push' && github.ref_name == 'main' && github.repository_owner == 'gwtproject' && matrix.java-version == '21' }}
+#        env:
+#          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+#          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+#        run: |
+#          set -eux
+#          # Set the version to deploy (it was also set in the build step above)
+#          export GWT_VERSION=HEAD-SNAPSHOT
+#          export GWT_MAVEN_REPO_URL=https://central.sonatype.com/repository/maven-snapshots/
+#          export GWT_MAVEN_REPO_ID=sonatype-snapshots
+#          cd gwt
+#          # With no user input, run the push-gwtproject.sh script to deploy org.gwtproject artifacts
+#          maven/push-gwtproject.sh < /dev/null
