@@ -373,7 +373,6 @@ movejava com/google/gwt/dev/GWTMain.java
 movejava com/google/gwt/dev/ModuleHandle.java
 movejava com/google/gwt/dev/ModulePanel.java
 movejava com/google/gwt/dev/ModuleTabPanel.java
-movejava com/google/gwt/dev/RunWebApp.java
 movejava com/google/gwt/dev/SessionModule.java
 movejava com/google/gwt/dev/ServletValidator.java
 movejava com/google/gwt/dev/SwingUI.java
