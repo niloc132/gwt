@@ -508,6 +508,15 @@ pushd ideal/dev/devmode
 mvn clean install
 popd
 
+# lang-test - now that we have the compiler and test wiring, we can run tests for lang
+mkdir -p ideal/lang-test/src/test/java/com/google/gwt/
+move dev/core/test/com/google/gwt/lang \
+     ideal/lang-test/src/test/java/com/google/gwt/
+
+pushd ideal/lang-test
+mvn clean install
+popd
+
 #  tools
 mkdir -p ideal/tools/api-checker/src/main/java/
 mkdir -p ideal/tools/api-checker/src/main/resources/

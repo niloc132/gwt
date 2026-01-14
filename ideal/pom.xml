@@ -117,6 +117,7 @@
         <module>javaemul</module>
         <module>core</module>
         <module>lang</module>
+        <module>lang-test</module>
         <module>util</module>
         <module>ext</module>
         <module>linkers</module>
