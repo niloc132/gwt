@@ -58,7 +58,7 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.gwt.xml</include>
-                    <include>client/**</include>
+                    <include>**/client/**</include>
                 </includes>
             </resource>
         </resources>
