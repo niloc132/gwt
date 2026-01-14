@@ -43,6 +43,7 @@
             <groupId>org.gwtproject.samples</groupId>
             <artifactId>hello</artifactId>
             <version>${project.version}</version>
+            <classifier>sources</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
