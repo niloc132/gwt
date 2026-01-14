@@ -475,6 +475,11 @@ move dev/core/src/com/google/gwt/dev ideal/dev/compiler/src/main/java/com/google
 move dev/core/src/com/google/gwt/soyc ideal/dev/compiler/src/main/java/com/google/gwt/
 move dev/core/src/com/google/gwt/util ideal/dev/compiler/src/main/java/com/google/gwt/
 
+mkdir -p ideal/dev/compiler/src/test/java/com/google/gwt/
+move dev/core/test/com/google/gwt/soyc \
+     ideal/dev/compiler/src/test/java/com/google/gwt/
+move dev/core/test/com/google/gwt/dev \
+     ideal/dev/compiler/src/test/java/com/google/gwt/
 
 # First move some integration tests to their own project
 ORIGIN=dev/core/test
