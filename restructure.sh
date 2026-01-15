@@ -32,6 +32,48 @@ mvn clean install
 popd
 
 
+#  emul
+# Java Language emulation, basics required to compile at all
+# JRE emulation, support for applications that depend on greater aspects of Java
+
+mkdir -p ideal/emul/base/src/main/java/com/google/gwt/emul/java/{io,lang,util}
+
+ORIGIN=user/super/com/google/gwt/emul
+TARGET=ideal/emul/base/src/main/java/com/google/gwt/emul
+
+movejava java/io/Serializable.java
+movejava java/lang/Object.java
+movejava java/lang/String.java
+movejava java/lang/Class.java
+movejava java/lang/CharSequence.java
+movejava java/lang/Cloneable.java
+movejava java/lang/Comparable.java
+movejava java/lang/Enum.java
+movejava java/lang/Iterable.java
+movejava java/util/Iterator.java
+movejava java/lang/AssertionError.java
+movejava java/lang/Boolean.java
+movejava java/lang/Byte.java
+movejava java/lang/Character.java
+movejava java/lang/Short.java
+movejava java/lang/Integer.java
+movejava java/lang/Long.java
+movejava java/lang/Float.java
+movejava java/lang/Double.java
+movejava java/lang/Throwable.java
+
+git mv user/super/com/google/gwt/emul/Preconditions.gwt.xml ideal/emul/base/src/main/java/com/google/gwt/emul/
+git mv user/super/com/google/gwt/emul/Emulation.gwt.xml ideal/emul/base/src/main/module.gwt.xml
+
+mkdir -p ideal/emul/jre/src/main/java/com/google/gwt/emul
+
+move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/java/com/google/gwt/emul/
+
+pushd ideal/emul
+mvn clean install
+popd
+
+
 #  core
 # This consists of root GWT classes available to the user that are required to
 # build and run the compiler (aside from JavaScriptObject)
@@ -104,7 +146,6 @@ ORIGIN=dev/core/super
 movejava com/google/gwt/core/shared/GWTBridge.java
 movejava com/google/gwt/core/client/GWTBridge.java
 movejava com/google/gwt/core/client/GwtScriptOnly.java
-
 
 pushd ideal/core
 mvn clean install
@@ -290,55 +331,6 @@ pushd ideal/linkers
 mvn clean install
 popd
 
-
-#  emul
-# Java Language emulation, basics required to compile at all
-# JRE emulation, support for applications that depend on greater aspects of Java
-
-mkdir -p ideal/emul/base/src/main/java/com/google/gwt/emul/java/{io,lang,util}
-
-ORIGIN=user/super/com/google/gwt/emul
-TARGET=ideal/emul/base/src/main/java/com/google/gwt/emul
-
-movejava java/io/Serializable.java
-movejava java/lang/Object.java
-movejava java/lang/String.java
-movejava java/lang/Class.java
-movejava java/lang/CharSequence.java
-movejava java/lang/Cloneable.java
-movejava java/lang/Comparable.java
-movejava java/lang/Enum.java
-movejava java/lang/Iterable.java
-movejava java/util/Iterator.java
-movejava java/lang/AssertionError.java
-movejava java/lang/Boolean.java
-movejava java/lang/Byte.java
-movejava java/lang/Character.java
-movejava java/lang/Short.java
-movejava java/lang/Integer.java
-movejava java/lang/Long.java
-movejava java/lang/Float.java
-movejava java/lang/Double.java
-movejava java/lang/Throwable.java
-
-git mv user/super/com/google/gwt/emul/Preconditions.gwt.xml ideal/emul/base/src/main/java/com/google/gwt/emul/
-git mv user/super/com/google/gwt/emul/Emulation.gwt.xml ideal/emul/base/src/main/module.gwt.xml
-
-pushd ideal/emul/base
-mvn clean install
-popd
-
-mkdir -p ideal/emul/jre/src/main/java/com/google/gwt/emul
-
-move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/java/com/google/gwt/emul/
-
-pushd ideal/emul/jre
-mvn clean install
-popd
-
-pushd ideal/emul
-mvn clean install
-popd
 
 #  codeserver
 mkdir -p ideal/dev/codeserver/src/{main,test}/java/com/google/gwt/dev/codeserver
