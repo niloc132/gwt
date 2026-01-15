@@ -665,7 +665,9 @@ git add ideal/samples/showcase/src/main/webapp
 
 # TODO validation
 
-# Now that samples are moved, we can run the integration tests
+mvn -f ideal/samples clean install
+
+# Now that samples are moved and built, we can run the integration tests
 
 pushd ideal/dev/integration-tests
 mvn clean install
