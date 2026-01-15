@@ -15,10 +15,11 @@ movejava () {
     git add $TARGET/$1
 }
 
+# install the root parent pom
+mvn install -f ideal -am -pl :gwt
+
 # install external tools
-pushd ideal/external
-mvn install
-popd
+mvn install -f ideal/external
 
 
 #  javaemul
@@ -27,9 +28,7 @@ mkdir -p ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 move user/super/com/google/gwt/emul/javaemul/internal \
      ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 
-pushd ideal/javaemul
-mvn clean install
-popd
+mvn install -f ideal/javaemul
 
 
 #  emul
@@ -69,9 +68,7 @@ mkdir -p ideal/emul/jre/src/main/java/com/google/gwt/emul
 
 move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/java/com/google/gwt/emul/
 
-pushd ideal/emul
-mvn clean install
-popd
+mvn install -f ideal/emul
 
 
 #  core
@@ -147,10 +144,7 @@ movejava com/google/gwt/core/shared/GWTBridge.java
 movejava com/google/gwt/core/client/GWTBridge.java
 movejava com/google/gwt/core/client/GwtScriptOnly.java
 
-pushd ideal/core
-mvn clean install
-popd
-
+mvn install -f ideal/core
 
 
 #  lang
@@ -173,9 +167,7 @@ TARGET=ideal/lang/src/main/java
 movejava com/google/gwt/core/client/impl/StackTraceCreator.java #Depends on lang's ArrayHelper, and with broken loop, can live here
 
 
-pushd ideal/lang
-mvn clean install
-popd
+mvn install -f ideal/lang
 
 #  utils
 # Classes required by most of the compiler, generators, linkers, command line tools...
@@ -223,9 +215,7 @@ mkdir -p ideal/util/src/test/resources/com/google/gwt/dev/util/
 move dev/core/test/com/google/gwt/dev/util/unicodeTest.txt \
     ideal/util/src/test/resources/com/google/gwt/dev/util/unicodeTest.txt
 
-pushd ideal/util
-mvn clean install
-popd
+mvn install -f ideal/util
 
 #  linker/generator api
 # GWT 1.x/2.x API to generate code and affect final compiled output
@@ -295,9 +285,7 @@ movejava com/google/gwt/core/ext/linker/CompilationResult.java
 movejava com/google/gwt/core/ext/linker/LinkerOrder.java
 movejava com/google/gwt/core/ext/linker/LinkerUtils.java
 
-pushd ideal/ext
-mvn clean install
-popd
+mvn install -f ideal/ext
 
 
 #  built-in linkers for output that don't depend on the compiler (i.e. no soyc?)
@@ -327,9 +315,7 @@ movejava com/google/gwt/core/linker/SoycReportLinker.java
 
 # Presently all linker tests must be run in the compiler project
 
-pushd ideal/linkers
-mvn clean install
-popd
+mvn install -f ideal/linkers
 
 
 #  codeserver
@@ -517,22 +503,16 @@ move dev/core/test/com/google/gwt/util \
 move dev/core/test/com/google/gwt/core \
      ideal/dev/compiler/src/test/java/com/google/gwt/
 
-pushd ideal/dev/compiler
-mvn clean install
-popd
+mvn install -f ideal/dev/compiler
 
-pushd ideal/dev/devmode
-mvn clean install
-popd
+mvn install -f ideal/dev/devmode
 
 # lang-test - now that we have the compiler and test wiring, we can run tests for lang
 mkdir -p ideal/lang-test/src/test/java/com/google/gwt/
 move dev/core/test/com/google/gwt/lang \
      ideal/lang-test/src/test/java/com/google/gwt/
 
-pushd ideal/lang-test
-mvn clean install
-popd
+mvn install -f ideal/lang-test
 
 #  tools
 mkdir -p ideal/tools/api-checker/src/main/java/
@@ -550,9 +530,7 @@ move tools/cldr-import/test/com ideal/tools/cldr-import/src/test/java/
 mkdir -p ideal/tools/datetimefmtcreator/src/main/java/
 move tools/datetimefmtcreator/src/com ideal/tools/datetimefmtcreator/src/main/java/
 
-pushd ideal/tools
-mvn clean install
-popd
+mvn install -f ideal/tools
 
 
 # cli-tools
@@ -591,14 +569,10 @@ move user/src/org ideal/user/src/main/java/
 mkdir -p ideal/user/src/main/super/
 move user/super ideal/user/src/main/
 
-pushd ideal/user
-mvn clean install
-popd
+mvn install -f ideal/user
 
 #  now that we have user built, build the junit sources
-pushd ideal/dev/junit3
-mvn clean install
-popd
+mvn install -f ideal/dev/junit3
 
 #  requestfactory
 
@@ -669,9 +643,7 @@ mvn -f ideal/samples clean install
 
 # Now that samples are moved and built, we can run the integration tests
 
-pushd ideal/dev/integration-tests
-mvn clean install
-popd
+mvn install -f ideal/dev/integration-tests
 
 #  uberjars for non-maven use
 
@@ -680,8 +652,6 @@ git rm build.xml common.ant.xml platforms.ant.xml requestfactory/build.xml servl
 
 
 # last, build the whole thing to make sure it is sane
-pushd ideal
-mvn clean install
-popd
+mvn install -f ideal
 
 #git ci -m '...'
