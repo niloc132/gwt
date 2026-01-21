@@ -16,11 +16,11 @@ movejava () {
 }
 
 # install the root parent pom
-mvn install -f ideal -am -pl :gwt,:dev
+mvn install -f ideal -am -pl :gwt,:dev -Dcheckstyle.skip=true
 
 
 # install external tools
-mvn install -f ideal/external
+mvn install -f ideal/external -Dcheckstyle.skip=true
 
 
 # install checkstyle artifact
