@@ -55,7 +55,7 @@
                             </configuration>
                         </execution>
                         <execution>
-                            <id>checkstyle-test-sources</id>
+                            <id>checkstyle-tests</id>
                             <phase>verify</phase>
                             <goals>
                                 <goal>check</goal>
@@ -63,6 +63,7 @@
                             <configuration>
                                 <sourceDirectories>${project.testCompileSourceRoots}</sourceDirectories>
                                 <configLocation>gwt-checkstyle-tests.xml</configLocation>
+                                <outputFile>${project.build.directory}/checkstyle-tests-result.xml</outputFile>
                             </configuration>
                         </execution>
                     </executions>
