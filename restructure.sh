@@ -552,6 +552,9 @@ mkdir -p ideal/cli-tools/src/main/java/com/google/gwt/{i18n,user}/
 move user/src/com/google/gwt/i18n/tools ideal/cli-tools/src/main/java/com/google/gwt/i18n/
 move user/src/com/google/gwt/user/tools ideal/cli-tools/src/main/java/com/google/gwt/user/
 
+mkdir -p ideal/cli-tools/src/test/java/com/google/gwt/user/
+move user/test/com/google/gwt/user/tools ideal/cli-tools/src/test/java/com/google/gwt/user/
+
 # requestfactory client
 # requestfactory shared
 # requestfactory server
