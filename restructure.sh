@@ -585,6 +585,18 @@ move user/src/org ideal/user/src/main/java/
 mkdir -p ideal/user/src/main/super/
 move user/super ideal/user/src/main/
 
+mkdir -p ideal/user/src/test/java
+move user/test/com ideal/user/src/test/java/
+move user/test/org ideal/user/src/test/java/
+move user/test/test ideal/user/src/test/java/
+
+mkdir -p ideal/user/src/test/resources
+move user/test/log4j.properties ideal/user/src/test/resources/
+
+mkdir -p ideal/user/src/test/super
+move user/test-super/com ideal/user/src/test/super/
+move user/test-super/org ideal/user/src/test/super/
+
 $BUILD_CMD -f ideal/user
 
 # return to tools that depend on user
