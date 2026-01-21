@@ -10,7 +10,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>requestfactory</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <!-- RfValidator uses Name.BinaryName -->

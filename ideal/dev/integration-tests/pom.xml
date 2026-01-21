@@ -9,7 +9,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>integration-tests</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <description>Extra project that depends on compiler and runtime to run specific integration tests during the build</description>
 
     <dependencies>
