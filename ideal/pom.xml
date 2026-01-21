@@ -43,6 +43,29 @@
                             <version>${project.version}</version>
                         </dependency>
                     </dependencies>
+                    <executions>
+                        <execution>
+                            <id>checkstyle-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <configLocation>gwt-checkstyle.xml</configLocation>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>checkstyle-test-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <sourceDirectories>${project.testCompileSourceRoots}</sourceDirectories>
+                                <configLocation>gwt-checkstyle-test.xml</configLocation>
+                            </configuration>
+                        </execution>
+                    </executions>
                     <configuration>
                         <configLocation>gwt-checkstyle.xml</configLocation>
                     </configuration>
