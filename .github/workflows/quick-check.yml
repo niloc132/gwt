@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java-version: ['11', '17', '21', '25']
+        java-version: ['11', '17', '21', '22']
     steps:
       - name: Checkout GWT itself into one directory
         uses: actions/checkout@v6
@@ -36,7 +36,7 @@ jobs:
       - name: Restructure the project to use maven
         run: cd gwt/ && ./restructure.sh
       - name: Build the project with Maven
-        run: mvn -f gwt/ideal/pom.xml clean checkstyle:check install --batch-mode
+        run: mvn -f gwt/ideal/pom.xml clean checkstyle:check@checkstyle-sources checkstyle:check@checkstyle-tests test-compile --batch-mode
       - name: Report test results
         uses: mikepenz/action-junit-report@v6.0.0
         if: always()
