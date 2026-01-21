@@ -37,7 +37,7 @@ jobs:
       - name: Restructure the project to use maven
         run: cd gwt/ && ./restructure.sh
       - name: Build the project with Maven
-        run: mvn -f gwt/ideal/pom.xml clean install --batch-mode -DskipTests
+        run: mvn -f gwt/ideal/pom.xml clean checkstyle:check install --batch-mode -DskipTests
 #      - name: Create pull request comments/annotations for Checkstyle and ErrorProne from the java 21 build, even on failure
 #        if: ${{ always() && github.event_name == 'pull_request' && matrix.java-version == '21' }}
 #        env:
