@@ -18,8 +18,16 @@ movejava () {
 # install the root parent pom
 mvn install -f ideal -am -pl :gwt
 
+
 # install external tools
 mvn install -f ideal/external
+
+
+# install checkstyle artifact
+mkdir -p ideal/checkstyle/src/main/resources/
+move eclipse/settings/code-style/gwt-checkstyle.xml ideal/checkstyle/src/main/resources/
+#move eclipse/settings/code-style/gwt-checkstyle-tests.xml ideal/checkstyle/src/main/resources/
+mvn install -f ideal/checkstyle
 
 
 #  javaemul
