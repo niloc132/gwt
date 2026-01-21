@@ -517,6 +517,8 @@ $BUILD_CMD -f ideal/dev/compiler
 
 $BUILD_CMD -f ideal/dev/devmode
 
+git rm dev/build.xml dev/BUILD dev/codeserver/build.xml dev/codeserver/BUILD dev-ext/build.xml
+
 
 # lang-test - copy sources, run build/tests after user/junit3 is built
 mkdir -p ideal/lang-test/src/test/java/com/google/gwt/
@@ -536,6 +538,7 @@ mkdir -p ideal/tools/cldr-import/src/main/java/
 mkdir -p ideal/tools/cldr-import/src/test/java/
 move tools/cldr-import/src/com ideal/tools/cldr-import/src/main/java/
 move tools/cldr-import/test/com ideal/tools/cldr-import/src/test/java/
+move tools/cldr-import/README.txt ideal/tools/cldr-import/
 
 mkdir -p ideal/tools/datetimefmtcreator/src/main/java/
 move tools/datetimefmtcreator/src/com ideal/tools/datetimefmtcreator/src/main/java/
@@ -570,6 +573,9 @@ mkdir -p ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactor
 move user/src/com/google/web/bindery/requestfactory/server ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 move user/src/com/google/web/bindery/requestfactory/vm ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 
+git rm requestfactory/build.xml
+
+
 #  user
 #
 mkdir -p ideal/user/src/main/java/
@@ -584,6 +590,8 @@ $BUILD_CMD -f ideal/user
 # return to tools that depend on user
 $BUILD_CMD -f ideal/tools
 
+git rm tools/build.xml tools/api-checker/build.xml tools/cldr-import/build.xml
+
 
 #  now that we have user built, build the junit sources
 $BUILD_CMD -f ideal/dev/junit3
@@ -592,8 +600,10 @@ $BUILD_CMD -f ideal/dev/junit3
 # back to lang-test - now that we have the compiler and test wiring, we can run tests for lang
 $BUILD_CMD -f ideal/lang-test
 
-#  requestfactory
 
+# servlet
+#TODO
+git rm servlet/build.xml
 
 
 #  integration tests
@@ -664,9 +674,10 @@ $BUILD_CMD -f ideal/samples
 $BUILD_CMD -f ideal/dev/integration-tests
 
 #  uberjars for non-maven use
+# TODO
 
 # Clean up old layout
-git rm build.xml common.ant.xml platforms.ant.xml requestfactory/build.xml servlet/build.xml dev/codeserver/BUILD dev/codeserver/build.xml
+git rm build.xml common.ant.xml platforms.ant.xml WORKSPACE
 
 
 # last, build the whole thing to make sure it is sane
