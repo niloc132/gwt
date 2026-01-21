@@ -538,7 +538,7 @@ move tools/cldr-import/test/com ideal/tools/cldr-import/src/test/java/
 mkdir -p ideal/tools/datetimefmtcreator/src/main/java/
 move tools/datetimefmtcreator/src/com ideal/tools/datetimefmtcreator/src/main/java/
 
-mvn install -f ideal/tools
+# depends on gwt-user, come back and build after gwt-user is ready
 
 
 # cli-tools
@@ -579,8 +579,13 @@ move user/super ideal/user/src/main/
 
 mvn install -f ideal/user
 
+# return to tools that depend on user
+mvn install -f ideal/tools
+
+
 #  now that we have user built, build the junit sources
 mvn install -f ideal/dev/junit3
+
 
 # back to lang-test - now that we have the compiler and test wiring, we can run tests for lang
 mvn install -f ideal/lang-test
