@@ -62,7 +62,7 @@
                             </goals>
                             <configuration>
                                 <sourceDirectories>${project.testCompileSourceRoots}</sourceDirectories>
-                                <configLocation>gwt-checkstyle-test.xml</configLocation>
+                                <configLocation>gwt-checkstyle-tests.xml</configLocation>
                             </configuration>
                         </execution>
                     </executions>

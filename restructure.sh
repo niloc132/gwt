@@ -26,7 +26,7 @@ mvn install -f ideal/external -Dcheckstyle.skip=true
 # install checkstyle artifact
 mkdir -p ideal/checkstyle/src/main/resources/
 move eclipse/settings/code-style/gwt-checkstyle.xml ideal/checkstyle/src/main/resources/
-#move eclipse/settings/code-style/gwt-checkstyle-tests.xml ideal/checkstyle/src/main/resources/
+move eclipse/settings/code-style/gwt-checkstyle-tests.xml ideal/checkstyle/src/main/resources/
 mvn install -f ideal/checkstyle
 
 
