@@ -2,6 +2,8 @@
 
 set -eux
 
+BUILD_CMD="${MAVEN:-mvn clean install}"
+
 move () {
    cp -r $1 $2
    git rm -rf $1
@@ -16,18 +18,18 @@ movejava () {
 }
 
 # install the root parent pom
-mvn install -f ideal -am -pl :gwt,:dev -Dcheckstyle.skip=true
+$BUILD_CMD -f ideal -am -pl :gwt,:dev -Dcheckstyle.skip=true
 
 
 # install external tools
-mvn install -f ideal/external -Dcheckstyle.skip=true
+$BUILD_CMD -f ideal/external -Dcheckstyle.skip=true
 
 
 # install checkstyle artifact
 mkdir -p ideal/checkstyle/src/main/resources/
 move eclipse/settings/code-style/gwt-checkstyle.xml ideal/checkstyle/src/main/resources/
 move eclipse/settings/code-style/gwt-checkstyle-tests.xml ideal/checkstyle/src/main/resources/
-mvn install -f ideal/checkstyle
+$BUILD_CMD -f ideal/checkstyle
 
 
 #  javaemul
@@ -36,7 +38,7 @@ mkdir -p ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 move user/super/com/google/gwt/emul/javaemul/internal \
      ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 
-mvn install -f ideal/javaemul
+$BUILD_CMD -f ideal/javaemul
 
 
 #  emul
@@ -76,7 +78,7 @@ mkdir -p ideal/emul/jre/src/main/java/com/google/gwt/emul
 
 move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/java/com/google/gwt/emul/
 
-mvn install -f ideal/emul
+$BUILD_CMD -f ideal/emul
 
 
 #  core
@@ -152,7 +154,7 @@ movejava com/google/gwt/core/shared/GWTBridge.java
 movejava com/google/gwt/core/client/GWTBridge.java
 movejava com/google/gwt/core/client/GwtScriptOnly.java
 
-mvn install -f ideal/core
+$BUILD_CMD -f ideal/core
 
 
 #  lang
@@ -175,7 +177,7 @@ TARGET=ideal/lang/src/main/java
 movejava com/google/gwt/core/client/impl/StackTraceCreator.java #Depends on lang's ArrayHelper, and with broken loop, can live here
 
 
-mvn install -f ideal/lang
+$BUILD_CMD -f ideal/lang
 
 #  utils
 # Classes required by most of the compiler, generators, linkers, command line tools...
@@ -223,7 +225,7 @@ mkdir -p ideal/util/src/test/resources/com/google/gwt/dev/util/
 move dev/core/test/com/google/gwt/dev/util/unicodeTest.txt \
     ideal/util/src/test/resources/com/google/gwt/dev/util/unicodeTest.txt
 
-mvn install -f ideal/util
+$BUILD_CMD -f ideal/util
 
 #  linker/generator api
 # GWT 1.x/2.x API to generate code and affect final compiled output
@@ -293,7 +295,7 @@ movejava com/google/gwt/core/ext/linker/CompilationResult.java
 movejava com/google/gwt/core/ext/linker/LinkerOrder.java
 movejava com/google/gwt/core/ext/linker/LinkerUtils.java
 
-mvn install -f ideal/ext
+$BUILD_CMD -f ideal/ext
 
 
 #  built-in linkers for output that don't depend on the compiler (i.e. no soyc?)
@@ -323,7 +325,7 @@ movejava com/google/gwt/core/linker/SoycReportLinker.java
 
 # Presently all linker tests must be run in the compiler project
 
-mvn install -f ideal/linkers
+$BUILD_CMD -f ideal/linkers
 
 
 #  codeserver
@@ -511,9 +513,9 @@ move dev/core/test/com/google/gwt/util \
 move dev/core/test/com/google/gwt/core \
      ideal/dev/compiler/src/test/java/com/google/gwt/
 
-mvn install -f ideal/dev/compiler
+$BUILD_CMD -f ideal/dev/compiler
 
-mvn install -f ideal/dev/devmode
+$BUILD_CMD -f ideal/dev/devmode
 
 
 # lang-test - copy sources, run build/tests after user/junit3 is built
@@ -577,18 +579,18 @@ move user/src/org ideal/user/src/main/java/
 mkdir -p ideal/user/src/main/super/
 move user/super ideal/user/src/main/
 
-mvn install -f ideal/user
+$BUILD_CMD -f ideal/user
 
 # return to tools that depend on user
-mvn install -f ideal/tools
+$BUILD_CMD -f ideal/tools
 
 
 #  now that we have user built, build the junit sources
-mvn install -f ideal/dev/junit3
+$BUILD_CMD -f ideal/dev/junit3
 
 
 # back to lang-test - now that we have the compiler and test wiring, we can run tests for lang
-mvn install -f ideal/lang-test
+$BUILD_CMD -f ideal/lang-test
 
 #  requestfactory
 
@@ -655,11 +657,11 @@ git add ideal/samples/showcase/src/main/webapp
 
 # TODO validation
 
-mvn -f ideal/samples clean install
+$BUILD_CMD -f ideal/samples
 
 # Now that samples are moved and built, we can run the integration tests
 
-mvn install -f ideal/dev/integration-tests
+$BUILD_CMD -f ideal/dev/integration-tests
 
 #  uberjars for non-maven use
 
@@ -668,6 +670,6 @@ git rm build.xml common.ant.xml platforms.ant.xml requestfactory/build.xml servl
 
 
 # last, build the whole thing to make sure it is sane
-mvn install -f ideal
+$BUILD_CMD -f ideal
 
 #git ci -m '...'
