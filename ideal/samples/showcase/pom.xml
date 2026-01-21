@@ -9,7 +9,7 @@
         <artifactId>samples</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <version>org.gwtproject.sample</version>
+    <groupId>org.gwtproject.sample</groupId>
     <artifactId>showcase</artifactId>
 
     <properties>
