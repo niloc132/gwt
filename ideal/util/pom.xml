@@ -67,6 +67,13 @@
                         </includes>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <configuration>
+                        <excludes>org/apache/**</excludes>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
