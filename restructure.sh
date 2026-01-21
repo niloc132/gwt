@@ -16,7 +16,7 @@ movejava () {
 }
 
 # install the root parent pom
-mvn install -f ideal -am -pl :gwt
+mvn install -f ideal -am -pl :gwt,:dev
 
 
 # install external tools
