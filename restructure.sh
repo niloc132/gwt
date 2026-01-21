@@ -515,12 +515,12 @@ mvn install -f ideal/dev/compiler
 
 mvn install -f ideal/dev/devmode
 
-# lang-test - now that we have the compiler and test wiring, we can run tests for lang
+
+# lang-test - copy sources, run build/tests after user/junit3 is built
 mkdir -p ideal/lang-test/src/test/java/com/google/gwt/
 move dev/core/test/com/google/gwt/lang \
      ideal/lang-test/src/test/java/com/google/gwt/
 
-mvn install -f ideal/lang-test
 
 #  tools
 mkdir -p ideal/tools/api-checker/src/main/java/
@@ -581,6 +581,9 @@ mvn install -f ideal/user
 
 #  now that we have user built, build the junit sources
 mvn install -f ideal/dev/junit3
+
+# back to lang-test - now that we have the compiler and test wiring, we can run tests for lang
+mvn install -f ideal/lang-test
 
 #  requestfactory
 
