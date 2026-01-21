@@ -148,6 +148,13 @@
                     <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <excludes>com/google/gwt/dev/shell/remoteui/RemoteMessageProto.java</excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

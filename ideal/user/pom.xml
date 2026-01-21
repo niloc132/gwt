@@ -160,6 +160,13 @@
                     <skipModuleMetadata>true</skipModuleMetadata>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <excludes>org/hibernate/validator/ValidationMessages.java</excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

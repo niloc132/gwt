@@ -36,7 +36,7 @@ jobs:
       - name: Restructure the project to use maven
         run: cd gwt/ && ./restructure.sh
       - name: Build the project with Maven
-        run: mvn -f gwt/ideal/pom.xml clean install --batch-mode
+        run: mvn -f gwt/ideal/pom.xml clean checkstyle:check install --batch-mode
       - name: Report test results
         uses: mikepenz/action-junit-report@v6.0.0
         if: always()
