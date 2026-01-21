@@ -573,6 +573,9 @@ mkdir -p ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactor
 move user/src/com/google/web/bindery/requestfactory/server ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 move user/src/com/google/web/bindery/requestfactory/vm ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 
+mkdir -p ideal/requestfactory/src/test/java/com/google
+move user/test/com/google/web ideal/requestfactory/src/test/java/com/google/
+
 git rm requestfactory/build.xml
 
 
