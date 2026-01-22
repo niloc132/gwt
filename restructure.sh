@@ -554,6 +554,9 @@ move user/src/com/google/gwt/user/tools ideal/cli-tools/src/main/java/com/google
 
 mkdir -p ideal/cli-tools/src/test/java/com/google/gwt/user/
 move user/test/com/google/gwt/user/tools ideal/cli-tools/src/test/java/com/google/gwt/user/
+mkdir -p ideal/cli-tools/src/test/java/com/google/gwt/i18n/tools
+move user/test/com/google/gwt/i18n/tools ideal/cli-tools/src/test/java/com/google/gwt/i18n/
+
 
 # requestfactory client
 # requestfactory shared
@@ -576,8 +579,8 @@ mkdir -p ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactor
 move user/src/com/google/web/bindery/requestfactory/server ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 move user/src/com/google/web/bindery/requestfactory/vm ideal/requestfactory/src/main/java/com/google/web/bindery/requestfactory/
 
-mkdir -p ideal/requestfactory/src/test/java/com/google
-move user/test/com/google/web ideal/requestfactory/src/test/java/com/google/
+mkdir -p ideal/user-integration-test/src/test/java/com/google
+move user/test/com/google/web ideal/user-integration-test/src/test/java/com/google/
 
 git rm requestfactory/build.xml
 
@@ -591,17 +594,17 @@ move user/src/org ideal/user/src/main/java/
 mkdir -p ideal/user/src/main/super/
 move user/super ideal/user/src/main/
 
-mkdir -p ideal/user/src/test/java
-move user/test/com ideal/user/src/test/java/
-move user/test/org ideal/user/src/test/java/
-move user/test/test ideal/user/src/test/java/
+mkdir -p ideal/user-integration-test/src/test/java
+move user/test/com ideal/user-integration-test/src/test/java/
+move user/test/org ideal/user-integration-test/src/test/java/
+move user/test/test ideal/user-integration-test/src/test/java/
 
-mkdir -p ideal/user/src/test/resources
-move user/test/log4j.properties ideal/user/src/test/resources/
+mkdir -p ideal/user-integration-test/src/test/resources
+move user/test/log4j.properties ideal/user-integration-test/src/test/resources/
 
-mkdir -p ideal/user/src/test/super
-move user/test-super/com ideal/user/src/test/super/
-move user/test-super/org ideal/user/src/test/super/
+mkdir -p ideal/user-integration-test/src/test/super
+move user/test-super/com ideal/user-integration-test/src/test/super/
+move user/test-super/org ideal/user-integration-test/src/test/super/
 
 $BUILD_CMD -f ideal/user
 
