@@ -55,6 +55,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>junit3</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <!-- TODO provide an assembly to build the three downstream jars -->

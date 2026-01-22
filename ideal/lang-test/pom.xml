@@ -10,7 +10,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>lang-test</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <description>Integration tests for lang, split into another project to use junit emul to run</description>
     <!-- TODO merge this back into lang, and make that not a gwt-lib -->
 

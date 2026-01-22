@@ -185,6 +185,7 @@
         <module>tools</module>
         <module>user</module>
         <module>requestfactory</module>
+        <module>user-integration-test</module>
         <module>samples</module>
         <module>cli-tools</module>
     </modules>
