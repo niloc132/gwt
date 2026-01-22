@@ -10,6 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>lang-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <description>Integration tests for lang, split into another project to use junit emul to run</description>
     <!-- TODO merge this back into lang, and make that not a gwt-lib -->
 
@@ -27,4 +28,21 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
