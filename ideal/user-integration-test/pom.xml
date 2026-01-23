@@ -95,6 +95,8 @@
                 <configuration>
                     <skipModule>true</skipModule>
                     <skipModuleMetadata>true</skipModuleMetadata>
+                    <!-- Allow Mockito to work with Java 9+ -->
+                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
         </plugins>

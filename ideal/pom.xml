@@ -22,14 +22,50 @@
                 <plugin>
                     <groupId>net.ltgt.gwt.maven</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
-                    <version>1.0.1</version>
+                    <version>1.2.0</version>
                     <extensions>true</extensions>
+                    <configuration>
+                        <properties>
+                            <property>
+                                <name>junit</name>
+                                <value>true</value>
+                            </property>
+                        </properties>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit3</artifactId>
+                            <version>3.5.4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.6.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.4</version>
+                    <configuration>
+                        <properties>
+                            <property>
+                                <name>junit</name>
+                                <value>true</value>
+                            </property>
+                        </properties>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit3</artifactId>
+                            <version>3.5.4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
@@ -113,7 +149,7 @@
             <dependency>
                 <groupId>org.eclipse.jdt</groupId>
                 <artifactId>org.eclipse.jdt.core</artifactId>
-                <version>3.32.0</version>
+                <version>3.33.0</version>
             </dependency>
 
             <dependency>
