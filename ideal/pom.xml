@@ -35,7 +35,7 @@
                     <dependencies>
                         <dependency>
                             <groupId>org.apache.maven.surefire</groupId>
-                            <artifactId>surefire-junit3</artifactId>
+                            <artifactId>surefire-junit4</artifactId>
                             <version>3.5.4</version>
                         </dependency>
                     </dependencies>
@@ -62,7 +62,7 @@
                     <dependencies>
                         <dependency>
                             <groupId>org.apache.maven.surefire</groupId>
-                            <artifactId>surefire-junit3</artifactId>
+                            <artifactId>surefire-junit4</artifactId>
                             <version>3.5.4</version>
                         </dependency>
                     </dependencies>

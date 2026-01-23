@@ -95,6 +95,10 @@
                     <testExcludes>
                         <testExclude>**/testdata/**</testExclude>
                     </testExcludes>
+                    <compilerArgs>
+                        <!-- https://bugs.openjdk.org/browse/JDK-8323657 until we have min java version 25 or so-->
+                        <compilerArg>-XDstringConcat=inline</compilerArg>
+                    </compilerArgs>
                     <annotationProcessors>
                         <annotationProcessor>com.google.web.bindery.requestfactory.apt.RfValidator</annotationProcessor>
                     </annotationProcessors>
