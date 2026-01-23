@@ -98,7 +98,9 @@
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
+                    <!-- TODO move these to resources, remove this -->
                     <include>**/*.js</include>
+                    <include>**/*.html</include>
                     <include>**/*.properties</include>
                 </includes>
             </resource>
