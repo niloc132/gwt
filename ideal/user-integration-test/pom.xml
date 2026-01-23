@@ -56,6 +56,23 @@
             <classifier>test-sources</classifier>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.1.0.Final</version>
+            <scope>test</scope>
+            <classifier>sources</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-impl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
@@ -69,13 +86,53 @@
             <version>1.0.3.GA</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.jsr303.tck</groupId>
+            <artifactId>jsr303-tck</artifactId>
+            <version>1.0.3.GA</version>
+            <scope>test</scope>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.test-harness</groupId>
+            <artifactId>jboss-test-harness-api</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.14.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.14.1</version>
+            <scope>test</scope>
+            <classifier>sources</classifier>
+        </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <repositories>
@@ -112,6 +169,7 @@
                     <skipModuleMetadata>true</skipModuleMetadata>
                     <!-- Allow Mockito to work with Java 9+, disable xml validation configs, and make the stack big enough to not break unicode tests -->
                     <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED -Dgwt.validation.ignoreXml=true -Xss4M</argLine>
+                    <reuseForks>false</reuseForks>
                 </configuration>
             </plugin>
         </plugins>
