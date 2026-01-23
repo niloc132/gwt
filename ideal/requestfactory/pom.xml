@@ -10,6 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>requestfactory</artifactId>
+    <packaging>gwt-lib</packaging>
 
     <dependencies>
         <!-- RfValidator uses Name.BinaryName -->
@@ -66,4 +67,17 @@
     </dependencies>
 
     <!-- TODO provide an assembly to build the three downstream jars -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <skipModuleMetadata>true</skipModuleMetadata>
+                    <skipModule>true</skipModule>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

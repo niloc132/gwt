@@ -61,13 +61,13 @@
             <version>1.0.3.GA</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.jboss.test-harness</groupId>-->
-<!--            <artifactId>jboss-test-harness-api</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.12</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -87,6 +87,9 @@
                     <testExcludes>
                         <testExclude>**/testdata/**</testExclude>
                     </testExcludes>
+                    <annotationProcessors>
+                        <annotationProcessor>com.google.web.bindery.requestfactory.apt.RfValidator</annotationProcessor>
+                    </annotationProcessors>
                 </configuration>
             </plugin>
             <plugin>
@@ -95,8 +98,8 @@
                 <configuration>
                     <skipModule>true</skipModule>
                     <skipModuleMetadata>true</skipModuleMetadata>
-                    <!-- Allow Mockito to work with Java 9+ -->
-                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED</argLine>
+                    <!-- Allow Mockito to work with Java 9+, disable xml validation configs, and make the stack big enough to not break unicode tests -->
+                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED -Dgwt.validation.ignoreXml=true -Xss4M</argLine>
                 </configuration>
             </plugin>
         </plugins>
