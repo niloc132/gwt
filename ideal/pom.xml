@@ -74,7 +74,7 @@
                     <version>3.6.0</version>
                     <dependencies>
                         <dependency>
-                            <groupId>${project.groupId}</groupId>
+                            <groupId>org.gwtproject</groupId>
                             <artifactId>gwt-checkstyle</artifactId>
                             <version>${project.version}</version>
                         </dependency>
