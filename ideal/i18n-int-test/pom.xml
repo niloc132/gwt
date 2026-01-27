@@ -15,6 +15,21 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>compiler</artifactId>
+      <version>${project.version}</version>
+      <type>test-jar</type>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.9.5</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -54,6 +69,22 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.4</version>
+        <configuration>
+          <!-- don't run client I18NSuite, that happens in bar/dollar -->
+          <excludes>
+            <exclude>**/I18NSuite.java</exclude>
+          </excludes>
+          <includes>
+            <include>**/*Suite.java</include>
+          </includes>
+          <!-- allow mockito to work with java 9+ -->
+          <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED</argLine>
+        </configuration>
       </plugin>
     </plugins>
   </build>
