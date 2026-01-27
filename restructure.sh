@@ -588,11 +588,11 @@ git rm requestfactory/build.xml
 
 
 # I18n bar vs dollar integration tests
-mkdir -p ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/shared
-move user/test/com/google/gwt/i18n/client ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/
-move user/test/com/google/gwt/i18n/shared/DateTimeFormatTestBase.java ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/shared/
-move user/test/com/google/gwt/i18n/I18NSuite.java ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/
-move user/test/com/google/gwt/i18n/*.gwt.xml ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/
+mkdir -p ideal/i18n-int-test/src/test/java/com/google/gwt/
+move user/test/com/google/gwt/i18n/ ideal/i18n-int-test/src/test/java/com/google/gwt/
+#move user/test/com/google/gwt/i18n/shared/DateTimeFormatTestBase.java ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/shared/
+#move user/test/com/google/gwt/i18n/I18NSuite.java ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/
+#move user/test/com/google/gwt/i18n/*.gwt.xml ideal/i18n-int-test/src/test/java/com/google/gwt/i18n/
 
 mkdir -p ideal/i18n-int-test/bar/src/test/java/
 move user/test_i18n_bar/com ideal/i18n-int-test/bar/src/test/java
