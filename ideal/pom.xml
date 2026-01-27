@@ -254,6 +254,9 @@
         <module>user</module>
         <module>requestfactory</module>
         <module>user-integration-test</module>
+        <module>i18n-int-test</module>
+        <module>i18n-int-test/bar</module>
+        <module>i18n-int-test/dollar</module>
         <module>samples</module>
         <module>cli-tools</module>
     </modules>
