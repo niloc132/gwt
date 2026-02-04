@@ -646,62 +646,22 @@ git rm servlet/build.xml
 
 
 #  samples
-git rm samples/dynatable/build.xml
-mkdir -p ideal/samples/dynatable/src/main/java
-move samples/dynatable/src/com ideal/samples/dynatable/src/main/java/
-mkdir -p ideal/samples/dynatable/src/main/webapp
-# inlined "move" to avoid renaming afterwards
-cp -r samples/dynatable/war/* ideal/samples/dynatable/src/main/webapp
-git rm -rf samples/dynatable/war/
-git add ideal/samples/dynatable/src/main/webapp
+for proj in dynatable dynatablerf json mail mobilewebapp showcase validation
+do
+  move ideal/samples/${proj}/COPYING ideal/samples/${proj}/
+  move ideal/samples/${proj}/README.md ideal/samples/${proj}/
 
-# dynatablerf is unfinished as requestfactory is unfinished
-move samples/dynatablerf/src ideal/samples/dynatablerf/
-#git rm samples/dynatablerf/build.xml
-#git rm samples/dynatablerf/pom.xml
-#git rm samples/dynatablerf/README-MAVEN.txt
-#mkdir -p ideal/samples/dynatablerf/src/main/java
-#move samples/dynatablerf/src ideal/samples/dynatablerf/
+  move ideal/samples/${proj}/${proj}-client/src ideal/samples/${proj}/${proj}-client/
+  move ideal/samples/${proj}/${proj}-server/src ideal/samples/${proj}/${proj}-server/
 
-git rm samples/hello/build.xml
-mkdir -p ideal/samples/hello/src/main/java
-move samples/hello/src/com ideal/samples/hello/src/main/java/
-mkdir -p ideal/samples/hello/src/main/webapp
-# inlined "move" to avoid renaming afterwards
-cp -r samples/hello/war/* ideal/samples/hello/src/main/webapp
-git rm -rf samples/hello/war/
-git add ideal/samples/hello/src/main/webapp
+  if [ -d ideal/samples/${proj}/${proj}-shared ]; then
+    move ideal/samples/${proj}/${proj}-shared/src ideal/samples/${proj}/${proj}-shared/
+  fi
+done
 
-git rm samples/json/build.xml
-mkdir -p ideal/samples/json/src/main/java
-move samples/json/src/com ideal/samples/json/src/main/java/
-mkdir -p ideal/samples/json/src/main/webapp
-# inlined "move" to avoid renaming afterwards
-cp -r samples/json/war/* ideal/samples/json/src/main/webapp
-git rm -rf samples/json/war/
-git add ideal/samples/json/src/main/webapp
+move samples/hello/src ideal/samples/hello/
 
-git rm samples/mail/build.xml
-mkdir -p ideal/samples/mail/src/main/java
-move samples/mail/src/com ideal/samples/mail/src/main/java/
-mkdir -p ideal/samples/mail/src/main/webapp
-# inlined "move" to avoid renaming afterwards
-cp -r samples/mail/war/* ideal/samples/mail/src/main/webapp
-git rm -rf samples/mail/war/
-git add ideal/samples/mail/src/main/webapp
-
-# TODO mobilewebapp
-
-git rm samples/showcase/build.xml
-mkdir -p ideal/samples/showcase/src/main/java
-move samples/showcase/src/com ideal/samples/showcase/src/main/java/
-mkdir -p ideal/samples/showcase/src/main/webapp
-# inlined "move" to avoid renaming afterwards
-cp -r samples/showcase/war/* ideal/samples/showcase/src/main/webapp
-git rm -rf samples/showcase/war/
-git add ideal/samples/showcase/src/main/webapp
-
-# TODO validation
+git rm samples/BUILD samples/build.xml
 
 $BUILD_CMD -f ideal/samples
 
