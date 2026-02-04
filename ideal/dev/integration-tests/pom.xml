@@ -39,7 +39,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.gwtproject.sample</groupId>
+            <groupId>org.gwtproject.sample.hello</groupId>
             <artifactId>hello</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
