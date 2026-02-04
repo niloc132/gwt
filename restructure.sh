@@ -648,14 +648,14 @@ git rm servlet/build.xml
 #  samples
 for proj in dynatable dynatablerf json mail mobilewebapp showcase validation
 do
-  move ideal/samples/${proj}/COPYING ideal/samples/${proj}/
-  move ideal/samples/${proj}/README.md ideal/samples/${proj}/
+  move samples/${proj}/COPYING ideal/samples/${proj}/
+  move samples/${proj}/README.md ideal/samples/${proj}/
 
-  move ideal/samples/${proj}/${proj}-client/src ideal/samples/${proj}/${proj}-client/
-  move ideal/samples/${proj}/${proj}-server/src ideal/samples/${proj}/${proj}-server/
+  move samples/${proj}/${proj}-client/src ideal/samples/${proj}/${proj}-client/
+  move samples/${proj}/${proj}-server/src ideal/samples/${proj}/${proj}-server/
 
-  if [ -d ideal/samples/${proj}/${proj}-shared ]; then
-    move ideal/samples/${proj}/${proj}-shared/src ideal/samples/${proj}/${proj}-shared/
+  if [ -d samples/${proj}/${proj}-shared ]; then
+    move samples/${proj}/${proj}-shared/src ideal/samples/${proj}/${proj}-shared/
   fi
 done
 

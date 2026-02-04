@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.google.gwt.sample.showcase</groupId>
+    <groupId>org.gwtproject.sample.showcase</groupId>
     <artifactId>showcase</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
