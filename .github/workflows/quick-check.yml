@@ -47,7 +47,7 @@ jobs:
 #          set -eux
 #          shopt -s globstar
 #          cd gwt
-#          for f in build/out/**/checkstyle*.xml ; do
+#          for f in **/target/checkstyle*result.xml ; do
 #            echo $f
 #            reviewdog -f=checkstyle -filter-mode=diff_context -reporter=github-pr-annotations -level=info < $f || true
 #          done
@@ -57,5 +57,5 @@ jobs:
 #        if: ${{ matrix.java-version == '21' }}
 #        with:
 #          name: checkstyle-reports-java${{ matrix.java-version }}
-#          path: 'gwt/build/out/**/checkstyle*.xml'
+#          path: '**/target/checkstyle*result.xml'
 #          retention-days: 5
