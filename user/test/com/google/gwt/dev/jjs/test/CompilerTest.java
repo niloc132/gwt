@@ -867,7 +867,7 @@ public class CompilerTest extends GWTTestCase {
   }-*/;
 
   @SuppressWarnings({"empty", "LoopConditionChecker",
-      "checkstyle.NeedBraces", "checkstyle.WhitespaceAround", "checkstyle.EmptyStatement"})
+      "checkstyle:NeedBraces", "checkstyle:WhitespaceAround", "checkstyle:EmptyStatement"})
   public void testEmptyStatements() {
     boolean b = false;
 
