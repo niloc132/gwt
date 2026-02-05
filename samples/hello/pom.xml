@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.gwtproject.sample.hello</groupId>
+  <groupId>com.google.gwt.sample.hello</groupId>
   <artifactId>hello</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
@@ -71,19 +71,7 @@
           <warDir>${project.build.directory}/${project.artifactId}-${project.version}</warDir>
         </configuration>
       </plugin>
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.4.0</version>
-          <executions>
-              <execution>
-                  <id>attach-sources</id>
-                  <goals>
-                      <goal>jar-no-fork</goal>
-                  </goals>
-              </execution>
-          </executions>
-      </plugin>
+
     </plugins>
   </build>
   <profiles>
