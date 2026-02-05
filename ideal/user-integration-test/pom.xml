@@ -180,8 +180,17 @@
                     <skipModule>true</skipModule>
                     <skipModuleMetadata>true</skipModuleMetadata>
                     <!-- Allow Mockito to work with Java 9+, disable xml validation configs, and make the stack big enough to not break unicode tests -->
-                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED -Dgwt.validation.ignoreXml=true -Xss4M</argLine>
+                    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED -Xss4M</argLine>
                     <reuseForks>false</reuseForks>
+                    <systemPropertyVariables>
+                        <!-- sourceLevel set for various java tests,
+                        generateJsInteropExports required for CoreJsInteropSuite,
+                        batch=module required for JUnitSuite,
+                        and -ea has to be set to enable assertions in the runtime code (aria AttributeTest) -->
+                        <gwt.args>-sourceLevel auto -generateJsInteropExports -batch module -ea</gwt.args>
+                        <!-- disable validation config through xml -->
+                        <gwt.validation.ignoreXml>true</gwt.validation.ignoreXml>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
