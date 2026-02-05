@@ -136,7 +136,7 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <configLocation>gwt-checkstyle.xml</configLocation>
+                        <excludeGeneratedSources>true</excludeGeneratedSources>
                     </configuration>
                 </plugin>
             </plugins>

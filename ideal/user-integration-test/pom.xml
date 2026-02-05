@@ -193,6 +193,14 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <!-- This is a test-only project, so excluding tests copied from other libraries -->
+                    <excludes>org/**</excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
