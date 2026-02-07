@@ -128,8 +128,12 @@
                             <goals>
                                 <goal>check</goal>
                             </goals>
+                            <!--
+                            GWT uses a slightly more relaxed set of rules for test sources, requiring a different
+                            config file, so we only run this config on test sources.
+                            -->
                             <configuration>
-                                <sourceDirectories>${project.testCompileSourceRoots}</sourceDirectories>
+                                <sourceDirectories>${project.test.sourceDirectory}</sourceDirectories>
                                 <configLocation>gwt-checkstyle-tests.xml</configLocation>
                                 <outputFile>${project.build.directory}/checkstyle-tests-result.xml</outputFile>
                             </configuration>
