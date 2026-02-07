@@ -548,6 +548,9 @@ move tools/datetimefmtcreator/src/com ideal/tools/datetimefmtcreator/src/main/ja
 
 # cli-tools
 #
+mkdir -p ideal/cli-tools/src/main/resources/com/google/gwt/user/tools/
+move user/src/com/google/gwt/user/tools/templates/ ideal/cli-tools/src/main/resources/com/google/gwt/user/tools/
+
 mkdir -p ideal/cli-tools/src/main/java/com/google/gwt/{i18n,user}/
 move user/src/com/google/gwt/i18n/tools ideal/cli-tools/src/main/java/com/google/gwt/i18n/
 move user/src/com/google/gwt/user/tools ideal/cli-tools/src/main/java/com/google/gwt/user/
