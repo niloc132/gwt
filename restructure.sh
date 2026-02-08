@@ -34,9 +34,16 @@ $BUILD_CMD -f ideal/checkstyle
 
 #  javaemul
 # These utils and compiler hints are for internal use only, and are used in the lang project
+# Supersource first, that can't be compiled to Java bytecode
+mkdir -p ideal/javaemul/src/main/super/com/google/gwt/emul/javaemul/internal/
+move user/super/com/google/gwt/emul/javaemul/internal/EmulatedCharset.java \
+     ideal/javaemul/src/main/super/com/google/gwt/emul/javaemul/internal/
+move user/super/com/google/gwt/emul/javaemul/internal/HashCodes.java \
+     ideal/javaemul/src/main/super/com/google/gwt/emul/javaemul/internal/
+
 mkdir -p ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
 move user/super/com/google/gwt/emul/javaemul/internal \
-     ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
+     ideal/javaemul/src/main/java/
 
 $BUILD_CMD -f ideal/javaemul
 
