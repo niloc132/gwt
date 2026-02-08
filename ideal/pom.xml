@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.gwtproject</groupId>
-    <artifactId>gwt</artifactId>
+    <artifactId>gwt-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>gwt-parent</name>
@@ -209,6 +209,18 @@
                 <version>3.1.0</version>
             </dependency>
             <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.0.0.GA</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.0.0.GA</version>
+                <!-- Note: use classifier=sources rather than type=java-sources so they're added to the classpath -->
+                <classifier>sources</classifier>
+            </dependency>
+            <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
                 <version>9.6</version>
@@ -243,6 +255,7 @@
     </dependencyManagement>
 
     <modules>
+        <module>bom</module>
         <module>checkstyle</module>
         <module>external</module>
         <module>javaemul</module>
@@ -257,6 +270,7 @@
         <module>tools</module>
         <module>user</module>
         <module>requestfactory</module>
+        <module>servlet</module>
         <module>user-integration-test</module>
         <module>i18n-int-test</module>
         <module>i18n-int-test/bar</module>
