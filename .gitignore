@@ -2,10 +2,5 @@
 # Those patterns should go in a global gitignore or repository-specific excludes.
 # See http://www.gwtproject.org/makinggwtbetter.html#global_gitignore
 
-# Working folder of ant build script
-/build/
-# Generated poms
-/maven/poms/**/pom.xml
-
-# Maven build directories for samples
-samples/**/target/
+# Maven build directories
+target/
