@@ -16,6 +16,17 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>util</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ext</artifactId>
             <version>${project.version}</version>
             <exclusions>
@@ -29,6 +40,30 @@
             <!-- Arguably this shouldn't be included -->
             <groupId>${project.groupId}</groupId>
             <artifactId>javaemul</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <!-- Arguably this shouldn't be included -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>junit3</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <!-- Arguably this shouldn't be included -->
+            <groupId>${project.groupId}</groupId>
+            <artifactId>lang</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
@@ -59,8 +94,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${project.groupId}.web.bindery</groupId>
             <artifactId>requestfactory</artifactId>
             <version>${project.version}</version>
             <exclusions>
@@ -71,6 +107,31 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>${project.groupId}.external</groupId>
+            <artifactId>streamhtmlparser-jsilver</artifactId>
+            <version>r10-1.5-rebased</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}.external</groupId>
+            <artifactId>json-android-rebased</artifactId>
+            <version>19.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}.external</groupId>
+            <artifactId>com.google.guava.failureaccess</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}.external</groupId>
+            <artifactId>com.google.guava.guava</artifactId>
+            <version>33.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}.external</groupId>
+            <artifactId>jscomp-sourcemap</artifactId>
+            <version>20231112</version>
+        </dependency>
 
         <dependency>
             <groupId>javax.validation</groupId>
@@ -101,29 +162,63 @@
                             <artifactSet>
                                 <includes>
                                     <include>${project.groupId}:ext</include>
+                                    <include>${project.groupId}:util</include>
                                     <include>${project.groupId}:gwt-user</include>
                                     <include>${project.groupId}:javaemul</include>
+                                    <include>${project.groupId}:junit3</include>
+<!--                                    <include>${project.groupId}:lang</include>-->
                                     <include>${project.groupId}:gwt-core</include>
-                                    <include>${project.groupId}:requestfactory</include>
+                                    <include>${project.groupId}.web.bindery:requestfactory</include>
+                                    <include>${project.groupId}.external:*</include>
                                 </includes>
                             </artifactSet>
                             <filters>
                                 <filter>
                                     <artifact>${project.groupId}:gwt-user</artifact>
+                                    <includes>
+                                        <include>**/*.class</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>**/rebind/**</exclude>
                                         <exclude>**/tools/**</exclude>
                                         <exclude>**/super/**</exclude>
                                         <exclude>com/google/gwt/json/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}:gwt-core</artifact>
+                                    <includes>
+                                        <include>com/google/gwt/core/shared/**/*.class</include>
+                                        <include>com/google/gwt/core/client/**/*.class</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/GwtScriptOnly.*</exclude>
+                                        <exclude>**/GWTBridge.*</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}:junit3</artifact>
+                                    <includes>
+                                        <include>com/google/gwt/junit/**/*.class</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/rebind/**</exclude>
+                                        <exclude>**/tools/**</exclude>
                                         <exclude>com/google/gwt/junit/*</exclude>
                                         <exclude>com/google/gwt/junit/client/GWTTestCase*</exclude>
                                         <exclude>com/google/gwt/junit/server/**</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>${project.groupId}:core</artifact>
+                                    <artifact>${project.groupId}:javaemul</artifact>
                                     <includes>
-                                        <include>com/google/gwt/core/shared/**</include>
+                                        <include>**/*.class</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}:lang</artifact>
+                                    <includes>
+                                        <include>**/*.class</include>
                                     </includes>
                                 </filter>
                                 <filter>
@@ -131,8 +226,24 @@
                                     <includes>
                                         <include>com/google/gwt/dev/util/Name*</include>
                                         <include>com/google/gwt/dev/util/StringKey*</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}:util</artifact>
+                                    <includes>
                                         <include>com/google/gwt/util/tools/shared/**</include>
                                     </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>${project.groupId}.web.bindery:requestfactory</artifact>
+                                    <includes>
+                                        <include>**/*.class</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                        <exclude>**/*.gwt.xml</exclude>
+                                        <exclude>**/rebind/**</exclude>
+                                    </excludes>
                                 </filter>
                             </filters>
 <!--                            <createSourcesJar>true</createSourcesJar>-->
