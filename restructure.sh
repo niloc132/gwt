@@ -283,6 +283,7 @@ movejava com/google/gwt/dev/resource/Resource.java
 
 movejava com/google/gwt/dev/util/DiskCache.java
 movejava com/google/gwt/dev/util/StringKey.java
+movejava com/google/gwt/dev/util/Name.java
 movejava com/google/gwt/dev/util/Pair.java
 
 # okay, lets just move everything in these packages and not worry about exposing classes

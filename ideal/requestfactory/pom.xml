@@ -13,13 +13,6 @@
     <packaging>gwt-lib</packaging>
 
     <dependencies>
-        <!-- RfValidator uses Name.BinaryName -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>compiler</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- Generator and API -->
         <dependency>
             <groupId>${project.groupId}</groupId>
