@@ -30,7 +30,8 @@
 
         <dependency>
             <groupId>org.gwtproject.external</groupId>
-            <artifactId>com.google.guava.guava</artifactId>
+            <artifactId>guava-rebased</artifactId>
+            <version>33.0.0-jre</version>
         </dependency>
         <dependency>
             <groupId>org.gwtproject.external</groupId>

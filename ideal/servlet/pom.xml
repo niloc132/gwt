@@ -123,9 +123,9 @@
             <version>1.0.2</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}.external</groupId>
-            <artifactId>com.google.guava.guava</artifactId>
-            <version>33.0.0</version>
+            <groupId>org.gwtproject.external</groupId>
+            <artifactId>guava-rebased</artifactId>
+            <version>33.0.0-jre</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}.external</groupId>
