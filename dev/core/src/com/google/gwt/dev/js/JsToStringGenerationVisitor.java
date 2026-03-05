@@ -554,7 +554,9 @@ public class JsToStringGenerationVisitor extends JsVisitor {
     JsStatement thenStmt = x.getThenStmt();
     if (!(thenStmt instanceof JsBlock) && x.getElseStmt() != null) {
       JsBlock b = new JsBlock(thenStmt.getSourceInfo());
-      b.getStatements().add(thenStmt);
+      if (!(thenStmt instanceof JsEmpty)) {
+        b.getStatements().add(thenStmt);
+      }
       thenStmt = b;
     }
     _nestedPush(thenStmt, false);
