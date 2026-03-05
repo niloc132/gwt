@@ -71,6 +71,24 @@ public class ExpandBlocksTest extends OptimizerTestBase {
             "  }",
             "}"
     );
+
+    optimize("void",
+        "if (A.a) {",
+        "  if (A.a) {",
+        "    return;",
+        "  }",
+        "  return;",
+        "}",
+        "return;"
+    ).into("if (A.a) {",
+        "  if (A.a) {",
+        "    return;",
+        "  } else {",
+        "    return;",
+        "  }",
+        "} else {",
+        "  return;",
+        "}");
   }
 
   public void testImplEntry() throws Exception {
