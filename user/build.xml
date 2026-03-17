@@ -273,7 +273,7 @@
     <gwt.javac srcdir="test" destdir="${javac.junit.out}"
                excludes="com/google/gwt/langtest/**,**/super/**"
                processorpath="test.extraclasspath"
-               release="11">
+               release="17">
       <classpath>
         <pathelement location="${javac.out}"/>
         <pathelement location="${gwt.tools.lib}/junit/junit-4.8.2.jar"/>

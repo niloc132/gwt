@@ -62,6 +62,56 @@ public class JsPropertyTest extends GWTTestCase {
     void setX(int x);
   }
 
+  @JsType(isNative=true)
+  public static class NativeObjWithStringField {
+    public String value;
+  }
+  private native NativeObjWithStringField makeObj() /*-{
+    return {value: 'asdf'};
+  }-*/;
+
+  public void testNativeStringFieldIsEmpty() {
+    NativeObjWithStringField obj = makeObj();
+    assertFalse(obj.value.isEmpty());
+    checkCharSeq(obj.value);
+
+    assertFalse(new StringBuilder("asdf").isEmpty());
+    checkCharSeq(new StringBuilder("asdf"));
+  }
+
+  public void checkCharSeq(CharSequence charSeq) {
+    if (Math.random() > 10) {
+      fail();
+    }
+    assertFalse(charSeq.isEmpty());
+  }
+
+   public void testNativeStringFieldIsEmptyViaCharSeq() {
+    checkCharSeq(makeObj().value);
+    checkCharSeq(new StringBuilder("asdf"));
+    checkCharSeq(new CharSequence() {
+      @Override
+      public int length() {
+        return 4;
+      }
+
+      @Override
+      public char charAt(int i) {
+        return 'z';
+      }
+
+      @Override
+      public CharSequence subSequence(int i, int i1) {
+        return "zzzz".subSequence(i, i1);
+      }
+
+      @Override
+      public boolean isEmpty() {
+        return Math.random() > 10;
+      }
+    });
+  }
+
   static class MyJavaTypeImplementingMyJsTypeInterfaceWithProperty
       implements MyJsTypeInterfaceWithProperty {
     private int x;

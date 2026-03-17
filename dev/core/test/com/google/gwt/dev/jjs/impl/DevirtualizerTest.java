@@ -132,6 +132,19 @@ public class DevirtualizerTest extends OptimizerTestBase {
     result.intoString(expected.toString());
   }
 
+  public void testDevirtualizeStringFieldAccess() throws UnableToCompleteException {
+    addSnippetImport("jsinterop.annotations.JsType");
+    addSnippetImport("jsinterop.annotations.JsOverlay");
+    addSnippetClassDecl(
+        "@JsType(isNative=true) public static class NativeClass {",
+        "  public String field;",
+        "}");
+    Result result = optimize("void", "boolean b = new NativeClass().field.isEmpty();");
+    result
+        .intoString("boolean b = String.isEmpty__Z__devirtual$((new EntryPoint$NativeClass()).field);");
+    System.out.println(result.getOptimizedProgram().toSource());
+  }
+
   public void testDevirtualizeJsOverlay() throws UnableToCompleteException {
     addSnippetImport("jsinterop.annotations.JsType");
     addSnippetImport("jsinterop.annotations.JsOverlay");
