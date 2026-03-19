@@ -25,6 +25,10 @@ jobs:
     strategy:
       matrix:
         java-version: [ '11', '17', '21', '22' ]
+        user-tests: [ 'draft' ]
+        include:
+          - java-version: '21'
+            user-tests: 'web'
     steps:
       - name: Checkout GWT itself into one directory
         uses: actions/checkout@v6
@@ -54,9 +58,9 @@ jobs:
             ANT_OPTS='-Dfile.encoding=UTF8 -Xmx2g' \
             GWT_VERSION=HEAD-SNAPSHOT
           # Run the ant tasks, disabling watchFileChanges to work around a github actions limitation
-          # Only Java 21 will run optimized tests
           ant clean test dist doc \
             -Dtest.jvmargs='-ea -Dgwt.watchFileChanges=false' \
+            -D${{ matrix.user-tests == 'draft' && 'test.web.htmlunit.disable' || 'test.draft.htmlunit.disable' }}=true \
             -Dtest.nometa.htmlunit.disable=true \
             -Dtest.emma.htmlunit.disable=true
 
