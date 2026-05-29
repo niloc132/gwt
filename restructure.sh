@@ -18,7 +18,7 @@ movejava () {
 }
 
 # install the root parent pom
-$BUILD_CMD -f ideal -am -pl :gwt,:dev -Dcheckstyle.skip=true
+$BUILD_CMD -f ideal -am -pl :gwt-parent,:gwt,:dev -Dcheckstyle.skip=true
 
 
 # install external tools
