@@ -272,6 +272,7 @@
         <module>bom</module>
         <module>checkstyle</module>
         <module>external</module>
+        <module>external/guava-rebased</module>
         <module>javaemul</module>
         <module>core</module>
         <module>lang</module>
