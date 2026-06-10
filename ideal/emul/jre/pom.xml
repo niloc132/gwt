@@ -42,6 +42,7 @@
                 <configuration>
                     <skipModule>true</skipModule>
                     <skipModuleMetadata>true</skipModuleMetadata>
+                    <relocateSuperSource>true</relocateSuperSource>
                 </configuration>
             </plugin>
         </plugins>

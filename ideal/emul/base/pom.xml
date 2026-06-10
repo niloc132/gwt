@@ -34,6 +34,7 @@
                 <artifactId>gwt-maven-plugin</artifactId>
                 <configuration>
                     <moduleName>com.google.gwt.emul.Emulation</moduleName>
+                    <relocateSuperSource>true</relocateSuperSource>
                 </configuration>
             </plugin>
         </plugins>

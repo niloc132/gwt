@@ -52,10 +52,11 @@ $BUILD_CMD -f ideal/javaemul
 # Java Language emulation, basics required to compile at all
 # JRE emulation, support for applications that depend on greater aspects of Java
 
-mkdir -p ideal/emul/base/src/main/java/com/google/gwt/emul/java/{io,lang,util}
+mkdir -p ideal/emul/base/src/main/super/com/google/gwt/emul/java/{io,lang,util}
+mkdir -p ideal/emul/base/src/main/resources/com/google/gwt/emul/
 
 ORIGIN=user/super/com/google/gwt/emul
-TARGET=ideal/emul/base/src/main/java/com/google/gwt/emul
+TARGET=ideal/emul/base/src/main/super/com/google/gwt/emul
 
 movejava java/io/Serializable.java
 movejava java/lang/Object.java
@@ -78,12 +79,12 @@ movejava java/lang/Float.java
 movejava java/lang/Double.java
 movejava java/lang/Throwable.java
 
-git mv user/super/com/google/gwt/emul/Preconditions.gwt.xml ideal/emul/base/src/main/java/com/google/gwt/emul/
+git mv user/super/com/google/gwt/emul/Preconditions.gwt.xml ideal/emul/base/src/main/resources/com/google/gwt/emul/
 git mv user/super/com/google/gwt/emul/Emulation.gwt.xml ideal/emul/base/src/main/module.gwt.xml
 
-mkdir -p ideal/emul/jre/src/main/java/com/google/gwt/emul
+mkdir -p ideal/emul/jre/src/main/super/com/google/gwt/emul
 
-move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/java/com/google/gwt/emul/
+move user/super/com/google/gwt/emul/java ideal/emul/jre/src/main/super/com/google/gwt/emul/
 
 $BUILD_CMD -f ideal/emul
 
@@ -142,13 +143,15 @@ movejava com/google/gwt/core/client/ScriptInjector.java
 
 movejava com/google/gwt/core/client/CodeDownloadException.java
 
+mkdir -p ideal/core/src/main/resources/com/google/gwt/core/
+
 git mv user/src/com/google/gwt/core/CompilerParameters.gwt.xml \
        user/src/com/google/gwt/core/CoreWithUserAgent.gwt.xml \
        user/src/com/google/gwt/core/StackTrace.gwt.xml \
        user/src/com/google/gwt/core/AsyncFragmentLoader.gwt.xml \
        user/src/com/google/gwt/core/CrossSiteIframeLinker.gwt.xml \
        user/src/com/google/gwt/core/XSLinker.gwt.xml \
-       ideal/core/src/main/java/com/google/gwt/core/
+       ideal/core/src/main/resources/com/google/gwt/core/
 
 # Hack to deal with legacy logging names
 mkdir ideal/core/src/main/java/com/google/gwt/logging
@@ -170,6 +173,15 @@ $BUILD_CMD -f ideal/core
 mkdir -p ideal/lang/src/main/java/com/google/gwt/dev/
 mkdir -p ideal/lang/src/main/java/com/google/gwt/{core,lang}/
 mkdir -p ideal/lang/src/main/java/com/google/gwt/core/client/impl/
+
+mkdir -p ideal/lang/src/main/resources/com/google/gwt/lang
+mkdir -p ideal/lang/src/main/resources/com/google/gwt/dev/jjs/intrinsic
+
+git mv dev/core/src/com/google/gwt/lang/LongLib.gwt.xml \
+    ideal/lang/src/main/resources/com/google/gwt/lang/
+git mv dev/core/src/com/google/gwt/dev/jjs/intrinsic/Intrinsic.gwt.xml \
+    ideal/lang/src/main/resources/com/google/gwt/dev/jjs/intrinsic/
+
 # many of these types require core's JavaScriptObject
 
 move dev/core/super/com/google/gwt/dev/jjs \
@@ -613,6 +625,11 @@ move user/test_i18n_dollar/com ideal/i18n-int-test/dollar/src/test/java
 
 #  user
 #
+# First grab all .gwt.xml files and put them in resources
+mkdir -p ideal/user/src/main/resources/
+git mv $(git ls-files user/src | grep '\.gwt\.xml$') ideal/user/src/main/resources/
+
+# Then move various java/super source
 mkdir -p ideal/user/src/main/java/
 move user/src/com ideal/user/src/main/java/
 move user/src/javax ideal/user/src/main/java/
