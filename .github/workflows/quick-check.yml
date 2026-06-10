@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java-version: ['17', '21', '25']
+        java-version: ['17', '21', '25', '26']
     steps:
       - name: Checkout GWT itself into one directory
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 #v7.0.0
