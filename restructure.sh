@@ -154,8 +154,8 @@ git mv user/src/com/google/gwt/core/CompilerParameters.gwt.xml \
        ideal/core/src/main/resources/com/google/gwt/core/
 
 # Hack to deal with legacy logging names
-#mkdir ideal/core/src/main/java/com/google/gwt/logging
-#git mv user/src/com/google/gwt/logging/LogImpl.gwt.xml ideal/core/src/main/java/com/google/gwt/logging/
+mkdir ideal/core/src/main/resources/com/google/gwt/logging
+git mv user/src/com/google/gwt/logging/LogImpl.gwt.xml ideal/core/src/main/resources/com/google/gwt/logging/
 git mv user/src/com/google/gwt/core/Core.gwt.xml ideal/core/src/main/module.gwt.xml
 
 
