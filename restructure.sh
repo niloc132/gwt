@@ -627,7 +627,12 @@ move user/test_i18n_dollar/com ideal/i18n-int-test/dollar/src/test/java
 #
 # First grab all .gwt.xml files and put them in resources
 mkdir -p ideal/user/src/main/resources/
-git mv $(git ls-files user/src | grep '\.gwt\.xml$') ideal/user/src/main/resources/
+for file in $(git ls-files user/src | grep '\.gwt\.xml$')
+do
+  mkdir -p ideal/user/src/main/resources/$(dirname $file)
+  git mv $file ideal/user/src/main/resources/$file
+done
+#git mv $(git ls-files user/src | grep '\.gwt\.xml$') ideal/user/src/main/resources/
 
 # Then move various java/super source
 mkdir -p ideal/user/src/main/java/
