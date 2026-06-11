@@ -177,9 +177,9 @@ mkdir -p ideal/lang/src/main/java/com/google/gwt/core/client/impl/
 mkdir -p ideal/lang/src/main/resources/com/google/gwt/lang
 mkdir -p ideal/lang/src/main/resources/com/google/gwt/dev/jjs/intrinsic
 
-git mv dev/core/src/com/google/gwt/lang/LongLib.gwt.xml \
+git mv dev/core/super/com/google/gwt/lang/LongLib.gwt.xml \
     ideal/lang/src/main/resources/com/google/gwt/lang/
-git mv dev/core/src/com/google/gwt/dev/jjs/intrinsic/Intrinsic.gwt.xml \
+git mv dev/core/super/com/google/gwt/dev/jjs/intrinsic/Intrinsic.gwt.xml \
     ideal/lang/src/main/resources/com/google/gwt/dev/jjs/intrinsic/
 
 # many of these types require core's JavaScriptObject
