@@ -629,8 +629,8 @@ move user/test_i18n_dollar/com ideal/i18n-int-test/dollar/src/test/java
 mkdir -p ideal/user/src/main/resources/
 for file in $(git ls-files user/src | grep '\.gwt\.xml$')
 do
-  mkdir -p ideal/user/src/main/resources/$(dirname $file)
-  git mv $file ideal/user/src/main/resources/$file
+  mkdir -p ideal/user/src/main/resources/$(dirname ${file#user/src})
+  git mv $file ideal/user/src/main/resources/${file#user/src}
 done
 #git mv $(git ls-files user/src | grep '\.gwt\.xml$') ideal/user/src/main/resources/
 
