@@ -42,7 +42,7 @@ move user/super/com/google/gwt/emul/javaemul/internal/HashCodes.java \
      ideal/javaemul/src/main/super/com/google/gwt/emul/javaemul/internal/
 
 mkdir -p ideal/javaemul/src/main/java/com/google/gwt/emul/javaemul/
-move user/super/com/google/gwt/emul/javaemul/internal \
+move user/super/com/google/gwt/emul/javaemul \
      ideal/javaemul/src/main/java/
 
 $BUILD_CMD -f ideal/javaemul
