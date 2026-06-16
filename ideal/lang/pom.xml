@@ -10,7 +10,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>lang</artifactId>
-<!--    <packaging>gwt-lib</packaging>-->
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -35,38 +34,10 @@
             <resource>
                 <directory>src/main/java</directory>
             </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
         </resources>
-        <plugins>
-<!--            <plugin>-->
-<!--                <groupId>net.ltgt.gwt.maven</groupId>-->
-<!--                <artifactId>gwt-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <skipModuleMetadata>true</skipModuleMetadata>-->
-<!--                    <skipModule>true</skipModule>-->
-<!--                    <moduleName>com.google.gwt.dev.jjs.intrinsic.Intrinsic</moduleName>-->
-<!--&lt;!&ndash;                    <relocateSuperSource>true</relocateSuperSource>&ndash;&gt;-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>build-helper-maven-plugin</artifactId>-->
-<!--                <version>1.12</version>-->
-
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>super-source</id>-->
-<!--                        <goals>-->
-<!--                            <goal>add-source</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <sources>-->
-<!--                                <source>src/main/super</source>-->
-<!--                            </sources>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-        </plugins>
     </build>
     
 </project>
