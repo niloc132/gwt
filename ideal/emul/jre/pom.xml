@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>emul-jre</artifactId>
-    <packaging>gwt-lib</packaging>
+<!--    <packaging>gwt-lib</packaging>-->
 
     <dependencies>
         <dependency>
@@ -27,24 +27,31 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <excludes>**/*.java</excludes>
-                </configuration>
-            </plugin>
+        <resources>
+            <resource>
+                <directory>src/main/super</directory>
+                <includes>
+                    <include>**/*.java</include>
+                </includes>
+            </resource>
+        </resources>
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <excludes>**/*.java</excludes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
-            <plugin>
-                <groupId>net.ltgt.gwt.maven</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <configuration>
-                    <skipModule>true</skipModule>
-                    <skipModuleMetadata>true</skipModuleMetadata>
-                    <relocateSuperSource>true</relocateSuperSource>
-                </configuration>
-            </plugin>
-        </plugins>
+<!--            <plugin>-->
+<!--                <groupId>net.ltgt.gwt.maven</groupId>-->
+<!--                <artifactId>gwt-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <skipModule>true</skipModule>-->
+<!--                    <skipModuleMetadata>true</skipModuleMetadata>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
     </build>
 </project>

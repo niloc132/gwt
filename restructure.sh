@@ -80,7 +80,7 @@ movejava java/lang/Double.java
 movejava java/lang/Throwable.java
 
 git mv user/super/com/google/gwt/emul/Preconditions.gwt.xml ideal/emul/base/src/main/resources/com/google/gwt/emul/
-git mv user/super/com/google/gwt/emul/Emulation.gwt.xml ideal/emul/base/src/main/module.gwt.xml
+git mv user/super/com/google/gwt/emul/Emulation.gwt.xml ideal/emul/base/src/main/resources/com/google/gwt/emul/
 
 mkdir -p ideal/emul/jre/src/main/super/com/google/gwt/emul
 
@@ -156,7 +156,7 @@ git mv user/src/com/google/gwt/core/CompilerParameters.gwt.xml \
 # Hack to deal with legacy logging names
 mkdir ideal/core/src/main/resources/com/google/gwt/logging
 git mv user/src/com/google/gwt/logging/LogImpl.gwt.xml ideal/core/src/main/resources/com/google/gwt/logging/
-git mv user/src/com/google/gwt/core/Core.gwt.xml ideal/core/src/main/module.gwt.xml
+git mv user/src/com/google/gwt/core/Core.gwt.xml ideal/core/src/main/resources/com/google/gwt/core/
 
 
 ORIGIN=dev/core/super
@@ -632,7 +632,6 @@ do
   mkdir -p ideal/user/src/main/resources/$(dirname ${file#user/src})
   git mv $file ideal/user/src/main/resources/${file#user/src}
 done
-#git mv $(git ls-files user/src | grep '\.gwt\.xml$') ideal/user/src/main/resources/
 
 # Then move various java/super source
 mkdir -p ideal/user/src/main/java/

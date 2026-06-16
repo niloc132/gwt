@@ -10,7 +10,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>gwt-user</artifactId>
-    <packaging>gwt-lib</packaging>
+<!--    <packaging>gwt-lib</packaging>-->
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -147,31 +147,31 @@
         </dependency>
 
     </dependencies>
-<!--    <build>-->
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/java</directory>-->
-<!--            </resource>-->
-<!--        </resources>-->
-<!--    </build>-->
-
     <build>
-        <plugins>
-            <plugin>
-                <groupId>net.ltgt.gwt.maven</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <configuration>
-                    <skipModule>true</skipModule>
-                    <skipModuleMetadata>true</skipModuleMetadata>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <excludes>org/hibernate/validator/ValidationMessages.java</excludes>
-                </configuration>
-            </plugin>
-        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+            </resource>
+        </resources>
     </build>
+
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>net.ltgt.gwt.maven</groupId>-->
+<!--                <artifactId>gwt-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <skipModule>true</skipModule>-->
+<!--                    <skipModuleMetadata>true</skipModuleMetadata>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <excludes>org/hibernate/validator/ValidationMessages.java</excludes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 </project>
