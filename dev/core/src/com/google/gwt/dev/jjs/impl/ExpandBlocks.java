@@ -114,6 +114,7 @@ public class ExpandBlocks {
         // Ignore condition, visit then and else
         acceptBlockWithoutPush(x.getThenStmt());
         JBlock thenAcceptor = self.acceptingBlock;
+        self.acceptingBlock = null;  // reset before visiting else
         acceptBlockWithoutPush(x.getElseStmt());
         JBlock elseAcceptor = self.acceptingBlock;
 
