@@ -123,9 +123,10 @@ public class ExpandBlocks {
 
         // Mark where (if any) we accept later statements
         if (x.getThenStmt().unconditionalControlBreak()) {
+          // TODO can we weaken this to "doesn't end in a control break"?
           if (!x.getElseStmt().unconditionalControlBreak()) {
             // else can handle rest of parent block
-            if (elseAcceptor != null) {
+            if (elseAcceptor != null && !elseAcceptor.unconditionalControlBreak()) {
               // Use the acceptor that we found while visiting else
               parent.acceptingBlock = elseAcceptor;
             } else {
@@ -135,9 +136,10 @@ public class ExpandBlocks {
             // both break, can use the same block (if any) that we relocated the current node to
           }
         } else {
-          if (x.getThenStmt().unconditionalControlBreak()) {
-            // else can handle rest of parent block
-            if (thenAcceptor != null) {
+          // TODO can we weaken this "else" requirement to "doesn't end in a control break"
+          if (x.getElseStmt().unconditionalControlBreak()) {
+            // then can handle rest of parent block
+            if (thenAcceptor != null && !thenAcceptor.unconditionalControlBreak()) {
               // Use the acceptor that we found while visiting then
               parent.acceptingBlock = thenAcceptor;
             } else {
@@ -169,6 +171,8 @@ public class ExpandBlocks {
         // for the catch block if there is exactly one
         JBlock catchExceptor = null;
         accept(x.getTryBlock());
+        self.acceptingBlock = null;
+
         for (int i = 0; i < x.getCatchClauses().size(); i++) {
           JTryStatement.CatchClause clause = x.getCatchClauses().get(i);
           acceptBlockWithoutPush(clause.getBlock());
@@ -176,6 +180,7 @@ public class ExpandBlocks {
           if (x.getCatchClauses().size() == 1) {
             catchExceptor = self.acceptingBlock;
           }
+          self.acceptingBlock = null;
         }
         if (x.getFinallyBlock() != null) {
           accept(x.getFinallyBlock());
@@ -185,7 +190,8 @@ public class ExpandBlocks {
         Acceptor parent = acceptorStack.peek();
 
         if (x.getFinallyBlock() != null) {
-          // Cannot optimize if there is a finally block, as finally executes after catch and before remainder
+          // Cannot optimize if there is a finally block, as finally executes after catch and before
+          // remainder.
           return false;
         }
 
@@ -290,20 +296,26 @@ public class ExpandBlocks {
         // Attempt to move the entire block
 //        attemptRelocate(x, ctx);
         // While inside the block, don't move statements out of it
-        acceptorStack.push(new Acceptor(x));
+//        acceptorStack.push(new Acceptor(x));
         return true;
       }
 
       @Override
       public void endVisit(JBlock x, Context ctx) {
-        acceptorStack.pop();
+//        acceptorStack.pop();
+      }
+
+      @Override
+      public boolean visit(JMethodBody x, Context ctx) {
+        acceptorStack.push(new Acceptor(x));
+        return super.visit(x, ctx);
       }
 
       @Override
       public void endVisit(JMethodBody x, Context ctx) {
-        // Clear any acceptor at end of method body
+        Acceptor self = acceptorStack.pop();
+        assert self.currentNode == x;
         assert acceptorStack.isEmpty();
-        acceptorStack.clear();
       }
     }.accept(program);
   }
