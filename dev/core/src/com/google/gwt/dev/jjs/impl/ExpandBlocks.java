@@ -25,6 +25,7 @@ import com.google.gwt.dev.jjs.ast.JModVisitor;
 import com.google.gwt.dev.jjs.ast.JNode;
 import com.google.gwt.dev.jjs.ast.JProgram;
 import com.google.gwt.dev.jjs.ast.JStatement;
+import com.google.gwt.dev.jjs.ast.JSwitchExpression;
 import com.google.gwt.dev.jjs.ast.JSwitchStatement;
 import com.google.gwt.dev.jjs.ast.JTryStatement;
 import com.google.gwt.dev.jjs.ast.JWhileStatement;
@@ -124,7 +125,6 @@ public class ExpandBlocks {
 
         // Mark where (if any) we accept later statements
         if (x.getThenStmt().unconditionalControlBreak()) {
-          // TODO can we weaken this to "doesn't end in a control break"?
           if (!x.getElseStmt().unconditionalControlBreak()) {
             // else can handle rest of parent block
             if (elseAcceptor != null && !elseAcceptor.unconditionalControlBreak()) {
@@ -134,10 +134,9 @@ public class ExpandBlocks {
               parent.acceptingBlock = x.getElseStmt();
             }
           } else {
-            // both break, can use the same block (if any) that we relocated the current node to
+            // both break, there should be no later statements that need to be moved
           }
         } else {
-          // TODO can we weaken this "else" requirement to "doesn't end in a control break"
           if (x.getElseStmt().unconditionalControlBreak()) {
             // then can handle rest of parent block
             if (thenAcceptor != null && !thenAcceptor.unconditionalControlBreak()) {
@@ -251,6 +250,13 @@ public class ExpandBlocks {
       public void endVisit(JSwitchStatement x, Context ctx) {
         // No endVisit for switch, since we didn't push anything or descend
         //         acceptorStack.pop();
+      }
+
+      @Override
+      public boolean visit(JSwitchExpression x, Context ctx) {
+        // Don't descend into switch expressions at this time - in theory we could look at them like
+        // distinct methods in the future, but for now we'll skip their contents entirely.
+        return false;
       }
 
       @Override
