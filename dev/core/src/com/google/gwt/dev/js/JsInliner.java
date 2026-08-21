@@ -201,40 +201,6 @@ public class JsInliner {
           numMods++;
         }
 
-        /*
-         * Eliminate the pattern (localVar = expr, localVar). This tends to
-         * occur when a method interacted with pruned fields or had statements
-         * removed.
-         */
-        JsName assignmentRef = null;
-        JsExpression expr = null;
-        JsName returnRef = null;
-
-        if (x.getArg1() instanceof JsBinaryOperation) {
-          JsBinaryOperation op = (JsBinaryOperation) x.getArg1();
-          if (op.getOperator() == JsBinaryOperator.ASG
-              && op.getArg1() instanceof JsNameRef) {
-            JsNameRef nameRef = (JsNameRef) op.getArg1();
-            if (nameRef.getQualifier() == null) {
-              assignmentRef = nameRef.getName();
-              expr = op.getArg2();
-            }
-          }
-        }
-
-        if (x.getArg2() instanceof JsNameRef) {
-          JsNameRef nameRef = (JsNameRef) x.getArg2();
-          if (nameRef.getQualifier() == null) {
-            returnRef = nameRef.getName();
-          }
-        }
-
-        if (assignmentRef != null && assignmentRef.equals(returnRef)
-            && localVariableNames.contains(assignmentRef)) {
-          assert expr != null;
-          localVariableNames.remove(assignmentRef);
-          ctx.replaceMe(expr);
-        }
         return;
       }
 
