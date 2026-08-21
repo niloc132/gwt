@@ -234,7 +234,23 @@ public class JsStaticEvalTest extends OptimizerTestBase {
     assertEquals("alert(false);", optimize("alert(null != null)"));
   }
 
+  /**
+   * Simplify (name = expr, name) to (name = expr), since the assignment expression already
+   * evaluates to the assigned value.
+   */
+  public void testSimplifyCommaAssignmentReturn() throws Exception {
+    // Assign a local name and use it
+    assertEquals("function f(){var a;alert(a=foo())}\n",
+        optimize("function f() { var a; alert((a = foo(), a)); }"));
+    // Test with a name out of scope
+    assertEquals("alert(a=foo());", optimize("alert((a = foo(), a))"));
+
+    // Confirm that we only use the same local (fails if resolver is not used)
+    assertEquals("function f(){var a,b=1;alert((a=foo(),b))}\n",
+        optimize("function f() { var a, b = 1; alert((a = foo(), b)); }"));
+  }
+
   private String optimize(String js) throws Exception {
-    return optimizeToSource(js, JsStaticEval.class);
+    return optimizeToSource(js, JsSymbolResolver.class, JsStaticEval.class);
   }
 }
