@@ -706,8 +706,21 @@ public class JsStaticEval {
     // inlining passes.
     if (arg1 instanceof JsBinaryOperation op
         && arg2 instanceof JsNameRef resultRef
-        && op.getOperator() == JsBinaryOperator.ASG
+        && op.getOperator().isAssignment()
         && op.getArg1() instanceof JsNameRef assignRef
+        && resultRef.getQualifier() == null
+        && assignRef.getQualifier() == null
+        && assignRef.getName() == resultRef.getName()) {
+      assert assignRef.isResolved() : "assignRef was not resolved: " + assignRef;
+      assert resultRef.isResolved() : "resultRef was not resolved: " + resultRef;
+      return arg1;
+    }
+
+    // Likewise, simplify (name++, name) to (name++)
+    if (arg1 instanceof JsUnaryOperation unaryOp
+        && arg2 instanceof JsNameRef resultRef
+        && unaryOp.getOperator().isModifying()
+        && unaryOp.getArg() instanceof JsNameRef assignRef
         && resultRef.getQualifier() == null
         && assignRef.getQualifier() == null
         && assignRef.getName() == resultRef.getName()) {
