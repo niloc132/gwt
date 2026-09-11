@@ -83,6 +83,9 @@ public class JsUnusedVarPruner {
 
     @Override
     public void endVisit(JsVar x, JsContext ctx) {
+      if (namesStack.isEmpty()) {
+        return;
+      }
       namesStack.peek().add(x.getName());
     }
 
